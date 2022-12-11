@@ -50,7 +50,6 @@ public class ClienteService {
 
     }
 
-
     public void delete(Long id) {
 
         Cliente cliente = readById(id);

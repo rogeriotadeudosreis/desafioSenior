@@ -37,7 +37,6 @@ public class ClienteController {
 
     }
 
-//  @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 20) Pageable page)
     @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     public ResponseEntity<Page> page(
@@ -52,7 +51,6 @@ public class ClienteController {
         return ResponseEntity.status(status).body(list);
 
     }
-
 
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
