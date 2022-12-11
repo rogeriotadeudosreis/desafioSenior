@@ -37,12 +37,7 @@ public class ClienteService {
 
         String desc = descricao != null ? descricao : "";
 
-//        if (descricao == null) {
-//            descricao = "";
-//        }
-
-        return clienteRepository.page(descricao, pageable);
-
+            return clienteRepository.findAllByNomeLikeIgnoreCaseOrEmailIgnoreCase(desc, pageable);
     }
 
     public Cliente update(Long id, Cliente clienteForm) {

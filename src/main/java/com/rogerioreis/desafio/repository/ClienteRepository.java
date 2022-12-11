@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query(value = "SELECT cli FROM Cliente cli WHERE cli.nome LIKE UPPER(CONCAT('%',:descricao,'%'))")
-    Page<Cliente> page(@Param("descricao") String descricao, @Param("pageable") Pageable pageable);
+    @Query(value = "select cli from Cliente cli where upper(cli.nome) like upper(concat('%',:descricao,'%'))"
+    + "or upper(cli.email) like upper(concat('%',:descricao,'%'))")
+    Page<Cliente> findAllByNomeLikeIgnoreCaseOrEmailIgnoreCase (@Param("descricao")String descricao, @Param("pageable") Pageable pageable);
 }

@@ -4,6 +4,7 @@ import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -36,12 +37,15 @@ public class ClienteController {
 
     }
 
+//  @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 20) Pageable page)
     @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
-    public ResponseEntity<Page> page(@RequestParam(required = false) String descricao,
-                              @PageableDefault(sort = "nome", direction = Sort.Direction.ASC, page = 0, size = 20) Pageable page) {
+    public ResponseEntity<Page> page(
+            @RequestParam(required = false) String descricao,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "20") Integer size){
 
-        Page<Cliente> list = clienteService.page(descricao, page);
+        Page<Cliente> list = clienteService.page(descricao, PageRequest.of(page,size));
 
         HttpStatus status = HttpStatus.OK;
 
