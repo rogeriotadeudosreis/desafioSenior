@@ -39,19 +39,21 @@ public class DesafioApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Cliente cliente = clienteRepository.findById(7L).get();
-        System.out.println(cliente.getNome());
+//        Cliente cliente = clienteRepository.findById(7L).get();
+//        System.out.println(cliente.getNome());
 //        Pedido pedido3 = new Pedido(null, null, null, cliente );
 //        pedidoRepository.save(pedido3);
-
+//
 //        Produto prod1 = produtoRepository.findById(1L).get();
 //        Produto prod2 = produtoRepository.findById(3L).get();
 //
 //        Pedido pedido1 = pedidoRepository.findById(1L).get();
 //        Pedido pedido2 = pedidoRepository.findById(2L).get();
 //
-//        ItemPedido item1 = new ItemPedido(null, 10, 100.00, 0.0, prod1, pedido1);
-//        ItemPedido item2 = new ItemPedido(null, 10, 100.00, 0.0, prod2, pedido2);
+//        ItemPedido item1 = new ItemPedido(null, 2, 75.00, 0.0, prod1, pedido1);
+//        item1.setSubTotal(2.0 * 75.0);
+//        ItemPedido item2 = new ItemPedido(null, 3, 75.00, 0.0, prod2, pedido2);
+//        item2.setSubTotal(3.0 * 75.0);
 //
 //        itemPedidoRepository.saveAll(Arrays.asList(item1,item2));
 

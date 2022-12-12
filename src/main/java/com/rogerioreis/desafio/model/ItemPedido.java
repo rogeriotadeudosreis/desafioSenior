@@ -1,6 +1,5 @@
 package com.rogerioreis.desafio.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
