@@ -34,9 +34,8 @@ public class Produto {
     private String codigo;
 
     @Column(name = "PRECO", nullable = false)
-    @NotBlank(message = "O campo PREÇO é obrigatório.")
     @Digits(integer = 9, fraction = 2)
-    private double preco;
+    private Double preco;
 
     @Column(name = "DATA_INICIO")
     private ZonedDateTime dataInicio;

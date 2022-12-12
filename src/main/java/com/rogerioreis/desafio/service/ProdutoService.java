@@ -44,6 +44,9 @@ public class ProdutoService {
         Produto produto = this.readById(id);
 
         produtoForm.setId(produto.getId());
+        produtoForm.setCodigo(produto.getCodigo());
+        produtoForm.setDataInicio(produto.getDataInicio());
+        produtoForm.setDataFim(produto.getDataFim());
 
         return produtoRepository.save(produtoForm);
 

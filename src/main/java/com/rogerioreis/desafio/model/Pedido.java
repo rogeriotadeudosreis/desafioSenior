@@ -1,15 +1,17 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "PEDIDO")
@@ -35,8 +37,20 @@ public class Pedido {
         return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
     }
 
-    @Column(name = "TOTAL_PEDIDO")
-    private long total;
+    @ManyToOne
+    @JoinColumn(name = "ID_CLIENTE", nullable = false, foreignKey = @ForeignKey(name = "FK_CLIENTE"))
+    private Cliente cliente;
 
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens = new ArrayList<>();
 
+    public Pedido(Long id, ZonedDateTime dataInicio, ZonedDateTime dataFim, Cliente cliente) {
+        this.id = id;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.cliente = cliente;
+    }
+
+    public Pedido() {
+    }
 }

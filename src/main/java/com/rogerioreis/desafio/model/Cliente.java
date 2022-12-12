@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -52,4 +54,15 @@ public class Cliente {
     }
 
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente")
+    private Collection<Pedido> pedido;
+
+    public Collection<Pedido> getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Collection<Pedido> pedido) {
+        this.pedido = pedido;
+    }
 }
