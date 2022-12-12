@@ -7,8 +7,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -26,7 +24,7 @@ public class ItemPedido {
 
     @Column(name = "PRECO", nullable = false)
     @Digits(integer = 9, fraction = 2)
-    private double price;
+    private double preco;
 
     @Column(name = "DESCONTO")
     @Digits(integer = 9, fraction = 2)
@@ -41,15 +39,23 @@ public class ItemPedido {
     @JoinColumn(name = "ID_PEDIDO", nullable = false, foreignKey = @ForeignKey(name = "FK_PEDIDO"))
     private Pedido pedido;
 
-    public ItemPedido(Long id, Integer quantidade, double price, double desconto, Produto produto, Pedido pedido) {
+    @Column(name = "SUBTOTAL")
+    private double subTotal;
+
+    public ItemPedido(Long id, Integer quantidade, double preco, double desconto, Produto produto, Pedido pedido, double subTotal) {
         this.id = id;
         this.quantidade = quantidade;
-        this.price = price;
+        this.preco = preco;
         this.desconto = desconto;
         this.produto = produto;
         this.pedido = pedido;
+        this.subTotal = subTotal;
     }
 
     public ItemPedido() {
+    }
+
+    public double getSubTotal(){
+        return quantidade * preco;
     }
 }

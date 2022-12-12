@@ -44,13 +44,26 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens = new ArrayList<>();
 
-    public Pedido(Long id, ZonedDateTime dataInicio, ZonedDateTime dataFim, Cliente cliente) {
+    @Column(name = "TOTAL")
+    private double total;
+
+    public Pedido(Long id, ZonedDateTime dataInicio, ZonedDateTime dataFim, Cliente cliente, List<ItemPedido> itens, double total) {
         this.id = id;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.cliente = cliente;
+        this.itens = itens;
+        this.total = total;
     }
 
     public Pedido() {
+    }
+
+    public double getTotal() {
+        double soma = 0.0;
+        for (ItemPedido item : itens) {
+            soma += item.getSubTotal();
+        }
+        return soma;
     }
 }
