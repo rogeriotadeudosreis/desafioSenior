@@ -36,7 +36,7 @@ public class Cliente {
     @Email(message = "O Email fornecido é inválido.")
     private String email;
 
-    @Column(name = "DATA_INICIO")
+    @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     private ZonedDateTime dataInicio;
 
 

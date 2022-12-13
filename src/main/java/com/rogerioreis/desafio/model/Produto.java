@@ -41,7 +41,7 @@ public class Produto {
     @Digits(integer = 9, fraction = 2)
     private Double preco;
 
-    @Column(name = "DATA_INICIO")
+    @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     private ZonedDateTime dataInicio;
 
     @Column(name = "DATA_FIM")
