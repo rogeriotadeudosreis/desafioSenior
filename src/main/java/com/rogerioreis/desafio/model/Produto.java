@@ -1,12 +1,15 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.rogerioreis.desafio.enuns.EnumTipoProduto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -25,6 +28,7 @@ public class Produto {
     @NotBlank(message = "O campo NOME é obrigatório.")
     @Length(max = 200, message = "O limite do campo NOME do cliente é de 200 caracteres.")
     @Length(min = 3, message = "O limite mínimo do campo NOME do cliente é de 03 caracteres.")
+    @ApiModelProperty(value = "Descrição do produto")
     private String nome;
 
     @Column(name = "CODIGO", length = 200, nullable = false)
@@ -40,9 +44,13 @@ public class Produto {
     @Column(name = "DATA_INICIO")
     private ZonedDateTime dataInicio;
 
-
     @Column(name = "DATA_FIM")
     private ZonedDateTime dataFim;
+
+    @NotNull(message = "O tipo de produto é obrigatório.")
+    @Column(length = 10, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EnumTipoProduto tipoProduto;
 
     @PrePersist
     private void init() {

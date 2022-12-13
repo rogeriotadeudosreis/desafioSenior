@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.controller;
 
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.service.PedidoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ public class PedidoController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Cadastro de Pedido.", notes = "Armazena um registro de pedido na base de dados." )
     public ResponseEntity<Pedido> create(@RequestBody @Valid Pedido pedidoForm, UriComponentsBuilder uriBuilder) {
 
         Pedido pedido = pedidoService.create(pedidoForm);
@@ -37,6 +39,7 @@ public class PedidoController {
 
     @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Consulta paginada de Pedido.", notes = "Consulta de pedido na base de dados com paginação." )
     public ResponseEntity<Page> page(
             @RequestParam(required = false) String descricao,
             @RequestParam(defaultValue = "0") Integer page,
@@ -52,6 +55,7 @@ public class PedidoController {
 
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Consulta de Pedido.", notes = "Consulta um registro de pedido na base de dados pelo seu identificador." )
     public ResponseEntity<Pedido> readById(@PathVariable Long id){
 
         return ResponseEntity.ok(pedidoService.readById(id));
@@ -60,12 +64,14 @@ public class PedidoController {
 
     @PutMapping(value = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Atualização de Pedido.", notes = "Atualiza um registro de pedido na base de dados." )
     public ResponseEntity<Pedido> update(@PathVariable Long id, @Valid @RequestBody Pedido pedidoForm){
 
         return ResponseEntity.ok(pedidoService.update(id, pedidoForm));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Exclusão de Pedido.", notes = "Exclui logicamente um registro de pedido na base de dados." )
     public ResponseEntity<?> delete (@PathVariable Long id){
 
         pedidoService.delete(id);

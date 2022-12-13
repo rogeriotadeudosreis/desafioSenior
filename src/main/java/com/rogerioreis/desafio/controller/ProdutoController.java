@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.controller;
 
 import com.rogerioreis.desafio.model.Produto;
 import com.rogerioreis.desafio.service.ProdutoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ public class ProdutoController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Cadastro de Produto.", notes = "Armazena um registro de produto na base de dados.")
     public ResponseEntity<Produto> create(@RequestBody @Valid Produto produtoForm, UriComponentsBuilder uriBuilder) {
 
         Produto produto = produtoService.create(produtoForm);
@@ -37,6 +39,7 @@ public class ProdutoController {
 
     @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Consulta paginada de Produto.", notes = "Consulta de produto na base de dados com paginação.")
     public ResponseEntity<Page> page(
             @RequestParam(required = false) String descricao,
             @RequestParam(defaultValue = "0") Integer page,
@@ -52,6 +55,7 @@ public class ProdutoController {
 
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Consulta de Produto.", notes = "Consulta um registro de produto na base de dados pelo seu identificador.")
     public ResponseEntity<Produto> readById(@PathVariable Long id){
 
         return ResponseEntity.ok(produtoService.readById(id));
@@ -60,12 +64,14 @@ public class ProdutoController {
 
     @PutMapping(value = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
+    @ApiOperation(value = "Atualização de Produto.", notes = "Atualiza um registro de produto na base de dados.")
     public ResponseEntity<Produto> update(@PathVariable Long id, @Valid @RequestBody Produto produtoForm){
 
         return ResponseEntity.ok(produtoService.update(id, produtoForm));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Exclusão de Produto.", notes = "Exclui logicamente um registro de produto na base de dados.")
     public ResponseEntity<?> delete (@PathVariable Long id){
 
         produtoService.delete(id);
