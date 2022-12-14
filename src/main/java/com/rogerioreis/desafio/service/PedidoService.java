@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class PedidoService {
 
     public Pedido readById(Long id) {
 
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado."));
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Pedido não encontrado."));
 
         return pedido;
 

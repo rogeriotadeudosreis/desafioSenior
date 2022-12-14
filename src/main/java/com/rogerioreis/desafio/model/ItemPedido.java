@@ -25,6 +25,7 @@ public class ItemPedido {
 
     @Column(name = "PRECO", nullable = false)
     @Digits(integer = 9, fraction = 2)
+    @NotNull(message = "O preço do produto deve ser informado.")
     private double preco;
 
     @Column(name = "DESCONTO")

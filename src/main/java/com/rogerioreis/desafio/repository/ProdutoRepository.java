@@ -8,10 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query(value = "select prod from PRODUTO prod where upper(prod.nome) like upper(concat('%',:descricao,'%'))"
             + "or upper(prod.codigo) like upper(concat('%',:descricao,'%'))")
     Page<Produto> findAllByNomeLikeIgnoreCaseOrCodigoIgnoreCase(@Param("descricao") String descricao, @Param("pageable") Pageable pageable);
+
+    Optional<Produto> findProdutoByCodigoIgnoreCase(String string);
 }

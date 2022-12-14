@@ -1,5 +1,8 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.enuns.EnumTipoProduto;
+import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.model.ItemPedido;
 import com.rogerioreis.desafio.repository.ItemPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ public class ItemPedidoService {
 
     public ItemPedido create(ItemPedido itemPedido) {
 
+        validaItemPedido(itemPedido);
+
         ItemPedido itemPedidoSalvo = this.itemPedidoRepository.save(itemPedido);
 
         return itemPedidoSalvo;
@@ -24,7 +29,7 @@ public class ItemPedidoService {
 
     public ItemPedido readById(Long id) {
 
-        ItemPedido itemPedido = itemPedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("ItemPedido não encontrado."));
+        ItemPedido itemPedido = itemPedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ItemPedido não encontrado."));
 
         return itemPedido;
 
@@ -50,6 +55,22 @@ public class ItemPedidoService {
         ItemPedido itemPedido = readById(id);
 
         this.itemPedidoRepository.delete(itemPedido);
+
+    }
+
+    public void validaItemPedido(ItemPedido item) {
+
+        if (item.getQuantidade() <= 0) {
+            throw new RegraNegocioException("A quantidade de itens deve ser informada");
+        }
+
+        if (item.getPreco() <= 0) {
+            throw new RegraNegocioException("O preço do item não pode menor ou igual a zero.");
+        }
+
+        if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.SERVICO)) {
+            item.setDesconto(0.0);
+        }
 
     }
 }

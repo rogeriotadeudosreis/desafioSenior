@@ -2,14 +2,18 @@ package com.rogerioreis.desafio.service;
 
 import com.rogerioreis.desafio.exception.RecursoExistenteException;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.ZonedDateTime;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @Service
 public class ClienteService {
@@ -17,8 +21,7 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-
-    public Cliente create(Cliente cliente){
+    public Cliente create(Cliente cliente) {
 
         validaClienteEmail(cliente);
 
@@ -62,12 +65,14 @@ public class ClienteService {
     }
 
     public void validaClienteEmail(Cliente cliente) {
-        boolean clienteFind = clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail()).isPresent();
 
-        if (clienteFind) {
+        if (cliente.getEmail().isEmpty()) throw new RequisicaoComErroException("Email nulo");
+
+        boolean isClienteFind = clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail()).isPresent();
+
+        if (isClienteFind) {
             throw new RecursoExistenteException("Já existe um cliente cadastrado com este email informado.");
         }
-
     }
 }
 
