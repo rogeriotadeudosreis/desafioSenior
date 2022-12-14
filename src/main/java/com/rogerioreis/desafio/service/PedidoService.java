@@ -1,7 +1,11 @@
 package com.rogerioreis.desafio.service;
 
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.exception.RegraNegocioException;
+import com.rogerioreis.desafio.exception.RequisicaoComErroException;
+import com.rogerioreis.desafio.model.ItemPedido;
 import com.rogerioreis.desafio.model.Pedido;
+import com.rogerioreis.desafio.repository.ClienteRepository;
 import com.rogerioreis.desafio.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Service
 public class PedidoService {
@@ -16,8 +21,13 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
 
     public Pedido create(Pedido pedido) {
+
+        validaPedido(pedido);
 
         Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
 
@@ -37,7 +47,7 @@ public class PedidoService {
 
         String desc = descricao != null ? descricao : "";
 
-        return pedidoRepository.findAllByClienteLikeIgnoreCase(desc,  pageable);
+        return pedidoRepository.findAllByClienteLikeIgnoreCase(desc, pageable);
     }
 
     public Pedido update(Long id, Pedido pedidoForm) {
@@ -62,4 +72,26 @@ public class PedidoService {
         this.pedidoRepository.save(pedido);
 
     }
+
+    public void validaPedido(Pedido pedido) {
+        clienteRepository.findById(pedido.getCliente().getId())
+                .ifPresent(cliente -> {
+                    if (!cliente.isAtivo()) {
+                        throw new RegraNegocioException("O cliente deste pedido está desativado.");
+                    }
+                });
+
+        if (pedido.getItens().isEmpty()) {
+            throw new RequisicaoComErroException("A lista de itens para este pedido está vazia, selecione pelo menos um item.");
+        }
+    }
 }
+
+
+
+
+
+
+
+
+

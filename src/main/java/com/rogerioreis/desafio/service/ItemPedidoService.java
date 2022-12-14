@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.service;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
+import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.ItemPedido;
 import com.rogerioreis.desafio.repository.ItemPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,10 @@ public class ItemPedidoService {
 
         if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.SERVICO)) {
             item.setDesconto(0.0);
+        }
+
+        if (item.getDesconto() > item.getPreco()) {
+            throw new RequisicaoComErroException("O valor do desconto não pode ser maior do que o preço do produto.");
         }
 
     }

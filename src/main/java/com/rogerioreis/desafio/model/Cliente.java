@@ -43,6 +43,9 @@ public class Cliente {
     @Column(name = "DATA_FIM")
     private ZonedDateTime dataFim;
 
+    public Cliente(Cliente cliente) {
+    }
+
     @PrePersist
     private void init() {
         this.dataInicio = ZonedDateTime.now();
