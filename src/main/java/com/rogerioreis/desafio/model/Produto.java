@@ -26,8 +26,8 @@ public class Produto {
 
     @Column(name = "NOME", length = 200, nullable = false)
     @NotBlank(message = "O campo NOME é obrigatório.")
-    @Length(max = 200, message = "O limite do campo NOME do cliente é de 200 caracteres.")
-    @Length(min = 3, message = "O limite mínimo do campo NOME do cliente é de 03 caracteres.")
+    @Length(max = 200, message = "O limite do campo NOME do produto é de 200 caracteres.")
+    @Length(min = 3, message = "O limite mínimo do campo NOME do produto é de 03 caracteres.")
     @ApiModelProperty(value = "Descrição do produto")
     private String nome;
 
@@ -39,6 +39,7 @@ public class Produto {
 
     @Column(name = "PRECO", nullable = false)
     @Digits(integer = 9, fraction = 2)
+    @NotNull(message = "Informe o valor do produto ou serviço.")
     private Double preco;
 
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)

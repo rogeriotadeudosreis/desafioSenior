@@ -8,14 +8,13 @@ public class RecursoNaoEncontradoException extends RuntimeException{
 
     private static final long serialVersionUID = 1L;
 
-    private static final String message = "Recurso com id %s não encontrado.";
+    private static final String message = "%s";
 
     public RecursoNaoEncontradoException() {
         super();
     }
 
     public RecursoNaoEncontradoException(String str) {
-        super();
-
+        super(String.format(message, str));
     }
 }

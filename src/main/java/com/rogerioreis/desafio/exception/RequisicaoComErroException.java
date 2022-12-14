@@ -8,7 +8,13 @@ public class RequisicaoComErroException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public RequisicaoComErroException(String message) {
-        super(message);
+    private static final String message = "%s";
+
+    public RequisicaoComErroException() {
+        super();
+    }
+
+    public RequisicaoComErroException(String str) {
+        super(String.format(message, str));
     }
 }

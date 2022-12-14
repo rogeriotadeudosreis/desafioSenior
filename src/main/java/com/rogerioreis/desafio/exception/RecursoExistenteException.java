@@ -8,7 +8,7 @@ public class RecursoExistenteException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String message = "Recurso com id %s ja existe.";
+    private static final String message = "%s";
 
     public RecursoExistenteException() {
         super();

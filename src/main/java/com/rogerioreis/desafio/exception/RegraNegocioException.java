@@ -8,7 +8,13 @@ public class RegraNegocioException extends RuntimeException{
 
     private static final long serialVersionUID = 1L;
 
-    public RegraNegocioException(String message) {
+    private static final String message = "%s";
+
+    public RegraNegocioException() {
         super();
+    }
+
+    public RegraNegocioException(String str) {
+        super(String.format(message, str));
     }
 }

@@ -1,5 +1,7 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.exception.RecursoExistenteException;
+import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -17,7 +18,9 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
 
-    public Cliente create(Cliente cliente) {
+    public Cliente create(Cliente cliente){
+
+        validaClienteEmail(cliente);
 
         Cliente clienteSalvo = this.clienteRepository.save(cliente);
 
@@ -27,9 +30,7 @@ public class ClienteService {
 
     public Cliente readById(Long id) {
 
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado."));
-
-        return cliente;
+        return clienteRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado."));
 
     }
 
@@ -37,7 +38,7 @@ public class ClienteService {
 
         String desc = descricao != null ? descricao : "";
 
-            return clienteRepository.findAllByNomeLikeIgnoreCaseOrEmailIgnoreCase(desc, pageable);
+        return clienteRepository.findAllByNomeLikeIgnoreCaseOrEmailIgnoreCase(desc, pageable);
     }
 
     public Cliente update(Long id, Cliente clienteForm) {
@@ -57,6 +58,15 @@ public class ClienteService {
         cliente.setDataFim(ZonedDateTime.now());
 
         this.clienteRepository.save(cliente);
+
+    }
+
+    public void validaClienteEmail(Cliente cliente) {
+        boolean clienteFind = clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail()).isPresent();
+
+        if (clienteFind) {
+            throw new RecursoExistenteException("Já existe um cliente cadastrado com este email informado.");
+        }
 
     }
 }

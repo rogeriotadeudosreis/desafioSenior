@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -18,7 +19,8 @@ public class ItemPedido {
     private Long id;
 
     @Column(name = "QUANTIDADE")
-    @Min(value = 1, message = "Informe pelo menos um item ao pedido.")
+    @Min(value = 1, message = "Informe pelo menos um item do pedido.")
+    @NotNull(message = "informe a quantidade do item do pedido")
     private Integer quantidade;
 
     @Column(name = "PRECO", nullable = false)
