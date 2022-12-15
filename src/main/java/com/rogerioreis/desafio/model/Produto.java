@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -18,7 +19,9 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity(name = "PRODUTO")
-public class Produto {
+public class Produto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +43,7 @@ public class Produto {
     @Column(name = "PRECO", nullable = false)
     @Digits(integer = 9, fraction = 2)
     @NotNull(message = "Informe o valor do produto ou serviço.")
-    private Double preco;
+    private double preco;
 
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     private ZonedDateTime dataInicio;
@@ -49,7 +52,7 @@ public class Produto {
     private ZonedDateTime dataFim;
 
     @NotNull(message = "O tipo de produto é obrigatório.")
-    @Column(length = 10, nullable = false)
+    @Column(name = "TIPO_PRODUTO",length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     private EnumTipoProduto tipoProduto;
 

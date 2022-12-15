@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum EnumTipoProduto {
+public enum EnumSituacaoPedido {
 
-    PRODUTO("PRODUTO"),
+    ABERTO("ABERTO"),
 
-    SERVICO("SERVIÇO");
+    FECHADO("FECHADO");
 
     @Getter
     private final String descricao;

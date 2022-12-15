@@ -8,8 +8,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +20,9 @@ import java.util.Collection;
 @EqualsAndHashCode
 @Entity
 @Table(name = "CLIENTE")
-public class Cliente {
+public class Cliente implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,12 +43,12 @@ public class Cliente {
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     private ZonedDateTime dataInicio;
 
-
     @Column(name = "DATA_FIM")
     private ZonedDateTime dataFim;
 
-    public Cliente(Cliente cliente) {
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidoList = new ArrayList<>();
 
     @PrePersist
     private void init() {
@@ -56,16 +60,7 @@ public class Cliente {
         return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
     }
 
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "cliente")
-    private Collection<Pedido> pedido;
-
-    public Collection<Pedido> getPedido() {
-        return pedido;
+    public Cliente(Cliente cliente) {
     }
 
-    public void setPedido(Collection<Pedido> pedido) {
-        this.pedido = pedido;
-    }
 }

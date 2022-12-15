@@ -7,12 +7,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @Entity(name = "ITEM_PEDIDO")
-public class ItemPedido {
+public class ItemPedido implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +31,6 @@ public class ItemPedido {
     @NotNull(message = "O preço do produto deve ser informado.")
     private double preco;
 
-    @Column(name = "DESCONTO")
-    @Digits(integer = 9, fraction = 2)
-    private double desconto;
-
     @ManyToOne
     @JoinColumn(name = "ID_PRODUTO", nullable = false, foreignKey = @ForeignKey(name = "FK_PRODUTO"))
     private Produto produto;
@@ -44,11 +43,10 @@ public class ItemPedido {
     @Column(name = "SUBTOTAL")
     private double subTotal;
 
-    public ItemPedido(Long id, Integer quantidade, double preco, double desconto, Produto produto, Pedido pedido, double subTotal) {
+    public ItemPedido(Long id, Integer quantidade, double preco, Produto produto, Pedido pedido, double subTotal) {
         this.id = id;
         this.quantidade = quantidade;
         this.preco = preco;
-        this.desconto = desconto;
         this.produto = produto;
         this.pedido = pedido;
         this.subTotal = subTotal;
@@ -59,5 +57,10 @@ public class ItemPedido {
 
     public double getSubTotal(){
         return quantidade * preco;
+    }
+
+    @PrePersist
+    private void init(){
+        this.subTotal = this.quantidade * this.preco;
     }
 }

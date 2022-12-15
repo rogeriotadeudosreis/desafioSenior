@@ -68,14 +68,5 @@ public class ItemPedidoService {
         if (item.getPreco() <= 0) {
             throw new RegraNegocioException("O preço do item não pode menor ou igual a zero.");
         }
-
-        if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.SERVICO)) {
-            item.setDesconto(0.0);
-        }
-
-        if (item.getDesconto() > item.getPreco()) {
-            throw new RequisicaoComErroException("O valor do desconto não pode ser maior do que o preço do produto.");
-        }
-
     }
 }
