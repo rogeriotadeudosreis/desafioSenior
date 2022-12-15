@@ -69,7 +69,11 @@ public class ProdutoService {
 
     public void validaProduto(Produto produto) {
 
-        if (produto.getCodigo().isEmpty()) throw new RequisicaoComErroException("Código do produto nulo.");
+        if (produto.getNome().isEmpty()
+                || produto.getCodigo().isEmpty()
+                || produto.getTipoProduto().equals(null))
+            throw new RequisicaoComErroException("Produto com campos obrigatórios não preenchidos." +
+                    " (Campos obrigatórios: nome, codigo, tipo do produto).");
 
         boolean isProdutoFind = produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo()).isPresent();
 
@@ -77,8 +81,8 @@ public class ProdutoService {
             throw new RecursoExistenteException("Já existe um produto cadastrado com o código informado.");
         }
 
-        if (produto.getPreco() <= 0) {
-            throw new RegraNegocioException("O valor do produto não pode ser menor ou igual a zero");
+        if (produto.getPreco() < 0.0) {
+            throw new RegraNegocioException("O valor do produto não pode ser menor que a zero (0).");
         }
     }
 }
