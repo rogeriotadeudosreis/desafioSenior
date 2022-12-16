@@ -62,6 +62,10 @@ public class Pedido implements Serializable {
         this.desconto = desconto;
     }
 
+    public Pedido (Cliente cliente){
+        this.cliente = cliente;
+    }
+
     public Pedido() {
     }
 

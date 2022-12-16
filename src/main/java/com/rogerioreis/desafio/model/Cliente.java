@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rogerioreis.desafio.dto.ClienteFormDto;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -30,14 +31,13 @@ public class Cliente implements Serializable {
 
     @Column(name = "NOME", length = 200, nullable = false)
     @NotBlank(message = "O campo nome é obrigatório.")
-    @Length(max = 200, message = "O limite do campo NOME do cliente é de 200 caracteres.")
     @Length(min = 3, message = "O limite mínimo do campo NOME do cliente é de 03 caracteres.")
     private String nome;
 
     @Column(name = "EMAIL", length = 200, nullable = false)
     @NotBlank(message = "O campo email é obrigatório.")
     @Length(max = 200, message = "O limite do campo EMAIL é de 200 caracteres.")
-    @Email(message = "O Email fornecido é inválido.")
+    @Email(message = "O email está no formato inválido.")
     private String email;
 
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)

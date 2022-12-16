@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.service;
 
 import com.rogerioreis.desafio.exception.RecursoExistenteException;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.repository.ClienteRepository;
@@ -20,6 +21,8 @@ public class ClienteService {
 
 
     public Cliente create(Cliente cliente) {
+
+        cliente.setId(null);
 
         validaClienteEmail(cliente);
 
