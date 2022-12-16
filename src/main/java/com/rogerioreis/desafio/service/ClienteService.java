@@ -72,7 +72,8 @@ public class ClienteService {
         boolean isClienteFind = clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail()).isPresent();
 
         if (isClienteFind) {
-            throw new RecursoExistenteException("Já existe um cliente cadastrado com este email informado.");
+            throw new RecursoExistenteException("" +
+                    "Já existe um cliente cadastrado com o email [ " + cliente.getEmail() + " ] informado.");
         }
     }
 }

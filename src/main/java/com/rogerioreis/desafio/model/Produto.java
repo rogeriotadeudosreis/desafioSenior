@@ -25,40 +25,47 @@ public class Produto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "Identificador automático sequencial do produto")
     private Long id;
 
     @Column(name = "NOME", length = 200, nullable = false)
-    @NotBlank(message = "O campo NOME é obrigatório.")
-    @Length(max = 200, message = "O limite do campo NOME do produto é de 200 caracteres.")
-    @Length(min = 3, message = "O limite mínimo do campo NOME do produto é de 03 caracteres.")
     @ApiModelProperty(value = "Descrição do produto")
     private String nome;
 
-    @Column(name = "CODIGO", length = 200, nullable = false)
-    @NotBlank(message = "O campo CODIGO é obrigatório.")
-    @Length(max = 200, message = "O limite do campo CODIGO do produto é de 200 caracteres.")
-    @Length(min = 3, message = "O limite mínimo do campo CODIGO do produto é de 03 caracteres.")
+    @Column(name = "CODIGO", length = 200, nullable = false, unique = true)
+    @ApiModelProperty(value = "Código único do produto")
     private String codigo;
 
     @Column(name = "PRECO", nullable = false)
-    @Digits(integer = 9, fraction = 2)
-    @NotNull(message = "Informe o valor do produto ou serviço.")
+    @ApiModelProperty(value = "Preço do produto")
     private double preco;
 
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)
+    @ApiModelProperty(value = "Data de cadastro do produto")
     private ZonedDateTime dataInicio;
 
     @Column(name = "DATA_FIM")
+    @ApiModelProperty(value = "Data para desativar o produto")
     private ZonedDateTime dataFim;
 
-    @NotNull(message = "O tipo de produto é obrigatório.")
+    @Column(name = "DATA_ATUALIZACAO")
+    @ApiModelProperty(value = "Data de atualização do produto")
+    private  ZonedDateTime dataAtualizacao;
+
     @Column(name = "TIPO_PRODUTO",length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
+    @ApiModelProperty(value = "Identifica o tipo do produto, se produto ou serviço")
     private EnumTipoProduto tipoProduto;
 
     @PrePersist
     private void init() {
         this.dataInicio = ZonedDateTime.now();
+        this.tipoProduto = EnumTipoProduto.PRODUTO;
+    }
+
+    @PreUpdate
+    private void update(){
+        this.dataAtualizacao = ZonedDateTime.now();
     }
 
     @JsonGetter

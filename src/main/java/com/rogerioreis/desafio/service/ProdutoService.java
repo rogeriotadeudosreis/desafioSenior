@@ -78,7 +78,7 @@ public class ProdutoService {
         boolean isProdutoFind = produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo()).isPresent();
 
         if (isProdutoFind) {
-            throw new RecursoExistenteException("Já existe um produto cadastrado com o código informado.");
+            throw new RecursoExistenteException("Já existe um produto cadastrado com o código [ " + produto.getCodigo() + " ] informado.");
         }
 
         if (produto.getPreco() < 0.0) {

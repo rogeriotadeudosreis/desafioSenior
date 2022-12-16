@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.exception.handler;
 
 import com.rogerioreis.desafio.exception.RecursoExistenteException;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -46,6 +47,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RecursoNaoEncontradoException.class)
     public ResponseEntity<Object> hanlderRecursoNaoEncontradoException(RecursoNaoEncontradoException ex) {
         String mensagemUsuario = "Náo encontrado resultados para a busca.";
+        String mensageDesenvolvedor = ex.getMessage();
+
+        return handleExceptionInternal(
+                ex,
+                new Erro(mensagemUsuario, mensageDesenvolvedor),
+                new HttpHeaders(), HttpStatus.NOT_FOUND,
+                null);
+    }
+
+    @ExceptionHandler(RegraNegocioException.class)
+    public ResponseEntity<Object> hanlderRegraNegocioException(RegraNegocioException ex) {
+        String mensagemUsuario = "Alguma regra de negócio foi violada.";
         String mensageDesenvolvedor = ex.getMessage();
 
         return handleExceptionInternal(
