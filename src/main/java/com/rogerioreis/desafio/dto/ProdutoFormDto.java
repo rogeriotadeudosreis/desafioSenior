@@ -41,8 +41,6 @@ public class ProdutoFormDto implements Serializable {
 
     private EnumTipoProduto tipoProduto;
 
-    private ZonedDateTime dataInicio;
-
     @JsonIgnore
     private ZonedDateTime dataFim;
 
