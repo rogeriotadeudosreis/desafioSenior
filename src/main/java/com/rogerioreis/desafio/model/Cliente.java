@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.dto.ClienteFormDto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -41,6 +42,10 @@ public class Cliente implements Serializable {
     @Column(name = "DATA_FIM")
     private ZonedDateTime dataFim;
 
+    @Column(name = "DATA_ATUALIZACAO")
+    @ApiModelProperty(value = "Data de atualização do cadastro do cliente")
+    private ZonedDateTime dataAtualizacao;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidoList = new ArrayList<>();
@@ -48,6 +53,11 @@ public class Cliente implements Serializable {
     @PrePersist
     private void init() {
         this.dataInicio = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    private void update() {
+        this.dataAtualizacao = ZonedDateTime.now();
     }
 
     @JsonGetter

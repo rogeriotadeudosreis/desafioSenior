@@ -5,6 +5,7 @@ import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.Cliente;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -24,7 +26,7 @@ public class ClienteService {
 
         cliente.setId(null);
 
-        validaClienteEmail(cliente);
+        this.validaCliente(cliente);
 
         Cliente clienteSalvo = this.clienteRepository.save(cliente);
 
@@ -34,7 +36,7 @@ public class ClienteService {
 
     public Cliente readById(Long id) {
 
-        return clienteRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado."));
+        return clienteRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Cliente com [" + id + "] não encontrado."));
 
     }
 
@@ -45,11 +47,11 @@ public class ClienteService {
         return clienteRepository.findAllByNomeLikeIgnoreCaseOrEmailIgnoreCase(desc, pageable);
     }
 
-    public Cliente update(Long id, Cliente clienteForm) {
+    public Cliente update(Cliente clienteForm) {
 
-        Cliente cliente = this.readById(id);
+        this.readById(clienteForm.getId());
 
-        clienteForm.setId(cliente.getId());
+        this.validaCliente(clienteForm);
 
         return clienteRepository.save(clienteForm);
 
@@ -65,15 +67,27 @@ public class ClienteService {
 
     }
 
-    public void validaClienteEmail(Cliente cliente) {
+    public void validaCliente(Cliente cliente) {
 
-        if (cliente.getEmail().isEmpty()) throw new RequisicaoComErroException("Email nulo");
+        if (cliente.getNome().trim().isEmpty())
+            throw new RequisicaoComErroException("O NOME do cliente é obrigatório.");
 
-        boolean isClienteFind = clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail()).isPresent();
+        if (cliente.getEmail().trim().isEmpty())
+            throw new RequisicaoComErroException("O EMAIL do cliente é obrigatório.");
 
-        if (isClienteFind) {
-            throw new RecursoExistenteException("" +
-                    "Já existe um cliente cadastrado com o email [ " + cliente.getEmail() + " ] informado.");
+        if (cliente.getId() == null) {
+            boolean isClienteFind = clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail()).isPresent();
+            if (isClienteFind) {
+                throw new RecursoExistenteException("Já existe um cliente cadastrado com o código [ " + cliente.getEmail() + " ] informado.");
+            }
+        } else {
+            Optional<Cliente> cliConsultado = this.clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail());
+
+            cliConsultado.ifPresent(cliente1 -> {
+                if (!cliente1.getId().equals(cliente.getId())) {
+                    throw new RecursoExistenteException("Já existe um cliente cadastrado com o email [ " + cliente.getEmail() + " ] informado.");
+                }
+            });
         }
     }
 }

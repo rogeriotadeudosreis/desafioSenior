@@ -22,6 +22,8 @@ public class ProdutoService {
 
     public Produto create(Produto produto) {
 
+        produto.setId(null);
+
         validaProduto(produto);
 
         return this.produtoRepository.save(produto);
@@ -34,7 +36,8 @@ public class ProdutoService {
             throw new RequisicaoComErroException("Id não informato");
         }
 
-        return produtoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado."));
+        return produtoRepository.findById(id).orElseThrow(() ->
+                new RecursoNaoEncontradoException("Produto com [" + id + "] não encontrado."));
 
     }
 
@@ -45,7 +48,9 @@ public class ProdutoService {
         return produtoRepository.findAllByNomeLikeIgnoreCaseOrCodigoIgnoreCase(desc, pageable);
     }
 
-    public Produto update(Long id, Produto produto) {
+    public Produto update(Produto produto) {
+
+        this.readById(produto.getId());
 
         this.validaProduto(produto);
 
@@ -65,18 +70,17 @@ public class ProdutoService {
 
     public void validaProduto(Produto produto) {
 
-        if (produto.getNome().trim().isEmpty()) {
+        if (produto.getNome().trim().isEmpty())
             throw new RequisicaoComErroException("O NOME do produto é obrigatório.");
-        }
-        if (produto.getCodigo().trim().isEmpty()) {
+
+        if (produto.getCodigo().trim().isEmpty())
             throw new RequisicaoComErroException("O CÓDIGO do produto é obrigatório.");
-        }
-        if (produto.getTipoProduto().equals(null)) {
+
+        if (produto.getTipoProduto().equals(null))
             throw new RequisicaoComErroException("O TIPO DE PRODUTO é obrigatório.");
-        }
-        if (produto.getPreco() < 0.0) {
+
+        if (produto.getPreco() < 0.0)
             throw new RegraNegocioException("O PREÇO do produto não pode ser menor que a zero (0).");
-        }
 
         if (produto.getId() == null) {
             boolean isProdutoFind = produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo()).isPresent();
@@ -90,7 +94,6 @@ public class ProdutoService {
                 if (!produto1.getId().equals(produto.getId())) {
                     throw new RecursoExistenteException("Já existe um produto cadastrado com o código [ " + produto.getCodigo() + " ] informado.");
                 }
-                System.out.println(prodConsultado);
             });
         }
     }

@@ -78,11 +78,12 @@ public class ProdutoController {
     @ApiOperation(value = "Atualização de Produto.", notes = "Atualiza um registro de produto na base de dados.")
     public ResponseEntity<ProdutoFormDto> update(@PathVariable Long id, @Valid @RequestBody ProdutoFormDto produtoFormDto) {
 
-        Produto produto = this.modelMapper.map(produtoFormDto, Produto.class);
+        Produto produtoAtualizado = this.modelMapper.map(produtoFormDto, Produto.class);
 
-        Produto produtoAtualizado =  this.produtoService.update(id, produto);
+        produtoAtualizado.setId(id);
 
-        ProdutoFormDto dto = this.modelMapper.map(produtoAtualizado, ProdutoFormDto.class);
+        ProdutoFormDto dto = new ProdutoFormDto(this.modelMapper
+                .map(this.produtoService.update(produtoAtualizado), ProdutoFormDto.class));
 
         return ResponseEntity.ok(dto);
     }

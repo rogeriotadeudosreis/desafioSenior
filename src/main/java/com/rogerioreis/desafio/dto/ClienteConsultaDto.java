@@ -15,10 +15,13 @@ public class ClienteConsultaDto implements Serializable {
 
     private String nome;
 
+    private String email;
+
     private boolean isAtivo;
 
     public ClienteConsultaDto(ClienteConsultaDto dto) {
         this.nome = dto.getNome();
+        this.email = dto.getEmail();
         this.isAtivo = dto.isAtivo();
     }
 }

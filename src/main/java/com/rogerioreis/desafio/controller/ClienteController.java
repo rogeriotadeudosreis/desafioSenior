@@ -57,7 +57,7 @@ public class ClienteController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
 
-        Page<Cliente> list = clienteService.page(descricao, PageRequest.of(page,size));
+        Page<Cliente> list = clienteService.page(descricao, PageRequest.of(page, size));
 
         HttpStatus status = HttpStatus.OK;
 
@@ -77,9 +77,15 @@ public class ClienteController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiOperation(value = "Atualização de Cliente.", notes = "Atualiza um registro de cliente na base de dados.")
-    public ResponseEntity<Cliente> update(@PathVariable Long id, @Valid @RequestBody Cliente clienteForm) {
+    public ResponseEntity<ClienteConsultaDto> update(@PathVariable Long id, @Valid @RequestBody ClienteFormDto clienteForm) {
 
-        return ResponseEntity.ok(clienteService.update(id, clienteForm));
+        Cliente clienteAtualizado = this.modelMapper.map(clienteForm, Cliente.class);
+        clienteAtualizado.setId(id);
+
+        ClienteConsultaDto dto = new ClienteConsultaDto(this.modelMapper
+                .map(this.clienteService.update(clienteAtualizado), ClienteConsultaDto.class));
+
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
