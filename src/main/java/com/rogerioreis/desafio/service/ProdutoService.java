@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -23,17 +24,17 @@ public class ProdutoService {
 
         validaProduto(produto);
 
-        Produto produtoSalvo = this.produtoRepository.save(produto);
-
-        return produtoSalvo;
+        return this.produtoRepository.save(produto);
 
     }
 
     public Produto readById(Long id) {
 
-        Produto produto = produtoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado."));
+        if (id == null) {
+            throw new RequisicaoComErroException("Id não informato");
+        }
 
-        return produto;
+        return produtoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Produto não encontrado."));
 
     }
 
@@ -44,16 +45,11 @@ public class ProdutoService {
         return produtoRepository.findAllByNomeLikeIgnoreCaseOrCodigoIgnoreCase(desc, pageable);
     }
 
-    public Produto update(Long id, Produto produtoForm) {
+    public Produto update(Long id, Produto produto) {
 
-        Produto produto = this.readById(id);
+        this.validaProduto(produto);
 
-        produtoForm.setId(produto.getId());
-        produtoForm.setCodigo(produto.getCodigo());
-        produtoForm.setDataInicio(produto.getDataInicio());
-        produtoForm.setDataFim(produto.getDataFim());
-
-        return produtoRepository.save(produtoForm);
+        return produtoRepository.save(produto);
 
     }
 
@@ -69,20 +65,33 @@ public class ProdutoService {
 
     public void validaProduto(Produto produto) {
 
-        if (produto.getNome().isEmpty()
-                || produto.getCodigo().isEmpty()
-                || produto.getTipoProduto().equals(null))
-            throw new RequisicaoComErroException("Produto com campos obrigatórios não preenchidos." +
-                    " (Campos obrigatórios: nome, codigo, tipo do produto).");
-
-        boolean isProdutoFind = produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo()).isPresent();
-
-        if (isProdutoFind) {
-            throw new RecursoExistenteException("Já existe um produto cadastrado com o código [ " + produto.getCodigo() + " ] informado.");
+        if (produto.getNome().trim().isEmpty()) {
+            throw new RequisicaoComErroException("O NOME do produto é obrigatório.");
+        }
+        if (produto.getCodigo().trim().isEmpty()) {
+            throw new RequisicaoComErroException("O CÓDIGO do produto é obrigatório.");
+        }
+        if (produto.getTipoProduto().equals(null)) {
+            throw new RequisicaoComErroException("O TIPO DE PRODUTO é obrigatório.");
+        }
+        if (produto.getPreco() < 0.0) {
+            throw new RegraNegocioException("O PREÇO do produto não pode ser menor que a zero (0).");
         }
 
-        if (produto.getPreco() < 0.0) {
-            throw new RegraNegocioException("O valor do produto não pode ser menor que a zero (0).");
+        if (produto.getId() == null) {
+            boolean isProdutoFind = produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo()).isPresent();
+            if (isProdutoFind) {
+                throw new RecursoExistenteException("Já existe um produto cadastrado com o código [ " + produto.getCodigo() + " ] informado.");
+            }
+        } else {
+            Optional<Produto> prodConsultado = this.produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo());
+
+            prodConsultado.ifPresent(produto1 -> {
+                if (!produto1.getId().equals(produto.getId())) {
+                    throw new RecursoExistenteException("Já existe um produto cadastrado com o código [ " + produto.getCodigo() + " ] informado.");
+                }
+                System.out.println(prodConsultado);
+            });
         }
     }
 }

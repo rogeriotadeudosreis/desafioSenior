@@ -50,9 +50,9 @@ public class Produto implements Serializable {
 
     @Column(name = "DATA_ATUALIZACAO")
     @ApiModelProperty(value = "Data de atualização do produto")
-    private  ZonedDateTime dataAtualizacao;
+    private ZonedDateTime dataAtualizacao;
 
-    @Column(name = "TIPO_PRODUTO",length = 10, nullable = false)
+    @Column(name = "TIPO_PRODUTO", length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     @ApiModelProperty(value = "Identifica o tipo do produto, se produto ou serviço")
     private EnumTipoProduto tipoProduto;
@@ -60,17 +60,17 @@ public class Produto implements Serializable {
     @PrePersist
     private void init() {
         this.dataInicio = ZonedDateTime.now();
-        this.tipoProduto = EnumTipoProduto.PRODUTO;
     }
 
     @PreUpdate
-    private void update(){
+    private void update() {
         this.dataAtualizacao = ZonedDateTime.now();
     }
 
     @JsonGetter
     public boolean isAtivo() {
-        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
+        return getPreco() > 0.0 &&
+                (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
     }
 
 }

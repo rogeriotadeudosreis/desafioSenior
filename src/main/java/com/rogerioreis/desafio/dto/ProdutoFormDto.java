@@ -1,10 +1,12 @@
 package com.rogerioreis.desafio.dto;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import com.rogerioreis.desafio.model.Produto;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Digits;
@@ -41,18 +43,12 @@ public class ProdutoFormDto implements Serializable {
 
     private EnumTipoProduto tipoProduto;
 
-    @JsonIgnore
     private ZonedDateTime dataFim;
 
+    @JsonGetter
     public boolean isAtivo() {
-        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
+        return getPreco() > 0.0 &&
+                (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
     }
-
-    public ProdutoFormDto (Produto produto){
-
-    }
-
-
-
 
 }

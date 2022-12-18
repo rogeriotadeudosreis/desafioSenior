@@ -32,7 +32,8 @@ public class ProdutoConsultaDto implements Serializable {
 
     @JsonGetter
     public boolean isAtivo() {
-        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
+        return getPreco() > 0.0 &&
+                (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
     }
 
 

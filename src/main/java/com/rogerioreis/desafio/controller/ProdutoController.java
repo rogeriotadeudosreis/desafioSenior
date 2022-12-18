@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.controller;
 
 
+import com.rogerioreis.desafio.dto.ProdutoConsultaDto;
 import com.rogerioreis.desafio.dto.ProdutoFormDto;
 import com.rogerioreis.desafio.model.Produto;
 import com.rogerioreis.desafio.service.ProdutoService;
@@ -65,9 +66,10 @@ public class ProdutoController {
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiOperation(value = "Consulta de Produto.", notes = "Consulta um registro de produto na base de dados pelo seu identificador.")
-    public ResponseEntity<Produto> readById(@PathVariable Long id) {
+    public ResponseEntity<ProdutoConsultaDto> readById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(produtoService.readById(id));
+        return ResponseEntity.ok(this.modelMapper.map(
+                produtoService.readById(id), ProdutoConsultaDto.class));
 
     }
 
@@ -76,9 +78,9 @@ public class ProdutoController {
     @ApiOperation(value = "Atualização de Produto.", notes = "Atualiza um registro de produto na base de dados.")
     public ResponseEntity<ProdutoFormDto> update(@PathVariable Long id, @Valid @RequestBody ProdutoFormDto produtoFormDto) {
 
-        Produto produtoAtualizado = this.modelMapper.map(produtoFormDto, Produto.class);
+        Produto produto = this.modelMapper.map(produtoFormDto, Produto.class);
 
-        this.produtoService.update(id, produtoAtualizado);
+        Produto produtoAtualizado =  this.produtoService.update(id, produto);
 
         ProdutoFormDto dto = this.modelMapper.map(produtoAtualizado, ProdutoFormDto.class);
 
