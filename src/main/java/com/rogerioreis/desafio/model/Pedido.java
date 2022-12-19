@@ -63,22 +63,25 @@ public class Pedido implements Serializable {
 
 
     public double getSubTotalPedido() {
-        double somaProduto = 0.0;
-        double somaServico = 0.0;
-        double totalProdutoServico;
+        double soma = 0.0;
+        for (Item item : itens) {
+            soma += item.getSubTotal();
+        }
+        return soma;
+    }
+
+    public double descontoProduto() {
+        double soma = 0.0;
         for (Item item : itens) {
             if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)) {
-                somaProduto += item.getSubTotal();
-            } else if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.SERVICO)) {
-                somaServico += item.getSubTotal();
+                soma += item.getSubTotal();
             }
         }
-        totalProdutoServico = somaProduto + somaServico;
-        return totalProdutoServico;
+        return soma * getDesconto();
     }
 
     public double getTotalPedido() {
-        return getSubTotalPedido() - getDesconto();
+        return getSubTotalPedido() - descontoProduto();
     }
 
     public Pedido(Cliente cliente) {

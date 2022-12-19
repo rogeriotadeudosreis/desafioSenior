@@ -65,13 +65,13 @@ public class DesafioApplication implements CommandLineRunner {
         lista01.add(item02);
 
         Item item03 = new Item(null, 1, 3000.0, prod3, 0.0);
-        Item item04 = new Item(null, 1, 150.0, prod3, 0.0);
+        Item item04 = new Item(null, 1, 150.0, prod4, 0.0);
         List<Item> lista02 = new ArrayList<>();
         lista02.add(item03);
         lista02.add(item04);
 
-        Item item05 = new Item(null, 1, 1000.0, prod3, 0.0);
-        Item item06 = new Item(null, 1, 150.0, prod3, 0.0);
+        Item item05 = new Item(null, 1, 1000.0, prod5, 0.0);
+        Item item06 = new Item(null, 1, 150.0, prod6, 0.0);
         List<Item> lista03 = new ArrayList<>();
         lista03.add(item05);
         lista03.add(item06);
@@ -79,9 +79,9 @@ public class DesafioApplication implements CommandLineRunner {
         itemRepository.saveAll(Arrays.asList(item01, item02, item03, item04, item05, item06));
 
 
-        Pedido ped1 = new Pedido(null, "ped-01", c1, lista01, 50.0, EnumSituacaoPedido.FECHADO);
-        Pedido ped2 = new Pedido(null, "ped-02", c2, lista02, 30.0, EnumSituacaoPedido.FECHADO);
-        Pedido ped3 = new Pedido(null, "ped-03", c3, lista03, 40.0, EnumSituacaoPedido.FECHADO);
+        Pedido ped1 = new Pedido(null, "ped-01", c1, lista01, 0.10, EnumSituacaoPedido.FECHADO);
+        Pedido ped2 = new Pedido(null, "ped-02", c2, lista02, 0.10, EnumSituacaoPedido.FECHADO);
+        Pedido ped3 = new Pedido(null, "ped-03", c3, lista03, 0.10, EnumSituacaoPedido.FECHADO);
         pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3));
 
 
