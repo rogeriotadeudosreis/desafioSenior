@@ -3,7 +3,7 @@ package com.rogerioreis.desafio.controller;
 
 import com.rogerioreis.desafio.dto.ItemPedidoFormDto;
 import com.rogerioreis.desafio.model.Item;
-import com.rogerioreis.desafio.service.ItemPedidoService;
+import com.rogerioreis.desafio.service.ItemService;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,10 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/itemPedidos")
-public class ItemPedidoController {
+public class ItemController {
 
     @Autowired
-    private ItemPedidoService itemPedidoService;
+    private ItemService itemService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -36,7 +36,7 @@ public class ItemPedidoController {
 
         Item item = this.modelMapper.map(itemPedidoFormDto, Item.class);
 
-        ItemPedidoFormDto dto = this.modelMapper.map(itemPedidoService.create(item), ItemPedidoFormDto.class);
+        ItemPedidoFormDto dto = this.modelMapper.map(itemService.create(item), ItemPedidoFormDto.class);
 
         URI uri = uriBuilder.path("/itemPedidos/{id}").buildAndExpand(item.getId()).toUri();
 
@@ -52,7 +52,7 @@ public class ItemPedidoController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
 
-        Page<Item> list = itemPedidoService.page(PageRequest.of(page, size));
+        Page<Item> list = itemService.page(PageRequest.of(page, size));
 
         HttpStatus status = HttpStatus.OK;
 
@@ -65,7 +65,7 @@ public class ItemPedidoController {
     @ApiOperation(value = "Consulta de Itens de Pedido pelo Id.", notes = "Consulta um registro de itens de pedidos na base de dados pelo seu identificador.")
     public ResponseEntity<Item> readById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(itemPedidoService.readById(id));
+        return ResponseEntity.ok(itemService.readById(id));
 
     }
 
@@ -74,14 +74,14 @@ public class ItemPedidoController {
     @ApiOperation(value = "Atualização de Itens de Pedido.", notes = "Atualiza um registro de itens de pedidos na base de dados.")
     public ResponseEntity<Item> update(@PathVariable Long id, @Valid @RequestBody Item itemForm) {
 
-        return ResponseEntity.ok(itemPedidoService.update(id, itemForm));
+        return ResponseEntity.ok(itemService.update(id, itemForm));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Exclusão de Itens de Pedido.", notes = "Exclui logicamente um registro de itens de pedidos na base de dados.")
     public ResponseEntity<?> delete(@PathVariable Long id) {
 
-        itemPedidoService.delete(id);
+        itemService.delete(id);
 
         return ResponseEntity.ok().build();
 

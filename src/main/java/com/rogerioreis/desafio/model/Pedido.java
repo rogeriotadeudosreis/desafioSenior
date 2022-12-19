@@ -77,10 +77,11 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
-    public Pedido(Long id, String numeroPedido, Cliente cliente, double total, double desconto, EnumSituacaoPedido situacao) {
+    public Pedido(Long id, String numeroPedido, Cliente cliente, List<Item> itens, double total, double desconto, EnumSituacaoPedido situacao) {
         this.id = id;
         this.numeroPedido = numeroPedido;
         this.cliente = cliente;
+        this.itens = itens;
         this.total = total;
         this.desconto = desconto;
         this.situacao = situacao;

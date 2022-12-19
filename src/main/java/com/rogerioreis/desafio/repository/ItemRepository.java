@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public interface ItemPedidoRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 
 }

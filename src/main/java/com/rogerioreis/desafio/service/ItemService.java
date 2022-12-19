@@ -4,7 +4,7 @@ import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Produto;
-import com.rogerioreis.desafio.repository.ItemPedidoRepository;
+import com.rogerioreis.desafio.repository.ItemRepository;
 import com.rogerioreis.desafio.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,10 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ItemPedidoService {
+public class ItemService {
 
     @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -25,13 +25,13 @@ public class ItemPedidoService {
 
         validaItemPedido(item);
 
-        return this.itemPedidoRepository.save(item);
+        return this.itemRepository.save(item);
 
     }
 
     public Item readById(Long id) {
 
-        Item item = itemPedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ItemPedido não encontrado."));
+        Item item = itemRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ItemPedido não encontrado."));
 
         return item;
 
@@ -39,7 +39,7 @@ public class ItemPedidoService {
 
     public Page<Item> page(Pageable pageable) {
 
-        return itemPedidoRepository.findAll(pageable);
+        return itemRepository.findAll(pageable);
     }
 
     public Item update(Long id, Item itemForm) {
@@ -48,7 +48,7 @@ public class ItemPedidoService {
 
         itemForm.setId(item.getId());
 
-        return itemPedidoRepository.save(itemForm);
+        return itemRepository.save(itemForm);
 
     }
 
@@ -56,7 +56,7 @@ public class ItemPedidoService {
 
         Item item = readById(id);
 
-        this.itemPedidoRepository.delete(item);
+        this.itemRepository.delete(item);
 
     }
 

@@ -6,12 +6,9 @@ import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.model.Produto;
-import com.rogerioreis.desafio.repository.ClienteRepository;
-import com.rogerioreis.desafio.repository.ItemPedidoRepository;
-import com.rogerioreis.desafio.repository.PedidoRepository;
-import com.rogerioreis.desafio.repository.ProdutoRepository;
+import com.rogerioreis.desafio.repository.ItemRepository;
 import com.rogerioreis.desafio.service.ClienteService;
-import com.rogerioreis.desafio.service.ItemPedidoService;
+import com.rogerioreis.desafio.service.ItemService;
 import com.rogerioreis.desafio.service.PedidoService;
 import com.rogerioreis.desafio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +16,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class DesafioApplication implements CommandLineRunner {
@@ -32,10 +29,15 @@ public class DesafioApplication implements CommandLineRunner {
     private ProdutoService produtoService;
 
     @Autowired
-    private ItemPedidoService itemPedidoService;
+    private ItemService itemService;
+    
+    @Autowired
+    private ItemRepository itemRepository;
 
     @Autowired
     private PedidoService pedidoService;
+    
+    
 
     public static void main(String[] args) {
         SpringApplication.run(DesafioApplication.class, args);
@@ -51,7 +53,6 @@ public class DesafioApplication implements CommandLineRunner {
         produtoService.create(prod2);
         produtoService.create(prod3);
 
-
         Cliente c1 = new Cliente(null, "CLIENTE 01", "cliente01@gmail.com");
         Cliente c2 = new Cliente(null, "CLIENTE 02", "cliente02@gmail.com");
         Cliente c3 = new Cliente(null, "CLIENTE 03", "cliente03@gmail.com");
@@ -62,16 +63,21 @@ public class DesafioApplication implements CommandLineRunner {
         Item item01 = new Item(null, 2, 25.0, prod1, 50.0 );
         Item item02 = new Item(null, 2, 25.0, prod2, 50.0 );
         Item item03 = new Item(null, 2, 25.0, prod3, 50.0 );
-        itemPedidoService.create(item01);
-        itemPedidoService.create(item02);
-        itemPedidoService.create(item03);
+        itemService.create(item01);
+        itemService.create(item02);
+        itemService.create(item03);
 
-        Pedido ped1 = new Pedido(null, "ped-01",c1, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
-        Pedido ped2 = new Pedido(null, "ped-02",c2, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
-        Pedido ped3 = new Pedido(null, "ped-03",c3, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
+        List<Item> listItem = new ArrayList<>();
+        listItem.add(item01);
+        listItem.add(item02);
+        listItem.add(item03);
+
+        Pedido ped1 = new Pedido(null, "ped-01",c1, listItem, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
+//        Pedido ped2 = new Pedido(null, "ped-02",c2, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
+//        Pedido ped3 = new Pedido(null, "ped-03",c3, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
         pedidoService.create(ped1);
-        pedidoService.create(ped2);
-        pedidoService.create(ped3);
+//        pedidoService.create(ped2);
+//        pedidoService.create(ped3);
 
 
 

@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Item implements Serializable {
     @Column(name = "PRECO", nullable = false)
     private double preco;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "itens", fetch = FetchType.LAZY)
     private List<Pedido> pedidos = new ArrayList<>();
 
