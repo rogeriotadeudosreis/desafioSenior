@@ -1,12 +1,17 @@
 package com.rogerioreis.desafio;
 
+import com.rogerioreis.desafio.controller.ClienteController;
+import com.rogerioreis.desafio.dto.ClienteFormDto;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.model.Produto;
+import com.rogerioreis.desafio.repository.ClienteRepository;
 import com.rogerioreis.desafio.repository.ItemRepository;
+import com.rogerioreis.desafio.repository.PedidoRepository;
+import com.rogerioreis.desafio.repository.ProdutoRepository;
 import com.rogerioreis.desafio.service.ClienteService;
 import com.rogerioreis.desafio.service.ItemService;
 import com.rogerioreis.desafio.service.PedidoService;
@@ -16,28 +21,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication
 public class DesafioApplication implements CommandLineRunner {
 
     @Autowired
-    private ClienteService clienteService;
+    private ClienteRepository clienteRepository;
 
     @Autowired
-    private ProdutoService produtoService;
+    private ProdutoRepository produtoRepository;
 
-    @Autowired
-    private ItemService itemService;
-    
     @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
-    private PedidoService pedidoService;
-    
-    
+    private PedidoRepository pedidoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(DesafioApplication.class, args);
@@ -46,42 +45,44 @@ public class DesafioApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Produto prod1 = new Produto(null, "PRODUTO 01", "COD01", 15.0, null, null, null, EnumTipoProduto.PRODUTO);
-        Produto prod2 = new Produto(null, "PRODUTO 02", "COD02", 15.0, null, null, null, EnumTipoProduto.SERVICO);
-        Produto prod3 = new Produto(null, "PRODUTO 03", "COD03", 15.0, null, null, null, EnumTipoProduto.PRODUTO);
-        produtoService.create(prod1);
-        produtoService.create(prod2);
-        produtoService.create(prod3);
+        Produto prod1 = new Produto(null, "AR CONDICIONADO", "COD01", 1500.0, null, null, null, EnumTipoProduto.PRODUTO);
+        Produto prod2 = new Produto(null, "INSTALAÇÃO AR CONDICIONADO", "COD02", 150.0, null, null, null, EnumTipoProduto.SERVICO);
+        Produto prod3 = new Produto(null, "TV SONY BRAVIA", "COD03", 3000.0, null, null, null, EnumTipoProduto.PRODUTO);
+        Produto prod4 = new Produto(null, "INSTALAÇÃO DE TV", "COD04", 150.0, null, null, null, EnumTipoProduto.SERVICO);
+        Produto prod5 = new Produto(null, "CORTINA BLACKOUT", "COD05", 1000.0, null, null, null, EnumTipoProduto.PRODUTO);
+        Produto prod6 = new Produto(null, "INSTALAÇÃO DE CORTINAS", "COD06", 150.0, null, null, null, EnumTipoProduto.SERVICO);
+        produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3, prod4, prod5, prod6));
 
         Cliente c1 = new Cliente(null, "CLIENTE 01", "cliente01@gmail.com");
         Cliente c2 = new Cliente(null, "CLIENTE 02", "cliente02@gmail.com");
         Cliente c3 = new Cliente(null, "CLIENTE 03", "cliente03@gmail.com");
-        clienteService.create(c1);
-        clienteService.create(c2);
-        clienteService.create(c3);
+        clienteRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        Item item01 = new Item(null, 2, 25.0, prod1, 50.0 );
-        Item item02 = new Item(null, 2, 25.0, prod2, 50.0 );
-        Item item03 = new Item(null, 2, 25.0, prod3, 50.0 );
-        itemService.create(item01);
-        itemService.create(item02);
-        itemService.create(item03);
+        Item item01 = new Item(null, 1, 1500.0, prod1, 0.0);
+        Item item02 = new Item(null, 1, 150.0, prod2, 0.0);
+        List<Item> lista01 = new ArrayList<>();
+        lista01.add(item01);
+        lista01.add(item02);
 
-        List<Item> listItem = new ArrayList<>();
-        listItem.add(item01);
-        listItem.add(item02);
-        listItem.add(item03);
+        Item item03 = new Item(null, 1, 3000.0, prod3, 0.0);
+        Item item04 = new Item(null, 1, 150.0, prod3, 0.0);
+        List<Item> lista02 = new ArrayList<>();
+        lista02.add(item03);
+        lista02.add(item04);
 
-        Pedido ped1 = new Pedido(null, "ped-01",c1, listItem, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
-//        Pedido ped2 = new Pedido(null, "ped-02",c2, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
-//        Pedido ped3 = new Pedido(null, "ped-03",c3, 0.0, 0.0, EnumSituacaoPedido.FECHADO);
-        pedidoService.create(ped1);
-//        pedidoService.create(ped2);
-//        pedidoService.create(ped3);
+        Item item05 = new Item(null, 1, 1000.0, prod3, 0.0);
+        Item item06 = new Item(null, 1, 150.0, prod3, 0.0);
+        List<Item> lista03 = new ArrayList<>();
+        lista03.add(item05);
+        lista03.add(item06);
 
+        itemRepository.saveAll(Arrays.asList(item01, item02, item03, item04, item05, item06));
 
 
-
+        Pedido ped1 = new Pedido(null, "ped-01", c1, lista01, 50.0, EnumSituacaoPedido.FECHADO);
+        Pedido ped2 = new Pedido(null, "ped-02", c2, lista02, 30.0, EnumSituacaoPedido.FECHADO);
+        Pedido ped3 = new Pedido(null, "ped-03", c3, lista03, 40.0, EnumSituacaoPedido.FECHADO);
+        pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3));
 
 
     }

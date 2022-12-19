@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
+import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,43 +47,49 @@ public class Pedido implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> itens = new ArrayList<>();
 
-    @Column(name = "TOTAL")
-    private double total;
+    @Column(name = "SUBTOTAL_PEDIDO")
+    private double subTotalPedido;
 
-    @Column(name = "DESCONTO")
+    @Column(name = "DESCONTO_EM_PORCENT")
     @Digits(integer = 9, fraction = 2)
     private double desconto;
+
+    @Column(name = "TOTAL_PEDIDO")
+    private double totalPedido;
 
     @Column(name = "SITUACAO", length = 10)
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-    public double getTotal() {
-        double soma = 0.0;
+
+    public double getSubTotalPedido() {
+        double somaProduto = 0.0;
+        double somaServico = 0.0;
+        double totalProdutoServico;
         for (Item item : itens) {
-            soma += item.getSubTotal();
+            if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)) {
+                somaProduto += item.getSubTotal();
+            } else if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.SERVICO)) {
+                somaServico += item.getSubTotal();
+            }
         }
-        return soma;
+        totalProdutoServico = somaProduto + somaServico;
+        return totalProdutoServico;
     }
 
-    public void setTotal() {
-        double soma = 0.0;
-        for (Item item : itens) {
-            soma += item.getSubTotal();
-        }
-        this.total = soma;
+    public double getTotalPedido() {
+        return getSubTotalPedido() - getDesconto();
     }
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public Pedido(Long id, String numeroPedido, Cliente cliente, List<Item> itens, double total, double desconto, EnumSituacaoPedido situacao) {
+    public Pedido(Long id, String numeroPedido, Cliente cliente, List<Item> itens, double desconto, EnumSituacaoPedido situacao) {
         this.id = id;
         this.numeroPedido = numeroPedido;
         this.cliente = cliente;
         this.itens = itens;
-        this.total = total;
         this.desconto = desconto;
         this.situacao = situacao;
     }
