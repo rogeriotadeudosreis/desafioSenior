@@ -32,7 +32,6 @@ public class ClienteFormDto implements Serializable {
 
     private ZonedDateTime dataInicio;
 
-    @JsonIgnore
     private ZonedDateTime dataFim;
 
     public boolean isAtivo() {

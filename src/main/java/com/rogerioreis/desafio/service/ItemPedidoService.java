@@ -1,11 +1,11 @@
 package com.rogerioreis.desafio.service;
 
-import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
-import com.rogerioreis.desafio.exception.RequisicaoComErroException;
-import com.rogerioreis.desafio.model.ItemPedido;
+import com.rogerioreis.desafio.model.Item;
+import com.rogerioreis.desafio.model.Produto;
 import com.rogerioreis.desafio.repository.ItemPedidoRepository;
+import com.rogerioreis.desafio.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,49 +17,57 @@ public class ItemPedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
-    public ItemPedido create(ItemPedido itemPedido) {
 
-        validaItemPedido(itemPedido);
+    public Item create(Item item) {
 
-        ItemPedido itemPedidoSalvo = this.itemPedidoRepository.save(itemPedido);
+        validaItemPedido(item);
 
-        return itemPedidoSalvo;
-
-    }
-
-    public ItemPedido readById(Long id) {
-
-        ItemPedido itemPedido = itemPedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ItemPedido não encontrado."));
-
-        return itemPedido;
+        return this.itemPedidoRepository.save(item);
 
     }
 
-    public Page<ItemPedido> page(Pageable pageable) {
+    public Item readById(Long id) {
+
+        Item item = itemPedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ItemPedido não encontrado."));
+
+        return item;
+
+    }
+
+    public Page<Item> page(Pageable pageable) {
 
         return itemPedidoRepository.findAll(pageable);
     }
 
-    public ItemPedido update(Long id, ItemPedido itemPedidoForm) {
+    public Item update(Long id, Item itemForm) {
 
-        ItemPedido itemPedido = this.readById(id);
+        Item item = this.readById(id);
 
-        itemPedidoForm.setId(itemPedido.getId());
+        itemForm.setId(item.getId());
 
-        return itemPedidoRepository.save(itemPedidoForm);
+        return itemPedidoRepository.save(itemForm);
 
     }
 
     public void delete(Long id) {
 
-        ItemPedido itemPedido = readById(id);
+        Item item = readById(id);
 
-        this.itemPedidoRepository.delete(itemPedido);
+        this.itemPedidoRepository.delete(item);
 
     }
 
-    public void validaItemPedido(ItemPedido item) {
+    public void validaItemPedido(Item item) {
+
+        Produto produtoConsultado = this.produtoRepository
+                .findById(item.getProduto().getId()).orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Produto de id [" + item.getProduto().getId() + "] não encontrado.")
+                );
+
+        boolean isProdAtivo = produtoConsultado.isAtivo();
 
         if (item.getQuantidade() <= 0) {
             throw new RegraNegocioException("A quantidade de itens deve ser informada");
@@ -68,5 +76,10 @@ public class ItemPedidoService {
         if (item.getPreco() <= 0) {
             throw new RegraNegocioException("O preço do item não pode menor ou igual a zero.");
         }
+
+        if (!isProdAtivo) {
+            throw new RegraNegocioException("O produto deste item está DESATIVADO.");
+        }
+
     }
 }

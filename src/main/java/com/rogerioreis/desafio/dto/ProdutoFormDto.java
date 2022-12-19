@@ -43,13 +43,11 @@ public class ProdutoFormDto implements Serializable {
 
     private EnumTipoProduto tipoProduto;
 
-    @JsonIgnore
     private ZonedDateTime dataFim;
 
     @JsonGetter
     public boolean isAtivo() {
-        return getPreco() > 0.0 &&
-                (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
+        return getPreco() > 0 && (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
     }
 
     public ProdutoFormDto(ProdutoFormDto dto){

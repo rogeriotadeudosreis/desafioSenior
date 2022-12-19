@@ -1,9 +1,11 @@
 package com.rogerioreis.desafio.controller;
 
 
-import com.rogerioreis.desafio.model.ItemPedido;
+import com.rogerioreis.desafio.dto.ItemPedidoFormDto;
+import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.service.ItemPedidoService;
 import io.swagger.annotations.ApiOperation;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,18 +26,24 @@ public class ItemPedidoController {
     @Autowired
     private ItemPedidoService itemPedidoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiOperation(value = "Cadastro de Itens de Pedido.", notes = "Armazena um registro de itens de pedidos na base de dados.")
-    public ResponseEntity<ItemPedido> create(@RequestBody @Valid ItemPedido itemPedidoForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ItemPedidoFormDto> create(@RequestBody @Valid ItemPedidoFormDto itemPedidoFormDto, UriComponentsBuilder uriBuilder) {
 
-        ItemPedido itemPedido = itemPedidoService.create(itemPedidoForm);
+        Item item = this.modelMapper.map(itemPedidoFormDto, Item.class);
 
-        URI uri = uriBuilder.path("/itemPedidos/{id}").buildAndExpand(itemPedido.getId()).toUri();
+        ItemPedidoFormDto dto = this.modelMapper.map(itemPedidoService.create(item), ItemPedidoFormDto.class);
 
-        return ResponseEntity.created(uri).body(itemPedido);
+        URI uri = uriBuilder.path("/itemPedidos/{id}").buildAndExpand(item.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(dto);
 
     }
+
 
     @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
@@ -44,7 +52,7 @@ public class ItemPedidoController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
 
-        Page<ItemPedido> list = itemPedidoService.page(PageRequest.of(page, size));
+        Page<Item> list = itemPedidoService.page(PageRequest.of(page, size));
 
         HttpStatus status = HttpStatus.OK;
 
@@ -55,7 +63,7 @@ public class ItemPedidoController {
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiOperation(value = "Consulta de Itens de Pedido pelo Id.", notes = "Consulta um registro de itens de pedidos na base de dados pelo seu identificador.")
-    public ResponseEntity<ItemPedido> readById(@PathVariable Long id) {
+    public ResponseEntity<Item> readById(@PathVariable Long id) {
 
         return ResponseEntity.ok(itemPedidoService.readById(id));
 
@@ -64,9 +72,9 @@ public class ItemPedidoController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiOperation(value = "Atualização de Itens de Pedido.", notes = "Atualiza um registro de itens de pedidos na base de dados.")
-    public ResponseEntity<ItemPedido> update(@PathVariable Long id, @Valid @RequestBody ItemPedido itemPedidoForm) {
+    public ResponseEntity<Item> update(@PathVariable Long id, @Valid @RequestBody Item itemForm) {
 
-        return ResponseEntity.ok(itemPedidoService.update(id, itemPedidoForm));
+        return ResponseEntity.ok(itemPedidoService.update(id, itemForm));
     }
 
     @DeleteMapping("/{id}")

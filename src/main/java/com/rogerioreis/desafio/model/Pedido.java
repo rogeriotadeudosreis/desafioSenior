@@ -2,24 +2,22 @@ package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "PEDIDO")
+@Table(name = "pedido")
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +26,9 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "NUM_PEDIDO", nullable = false, updatable = false)
+    private String numeroPedido;
+
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     private ZonedDateTime dataInicio;
 
@@ -35,11 +36,15 @@ public class Pedido implements Serializable {
     private ZonedDateTime dataFim;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CLIENTE", nullable = false, foreignKey = @ForeignKey(name = "FK_CLIENTE"))
+    @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "CLIENTE_FK"))
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itens = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "item_pedido",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private List<Item> itens = new ArrayList<>();
 
     @Column(name = "TOTAL")
     private double total;
@@ -52,26 +57,9 @@ public class Pedido implements Serializable {
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-    public Pedido(Long id, ZonedDateTime dataInicio, ZonedDateTime dataFim, Cliente cliente, List<ItemPedido> itens, double total, double desconto) {
-        this.id = id;
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
-        this.cliente = cliente;
-        this.itens = itens;
-        this.total = total;
-        this.desconto = desconto;
-    }
-
-    public Pedido (Cliente cliente){
-        this.cliente = cliente;
-    }
-
-    public Pedido() {
-    }
-
     public double getTotal() {
         double soma = 0.0;
-        for (ItemPedido item : itens) {
+        for (Item item : itens) {
             soma += item.getSubTotal();
         }
         return soma;
@@ -79,10 +67,23 @@ public class Pedido implements Serializable {
 
     public void setTotal() {
         double soma = 0.0;
-        for (ItemPedido item : itens) {
+        for (Item item : itens) {
             soma += item.getSubTotal();
         }
         this.total = soma;
+    }
+
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Pedido(Long id, String numeroPedido, Cliente cliente, double total, double desconto, EnumSituacaoPedido situacao) {
+        this.id = id;
+        this.numeroPedido = numeroPedido;
+        this.cliente = cliente;
+        this.total = total;
+        this.desconto = desconto;
+        this.situacao = situacao;
     }
 
     @JsonGetter
@@ -95,6 +96,5 @@ public class Pedido implements Serializable {
         this.dataInicio = ZonedDateTime.now();
         this.situacao = EnumSituacaoPedido.FECHADO;
     }
-
 
 }

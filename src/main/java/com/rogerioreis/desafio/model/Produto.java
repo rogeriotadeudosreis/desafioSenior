@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -69,8 +67,7 @@ public class Produto implements Serializable {
 
     @JsonGetter
     public boolean isAtivo() {
-        return getPreco() > 0.0 &&
-                (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
+        return getPreco() > 0 && (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
     }
 
 }

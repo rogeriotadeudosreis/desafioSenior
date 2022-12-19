@@ -3,7 +3,6 @@ package com.rogerioreis.desafio.service;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
-import com.rogerioreis.desafio.model.ItemPedido;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.repository.ClienteRepository;
 import com.rogerioreis.desafio.repository.PedidoRepository;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Service
 public class PedidoService {
@@ -81,9 +79,9 @@ public class PedidoService {
                     }
                 });
 
-        if (pedido.getItens().isEmpty()) {
-            throw new RequisicaoComErroException("A lista de itens para este pedido está vazia, selecione pelo menos um item.");
-        }
+//        if (pedido.getItens().isEmpty()) {
+//            throw new RequisicaoComErroException("A lista de itens para este pedido está vazia, selecione pelo menos um item.");
+//        }
     }
 }
 

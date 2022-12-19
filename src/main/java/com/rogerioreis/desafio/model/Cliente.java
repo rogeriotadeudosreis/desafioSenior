@@ -2,14 +2,10 @@ package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rogerioreis.desafio.dto.ClienteFormDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -49,6 +45,12 @@ public class Cliente implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidoList = new ArrayList<>();
+
+    public Cliente(Long id, String nome, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+    }
 
     @PrePersist
     private void init() {
