@@ -31,14 +31,14 @@ public class PedidoFormDto implements Serializable {
     @JsonIgnore
     private ZonedDateTime dataFim;
 
-    @NotNull(message = "Selecione um cliente para este pedido.")
+    @NotNull(message = "{client.not.null}")
     private Cliente cliente;
 
     private double desconto;
 
     private EnumSituacaoPedido situacao;
 
-    @NotNull(message = "Selecione pelo menos um item para este pedido.")
+    @NotNull(message = "{item.not.null}")
     private List<Item> itens = new ArrayList<>();
 
     @JsonGetter
