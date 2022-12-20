@@ -1,11 +1,13 @@
 package com.rogerioreis.desafio.controller;
 
 
+import com.rogerioreis.desafio.dto.PedidoFormDto;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.service.PedidoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,9 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiResponse(code = 201, message = "Pedido criado.")
@@ -45,13 +50,13 @@ public class PedidoController {
     @GetMapping(path = "/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiResponse(code = 200, message = "Sucesso")
-    @ApiOperation(value = "Consulta paginada de Pedido.", notes = "Consulta de pedido na base de dados com paginação." )
+    @ApiOperation(value = "Consulta paginada de Pedido.", notes = "Consulta de pedido na base de dados com paginação.")
     public ResponseEntity<Page> page(
             @RequestParam(required = false) String descricao,
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "20") Integer size){
+            @RequestParam(defaultValue = "20") Integer size) {
 
-        Page<Pedido> list = pedidoService.page(descricao, PageRequest.of(page,size));
+        Page<Pedido> list = pedidoService.page(descricao, PageRequest.of(page, size));
 
         HttpStatus status = HttpStatus.OK;
 
@@ -62,14 +67,14 @@ public class PedidoController {
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiResponse(code = 200, message = "Sucesso")
-    @ApiOperation(value = "Consulta de Pedido.", notes = "Consulta um registro de pedido na base de dados pelo seu identificador." )
-    public ResponseEntity<Pedido> readById(@PathVariable Long id){
+    @ApiOperation(value = "Consulta de Pedido.", notes = "Consulta um registro de pedido na base de dados pelo seu identificador.")
+    public ResponseEntity<Pedido> readById(@PathVariable Long id) {
 
         return ResponseEntity.ok(pedidoService.readById(id));
 
     }
 
-    @PutMapping(value = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiResponse(code = 200, message = "Pedido atualizado com sucesso.")
     @ApiOperation(value = "Atualização de Pedido.", notes = "Atualiza um registro de pedido na base de dados." )
@@ -79,8 +84,8 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Exclusão de Pedido.", notes = "Exclui logicamente um registro de pedido na base de dados." )
-    public ResponseEntity<?> delete (@PathVariable Long id){
+    @ApiOperation(value = "Exclusão de Pedido.", notes = "Exclui logicamente um registro de pedido na base de dados.")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
 
         pedidoService.delete(id);
 

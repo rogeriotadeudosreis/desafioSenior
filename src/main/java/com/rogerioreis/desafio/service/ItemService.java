@@ -31,15 +31,17 @@ public class ItemService {
 
     public Item readById(Long id) {
 
-        Item item = itemRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ItemPedido não encontrado."));
+        Item item = itemRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Item não encontrado."));
 
         return item;
 
     }
 
-    public Page<Item> page(Pageable pageable) {
+    public Page<Item> page(String descricao, Pageable pageable) {
 
-        return itemRepository.findAll(pageable);
+        String desc = descricao != null ? descricao : "";
+
+        return itemRepository.findAllByProdutoLikeIgnoreCase(desc, pageable);
     }
 
     public Item update(Long id, Item itemForm) {
@@ -70,11 +72,11 @@ public class ItemService {
         boolean isProdAtivo = produtoConsultado.isAtivo();
 
         if (item.getQuantidade() <= 0) {
-            throw new RegraNegocioException("A quantidade de itens deve ser informada");
+            throw new RegraNegocioException("A QUANTIDADE de itens deve ser informada");
         }
 
         if (item.getPreco() <= 0) {
-            throw new RegraNegocioException("O preço do item não pode menor ou igual a zero.");
+            throw new RegraNegocioException("O PREÇO do item não pode menor ou igual a zero.");
         }
 
         if (!isProdAtivo) {

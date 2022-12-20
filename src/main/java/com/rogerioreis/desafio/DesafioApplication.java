@@ -79,9 +79,9 @@ public class DesafioApplication implements CommandLineRunner {
         itemRepository.saveAll(Arrays.asList(item01, item02, item03, item04, item05, item06));
 
 
-        Pedido ped1 = new Pedido(null, "ped-01", c1, lista01, 0.10, EnumSituacaoPedido.FECHADO);
-        Pedido ped2 = new Pedido(null, "ped-02", c2, lista02, 0.10, EnumSituacaoPedido.FECHADO);
-        Pedido ped3 = new Pedido(null, "ped-03", c3, lista03, 0.10, EnumSituacaoPedido.FECHADO);
+        Pedido ped1 = new Pedido(null, null, c1, lista01, 0.10, EnumSituacaoPedido.FECHADO);
+        Pedido ped2 = new Pedido(null, null, c2, lista02, 0.10, EnumSituacaoPedido.FECHADO);
+        Pedido ped3 = new Pedido(null, null, c3, lista03, 0.10, EnumSituacaoPedido.FECHADO);
         pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3));
 
 

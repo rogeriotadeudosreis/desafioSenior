@@ -8,13 +8,15 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class ItemPedidoFormDto implements Serializable {
+public class ItemFormDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,9 +34,9 @@ public class ItemPedidoFormDto implements Serializable {
     private Produto produto;
 
     @NotNull(message = "O id do pedido deve ser informado.")
-    private Pedido pedido;
+    private List<Pedido> pedidos = new ArrayList<>();
 
-    public ItemPedidoFormDto(ItemPedidoFormDto itemPedido){
+    public ItemFormDto(ItemFormDto itemPedido){
 
     }
 

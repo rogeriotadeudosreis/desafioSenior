@@ -53,6 +53,7 @@ public class ProdutoFormDto implements Serializable {
     public ProdutoFormDto(ProdutoFormDto dto){
         this.id = dto.getId();
         this.nome = dto.getNome();
+        this.preco = dto.getPreco();
         this.codigo = dto.getCodigo();
         this.tipoProduto = dto.getTipoProduto();
         this.dataFim = dto.getDataFim();

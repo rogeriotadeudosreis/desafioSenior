@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     @Query(value = "select ped from Pedido ped where upper(ped.cliente.nome) like upper(concat('%',:descricao,'%'))"
-            + "or upper(ped.cliente.email) like upper(concat('%',:descricao,'%'))")
+            + "or upper(ped.cliente.email) like upper(concat('%',:descricao,'%'))"
+            + "or upper(ped.numeroPedido) like upper(concat('%',:descricao,'%') ) ")
     Page<Pedido> findAllByClienteLikeIgnoreCase(@Param("descricao") String descricao,
                                                 @Param("pageable") Pageable pageable);
 }

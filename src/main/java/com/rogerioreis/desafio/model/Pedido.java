@@ -27,7 +27,7 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NUM_PEDIDO", nullable = false, updatable = false)
+    @Column(name = "NUM_PEDIDO", updatable = false)
     private String numeroPedido;
 
     @Column(name = "DATA_INICIO", nullable = false, updatable = false)
@@ -39,7 +39,6 @@ public class Pedido implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "CLIENTE_FK"))
     private Cliente cliente;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "item_pedido",
@@ -61,7 +60,6 @@ public class Pedido implements Serializable {
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-
     public double getSubTotalPedido() {
         double soma = 0.0;
         for (Item item : itens) {
@@ -82,6 +80,11 @@ public class Pedido implements Serializable {
 
     public double getTotalPedido() {
         return getSubTotalPedido() - descontoProduto();
+    }
+
+    public String getNumeroPedido() {
+        String prefixo = "PED Nº: " + getId();
+        return prefixo;
     }
 
     public Pedido(Cliente cliente) {

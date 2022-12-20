@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.dto;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -32,8 +33,10 @@ public class ClienteFormDto implements Serializable {
 
     private ZonedDateTime dataInicio;
 
+    @JsonIgnore
     private ZonedDateTime dataFim;
 
+    @JsonGetter
     public boolean isAtivo() {
         return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
     }

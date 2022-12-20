@@ -2,11 +2,14 @@ package com.rogerioreis.desafio.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -23,17 +26,20 @@ public class PedidoFormDto implements Serializable {
 
     private Long id;
 
+    private String numeroPedido;
+
+    @JsonIgnore
     private ZonedDateTime dataFim;
 
-    private ClienteFormDto clienteFormDto;
+    @NotNull(message = "Selecione um cliente para este pedido.")
+    private Cliente cliente;
 
     private double desconto;
 
     private EnumSituacaoPedido situacao;
 
+    @NotNull(message = "Selecione pelo menos um item para este pedido.")
     private List<Item> itens = new ArrayList<>();
-
-    public PedidoFormDto(Pedido pedido){}
 
     @JsonGetter
     public boolean isAtivo() {
