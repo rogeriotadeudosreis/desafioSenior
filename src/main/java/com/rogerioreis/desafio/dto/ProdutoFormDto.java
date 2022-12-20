@@ -27,20 +27,21 @@ public class ProdutoFormDto implements Serializable {
 
     private Long id;
 
-    @NotBlank(message = "O campo NOME é obrigatório.")
-    @Length(max = 200, message = "O limite do campo NOME do produto é de 200 caracteres.")
-    @Length(min = 3, message = "O limite mínimo do campo NOME do produto é de 03 caracteres.")
+    @NotBlank(message = "{name.not.blank}")
+    @Length(min = 3, message = "{name.length.min}")
+    @Length(max = 200, message = "{name.length.max}")
     private String nome;
 
-    @NotBlank(message = "O campo CODIGO é obrigatório.")
-    @Length(max = 200, message = "O limite do campo CODIGO do produto é de 200 caracteres.")
-    @Length(min = 3, message = "O limite mínimo do campo CODIGO do produto é de 03 caracteres.")
+    @NotBlank(message = "{code.not.blank}")
+    @Length(min = 3, message = "{code.length.min}")
+    @Length(max = 200, message = "{code.length.max}")
     private String codigo;
 
-    @Digits(integer = 9, fraction = 2)
-    @NotNull(message = "Informe o valor do produto ou serviço.")
+    @Digits(integer = 9, fraction = 2, message = "{price.not.valid}")
+    @NotNull(message = "{price.not.null}")
     private double preco;
 
+    @NotNull(message = "{type.product.not.null}")
     private EnumTipoProduto tipoProduto;
 
     private ZonedDateTime dataFim;

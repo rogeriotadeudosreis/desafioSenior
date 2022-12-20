@@ -1,21 +1,17 @@
 package com.rogerioreis.desafio.service;
 
-import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
-import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.repository.ClienteRepository;
 import com.rogerioreis.desafio.repository.PedidoRepository;
-import com.rogerioreis.desafio.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,14 +23,9 @@ public class PedidoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
-
-
     public Pedido create(Pedido pedido) {
 
         validaPedido(pedido);
-
         pedido.setSubTotalPedido();
         pedido.setTotalPedido();
 
@@ -76,9 +67,7 @@ public class PedidoService {
 
         Pedido pedido = readById(id);
 
-        pedido.setDataFim(ZonedDateTime.now());
-
-        this.pedidoRepository.save(pedido);
+        this.pedidoRepository.delete(pedido);
 
     }
 
@@ -99,14 +88,6 @@ public class PedidoService {
 
     }
 
-//    public double subTotal(Pedido pedido) {
-//        List<Item> itens = pedido.getItens();
-//        double soma = 0.0;
-//        for (Item item : itens) {
-//            soma += item.getSubTotal();
-//        }
-//        return soma;
-//    }
 }
 
 

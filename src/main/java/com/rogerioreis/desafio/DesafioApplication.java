@@ -1,7 +1,5 @@
 package com.rogerioreis.desafio;
 
-import com.rogerioreis.desafio.controller.ClienteController;
-import com.rogerioreis.desafio.dto.ClienteFormDto;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import com.rogerioreis.desafio.model.Cliente;
@@ -10,18 +8,16 @@ import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.model.Produto;
 import com.rogerioreis.desafio.repository.ClienteRepository;
 import com.rogerioreis.desafio.repository.ItemRepository;
-import com.rogerioreis.desafio.repository.PedidoRepository;
 import com.rogerioreis.desafio.repository.ProdutoRepository;
-import com.rogerioreis.desafio.service.ClienteService;
-import com.rogerioreis.desafio.service.ItemService;
 import com.rogerioreis.desafio.service.PedidoService;
-import com.rogerioreis.desafio.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class DesafioApplication implements CommandLineRunner {
@@ -34,9 +30,6 @@ public class DesafioApplication implements CommandLineRunner {
 
     @Autowired
     private ItemRepository itemRepository;
-
-    @Autowired
-    private PedidoRepository pedidoRepository;
 
     @Autowired
     private PedidoService pedidoService;
@@ -82,9 +75,9 @@ public class DesafioApplication implements CommandLineRunner {
         itemRepository.saveAll(Arrays.asList(item01, item02, item03, item04, item05, item06));
 
 
-        Pedido ped1 = new Pedido(null, null, c1, lista01, 0.10, EnumSituacaoPedido.FECHADO);
-        Pedido ped2 = new Pedido(null, null, c2, lista02, 0.10, EnumSituacaoPedido.FECHADO);
-        Pedido ped3 = new Pedido(null, null, c3, lista03, 0.10, EnumSituacaoPedido.FECHADO);
+        Pedido ped1 = new Pedido(null, null, c1, lista01, 0.10, EnumSituacaoPedido.ABERTO);
+        Pedido ped2 = new Pedido(null, null, c2, lista02, 0.10, EnumSituacaoPedido.ABERTO);
+        Pedido ped3 = new Pedido(null, null, c3, lista03, 0.10, EnumSituacaoPedido.ABERTO);
         pedidoService.create(ped1);
         pedidoService.create(ped2);
         pedidoService.create(ped3);

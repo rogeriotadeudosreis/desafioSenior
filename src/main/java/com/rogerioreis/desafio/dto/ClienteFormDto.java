@@ -21,14 +21,14 @@ public class ClienteFormDto implements Serializable {
 
     private Long id;
 
-    @NotBlank(message = "O campo nome é obrigatório.")
-    @Length(min = 3, message = "O limite mínimo do campo NOME do cliente é de 03 caracteres.")
-    @Length(max = 200, message = "O limite do campo NOME do cliente é de 200 caracteres.")
+    @NotBlank(message = "{nome.not.blank}")
+    @Length(min = 3, message = "{name.length.min}")
+    @Length(max = 200, message = "{name.length.max}")
     private String nome;
 
-    @NotBlank(message = "O campo email é obrigatório.")
-    @Length(max = 200, message = "O limite do campo EMAIL é de 200 caracteres.")
-    @Email(message = "O email está no formato inválido.")
+    @NotBlank(message = "{email.not.blank}")
+    @Length(max = 200, message = "{email.length.min}")
+    @Email(message = "{email.not.valid}")
     private String email;
 
     private ZonedDateTime dataInicio;

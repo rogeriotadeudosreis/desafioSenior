@@ -62,9 +62,7 @@ public class ProdutoService {
 
         Produto produto = readById(id);
 
-        produto.setDataFim(ZonedDateTime.now());
-
-        this.produtoRepository.save(produto);
+        this.produtoRepository.delete(produto);
 
     }
 

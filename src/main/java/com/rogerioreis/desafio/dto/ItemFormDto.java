@@ -22,18 +22,18 @@ public class ItemFormDto implements Serializable {
 
     private Long id;
 
-    @Min(value = 1, message = "Informe pelo menos um item do pedido.")
-    @NotNull(message = "informe a quantidade do item do pedido")
-    private Integer Quantidade;
+    @Min(value = 1, message = "{quantity.min}")
+    @NotNull(message = "{quantity.not.null}")
+    private Integer quantidade;
 
-    @Digits(integer = 9, fraction = 2)
-    @NotNull(message = "O preço do produto deve ser informado.")
+    @Digits(integer = 9, fraction = 2, message = "{price.not.valid}")
+    @NotNull(message = "{price.not.null}")
     private double preco;
 
-    @NotNull(message = "O id do produto deve ser informado.")
+    @NotNull(message = "{product.not.null}")
     private Produto produto;
 
-    @NotNull(message = "O id do pedido deve ser informado.")
+    @NotNull(message = "{order.not.null}")
     private List<Pedido> pedidos = new ArrayList<>();
 
     public ItemFormDto(ItemFormDto itemPedido){
