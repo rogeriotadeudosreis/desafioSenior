@@ -56,30 +56,31 @@ public class Pedido implements Serializable {
     @Column(name = "TOTAL_PEDIDO")
     private double totalPedido;
 
-    @Column(name = "SITUACAO", length = 10)
+    @Column(name = "SITUACAO", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-    public double getSubTotalPedido() {
+    public void setSubTotalPedido() {
         double soma = 0.0;
         for (Item item : itens) {
             soma += item.getSubTotal();
         }
-        return soma;
+        this.subTotalPedido = soma;
     }
 
     public double descontoProduto() {
         double soma = 0.0;
         for (Item item : itens) {
-            if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)) {
+            if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)
+                    && situacao.equals(EnumSituacaoPedido.ABERTO)) {
                 soma += item.getSubTotal();
             }
         }
         return soma * getDesconto();
     }
 
-    public double getTotalPedido() {
-        return getSubTotalPedido() - descontoProduto();
+    public void setTotalPedido() {
+        this.totalPedido = getSubTotalPedido() - descontoProduto();
     }
 
     public String getNumeroPedido() {

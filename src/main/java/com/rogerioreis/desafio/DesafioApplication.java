@@ -38,6 +38,9 @@ public class DesafioApplication implements CommandLineRunner {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private PedidoService pedidoService;
+
     public static void main(String[] args) {
         SpringApplication.run(DesafioApplication.class, args);
     }
@@ -82,7 +85,9 @@ public class DesafioApplication implements CommandLineRunner {
         Pedido ped1 = new Pedido(null, null, c1, lista01, 0.10, EnumSituacaoPedido.FECHADO);
         Pedido ped2 = new Pedido(null, null, c2, lista02, 0.10, EnumSituacaoPedido.FECHADO);
         Pedido ped3 = new Pedido(null, null, c3, lista03, 0.10, EnumSituacaoPedido.FECHADO);
-        pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3));
+        pedidoService.create(ped1);
+        pedidoService.create(ped2);
+        pedidoService.create(ped3);
 
 
     }

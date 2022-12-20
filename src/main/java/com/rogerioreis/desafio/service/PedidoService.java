@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
@@ -33,6 +34,9 @@ public class PedidoService {
     public Pedido create(Pedido pedido) {
 
         validaPedido(pedido);
+
+        pedido.setSubTotalPedido();
+        pedido.setTotalPedido();
 
         Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
 
@@ -94,6 +98,15 @@ public class PedidoService {
         });
 
     }
+
+//    public double subTotal(Pedido pedido) {
+//        List<Item> itens = pedido.getItens();
+//        double soma = 0.0;
+//        for (Item item : itens) {
+//            soma += item.getSubTotal();
+//        }
+//        return soma;
+//    }
 }
 
 
