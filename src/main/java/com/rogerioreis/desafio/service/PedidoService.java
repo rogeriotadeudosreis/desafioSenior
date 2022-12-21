@@ -84,6 +84,15 @@ public class PedidoService {
         itens.stream().forEach(item -> {
             if (item.getProduto().getDataFim() != null)
                 throw new RegraNegocioException("O produto deste item está DESATIVADO no cadastro de produtos.");
+
+            if (item.getPreco() <= 0)
+                throw new RegraNegocioException("O PREÇO deste item não pode ser zero(0).");
+
+            if (pedido.getDesconto() > pedido.getTotalPedido()) {
+                throw new RegraNegocioException("O DESCONTO não pode ser maior do que o valor total do pedido.");
+
+            }
+
         });
 
     }
