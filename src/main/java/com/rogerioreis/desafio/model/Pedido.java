@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
+import com.rogerioreis.desafio.exception.RegraNegocioException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,7 +50,7 @@ public class Pedido implements Serializable {
     @Column(name = "SUBTOTAL_PEDIDO")
     private double subTotalPedido;
 
-    @Column(name = "DESCONTO_EM_PORCENT")
+    @Column(name = "DESCONTO")
     @Digits(integer = 9, fraction = 2)
     private double desconto;
 
@@ -68,7 +69,7 @@ public class Pedido implements Serializable {
         this.subTotalPedido = soma;
     }
 
-    public double descontoProduto() {
+    public void setDesconto(double desconto) {
         double soma = 0.0;
         for (Item item : itens) {
             if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)
@@ -76,11 +77,15 @@ public class Pedido implements Serializable {
                 soma += item.getSubTotal();
             }
         }
-        return soma * getDesconto();
+        this.desconto = (this.desconto * soma) / 100;
+
+        if (this.desconto > soma) {
+            throw new RegraNegocioException("O valor do desconto não pode ser maior do o total de produtos.");
+        }
     }
 
     public void setTotalPedido() {
-        this.totalPedido = getSubTotalPedido() - descontoProduto();
+        this.totalPedido = getSubTotalPedido() - this.getDesconto();
     }
 
     public String getNumeroPedido() {
@@ -109,7 +114,6 @@ public class Pedido implements Serializable {
     @PrePersist
     private void init() {
         this.dataInicio = ZonedDateTime.now();
-        this.situacao = EnumSituacaoPedido.FECHADO;
     }
 
 }

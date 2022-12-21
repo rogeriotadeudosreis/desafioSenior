@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.model.Item;
@@ -26,10 +27,15 @@ public class PedidoService {
     public Pedido create(Pedido pedido) {
 
         validaPedido(pedido);
-        pedido.setSubTotalPedido();
-        pedido.setTotalPedido();
 
-        Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
+        Pedido pedidoSalvar = pedido;
+
+        pedidoSalvar.setDesconto(pedidoSalvar.getDesconto());
+        pedidoSalvar.setSubTotalPedido();
+        pedidoSalvar.setTotalPedido();
+        pedidoSalvar.setSituacao(EnumSituacaoPedido.FECHADO);
+
+        Pedido pedidoSalvo = this.pedidoRepository.save(pedidoSalvar);
 
         return pedidoSalvo;
 
@@ -72,6 +78,7 @@ public class PedidoService {
     }
 
     public void validaPedido(Pedido pedido) {
+
         clienteRepository.findById(pedido.getCliente().getId())
                 .ifPresent(cliente -> {
                     if (!cliente.isAtivo()) {
@@ -81,19 +88,23 @@ public class PedidoService {
 
         List<Item> itens = pedido.getItens();
 
-        itens.stream().forEach(item -> {
-            if (item.getProduto().getDataFim() != null)
-                throw new RegraNegocioException("O produto deste item está DESATIVADO no cadastro de produtos.");
+        if (itens.isEmpty()) {
+            throw new RecursoNaoEncontradoException("A lista de itens está vazia.");
+        } else {
+            itens.stream().forEach(item -> {
+                if (item.getProduto().getDataFim() != null)
+                    throw new RegraNegocioException("O produto deste item está DESATIVADO no cadastro de produtos.");
 
-            if (item.getPreco() <= 0)
-                throw new RegraNegocioException("O PREÇO deste item não pode ser zero(0).");
+                if (item.getPreco() <= 0)
+                    throw new RegraNegocioException("O PREÇO deste item não pode ser zero(0).");
 
-            if (pedido.getDesconto() > pedido.getTotalPedido()) {
-                throw new RegraNegocioException("O DESCONTO não pode ser maior do que o valor total do pedido.");
+//                if (pedido.getDesconto() > item.getSubTotal()) {
+//                    throw new RegraNegocioException("O DESCONTO não pode ser maior do que o valor total do pedido.");
+//
+//                }
 
-            }
-
-        });
+            });
+        }
 
     }
 
