@@ -76,8 +76,8 @@ public class DesafioApplication implements CommandLineRunner {
 
 
         Pedido ped1 = new Pedido(null, null, c1, lista01, 100, EnumSituacaoPedido.ABERTO);
-        Pedido ped2 = new Pedido(null, null, c2, lista02, 10, EnumSituacaoPedido.ABERTO);
-        Pedido ped3 = new Pedido(null, null, c3, lista03, 10, EnumSituacaoPedido.ABERTO);
+        Pedido ped2 = new Pedido(null, null, c2, lista02, 25, EnumSituacaoPedido.ABERTO);
+        Pedido ped3 = new Pedido(null, null, c3, lista03, 30, EnumSituacaoPedido.ABERTO);
         pedidoService.create(ped1);
         pedidoService.create(ped2);
         pedidoService.create(ped3);

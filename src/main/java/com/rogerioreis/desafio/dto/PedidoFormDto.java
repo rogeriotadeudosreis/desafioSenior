@@ -24,27 +24,16 @@ public class PedidoFormDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-
-    private String numeroPedido;
-
-    @JsonIgnore
-    private ZonedDateTime dataFim;
+    private double desconto;
 
     @NotNull(message = "{client.not.null}")
     private Cliente cliente;
-
-    private double desconto;
 
     private EnumSituacaoPedido situacao;
 
     @NotNull(message = "{item.not.null}")
     private List<Item> itens = new ArrayList<>();
 
-    @JsonGetter
-    public boolean isAtivo() {
-        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
-    }
-
+    private double subTotalPedido;
 
 }

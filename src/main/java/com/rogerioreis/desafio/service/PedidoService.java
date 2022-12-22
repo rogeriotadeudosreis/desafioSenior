@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.service;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.repository.ClienteRepository;
@@ -28,14 +29,7 @@ public class PedidoService {
 
         validaPedido(pedido);
 
-        Pedido pedidoSalvar = pedido;
-
-        pedidoSalvar.setDesconto(pedidoSalvar.getDesconto());
-        pedidoSalvar.setSubTotalPedido();
-        pedidoSalvar.setTotalPedido();
-        pedidoSalvar.setSituacao(EnumSituacaoPedido.FECHADO);
-
-        Pedido pedidoSalvo = this.pedidoRepository.save(pedidoSalvar);
+        Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
 
         return pedidoSalvo;
 
@@ -58,14 +52,12 @@ public class PedidoService {
 
     public Pedido update(Long id, Pedido pedidoForm) {
 
-        Pedido pedido = this.readById(id);
+        pedidoForm.setId(id);
+        validaPedido(pedidoForm);
 
-        pedidoForm.setId(pedido.getId());
-        pedidoForm.setDataFim(pedido.getDataFim());
-        pedidoForm.setDataInicio(pedido.getDataInicio());
-        pedidoForm.setCliente(pedido.getCliente());
+        Pedido pedidoUpdate = pedidoRepository.save(pedidoForm);
 
-        return pedidoRepository.save(pedidoForm);
+        return pedidoUpdate;
 
     }
 
@@ -79,16 +71,19 @@ public class PedidoService {
 
     public void validaPedido(Pedido pedido) {
 
-        clienteRepository.findById(pedido.getCliente().getId())
-                .ifPresent(cliente -> {
-                    if (!cliente.isAtivo()) {
-                        throw new RegraNegocioException("O cliente + [" + cliente.getId() + "] deste pedido está desativado.");
-                    }
-                });
+        Long clienteId = pedido.getCliente().getId();
+
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() ->
+                new RecursoNaoEncontradoException("O cliente com ID [" + clienteId + "] não consta no sistema.")
+        );
+
+        if (!cliente.isAtivo()) {
+            throw new RegraNegocioException("O cliente [" + cliente.getId() + "] deste pedido está desativado.");
+        }
 
         List<Item> itens = pedido.getItens();
 
-        if (itens.isEmpty()) {
+        if (itens.size() == 0) {
             throw new RecursoNaoEncontradoException("A lista de itens está vazia.");
         } else {
             itens.stream().forEach(item -> {
@@ -97,17 +92,10 @@ public class PedidoService {
 
                 if (item.getPreco() <= 0)
                     throw new RegraNegocioException("O PREÇO deste item não pode ser zero(0).");
-
-//                if (pedido.getDesconto() > item.getSubTotal()) {
-//                    throw new RegraNegocioException("O DESCONTO não pode ser maior do que o valor total do pedido.");
-//
-//                }
-
             });
         }
 
     }
-
 }
 
 

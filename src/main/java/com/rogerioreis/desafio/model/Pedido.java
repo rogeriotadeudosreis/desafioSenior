@@ -61,38 +61,6 @@ public class Pedido implements Serializable {
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-    public void setSubTotalPedido() {
-        double soma = 0.0;
-        for (Item item : itens) {
-            soma += item.getSubTotal();
-        }
-        this.subTotalPedido = soma;
-    }
-
-    public void setDesconto(double desconto) {
-        double soma = 0.0;
-        for (Item item : itens) {
-            if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)
-                    && situacao.equals(EnumSituacaoPedido.ABERTO)) {
-                soma += item.getSubTotal();
-            }
-        }
-        this.desconto = (this.desconto * soma) / 100;
-
-        if (this.desconto > soma) {
-            throw new RegraNegocioException("O valor do desconto não pode ser maior do o total de produtos.");
-        }
-    }
-
-    public void setTotalPedido() {
-        this.totalPedido = getSubTotalPedido() - this.getDesconto();
-    }
-
-    public String getNumeroPedido() {
-        String prefixo = "PED Nº: " + getId();
-        return prefixo;
-    }
-
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
     }
@@ -106,6 +74,37 @@ public class Pedido implements Serializable {
         this.situacao = situacao;
     }
 
+    private double calcularSubTotal() {
+        double soma = 0.0;
+        for (Item item : itens) {
+            soma += item.getSubTotal();
+        }
+        return soma;
+    }
+
+    private double calcularDescontoProduto() {
+        double soma = 0.0;
+        double desconto;
+
+        for (Item item : itens) {
+            if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)
+                    && situacao.equals(EnumSituacaoPedido.ABERTO)) {
+                soma += item.getSubTotal();
+            }
+        }
+        desconto = (this.desconto * soma) / 100;
+
+        if (desconto > soma) {
+            throw new RegraNegocioException("O valor do desconto não pode ser maior do o total de produtos.");
+        }
+        return desconto;
+    }
+
+    public String getNumeroPedido() {
+        String prefixo = "PED Nº: " + getId();
+        return prefixo;
+    }
+
     @JsonGetter
     public boolean isAtivo() {
         return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
@@ -114,6 +113,16 @@ public class Pedido implements Serializable {
     @PrePersist
     private void init() {
         this.dataInicio = ZonedDateTime.now();
+        this.subTotalPedido = calcularSubTotal();
+        this.desconto = calcularDescontoProduto();
+        this.totalPedido = getSubTotalPedido() - this.desconto;
+    }
+
+    @PreUpdate
+    private void update(){
+        this.subTotalPedido = calcularSubTotal();
+        this.desconto = calcularDescontoProduto();
+        this.totalPedido = getSubTotalPedido() - this.desconto;
     }
 
 }

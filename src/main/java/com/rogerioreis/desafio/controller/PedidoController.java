@@ -1,10 +1,12 @@
 package com.rogerioreis.desafio.controller;
 
 
+import com.rogerioreis.desafio.dto.PedidoFormDto;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.service.PedidoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,13 +27,18 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiResponse(code = 201, message = "Pedido criado.")
-    @ApiOperation(value = "Cadastro de Pedido.", notes = "Armazena um registro de pedido na base de dados." )
-    public ResponseEntity<Pedido> create(@RequestBody @Valid Pedido pedidoForm, UriComponentsBuilder uriBuilder) {
+    @ApiOperation(value = "Cadastro de Pedido.", notes = "Armazena um registro de pedido na base de dados.")
+    public ResponseEntity<Pedido> create(@RequestBody @Valid PedidoFormDto pedidoFormDto, UriComponentsBuilder uriBuilder) {
 
-        Pedido pedido = pedidoService.create(pedidoForm);
+        Pedido pedido = this.modelMapper.map(pedidoFormDto, Pedido.class);
+
+        pedidoService.create(pedido);
 
         URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(pedido.getId()).toUri();
 
@@ -69,10 +76,12 @@ public class PedidoController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @ApiResponse(code = 200, message = "Pedido atualizado com sucesso.")
-    @ApiOperation(value = "Atualização de Pedido.", notes = "Atualiza um registro de pedido na base de dados." )
-    public ResponseEntity<Pedido> update(@PathVariable Long id, @Valid @RequestBody Pedido pedidoForm){
+    @ApiOperation(value = "Atualização de Pedido.", notes = "Atualiza um registro de pedido na base de dados.")
+    public ResponseEntity<Pedido> update(@PathVariable Long id, @Valid @RequestBody PedidoFormDto pedidoFormDto) {
 
-        return ResponseEntity.ok(pedidoService.update(id, pedidoForm));
+        Pedido pedido = this.modelMapper.map(pedidoFormDto, Pedido.class);
+
+        return ResponseEntity.ok(pedidoService.update(id, pedido));
     }
 
     @DeleteMapping("/{id}")
