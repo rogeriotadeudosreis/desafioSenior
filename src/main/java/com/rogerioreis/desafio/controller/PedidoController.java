@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.controller;
 
 
+import com.rogerioreis.desafio.dto.PedidoConsultaFormDto;
 import com.rogerioreis.desafio.dto.PedidoFormDto;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.service.PedidoService;
@@ -67,9 +68,11 @@ public class PedidoController {
     @Transactional
     @ApiResponse(code = 200, message = "Sucesso")
     @ApiOperation(value = "Consulta de Pedido.", notes = "Consulta um registro de pedido na base de dados pelo seu identificador.")
-    public ResponseEntity<Pedido> readById(@PathVariable Long id) {
+    public ResponseEntity<PedidoConsultaFormDto> readById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(pedidoService.readById(id));
+        PedidoConsultaFormDto dto = this.modelMapper.map(pedidoService.readById(id), PedidoConsultaFormDto.class);
+
+        return ResponseEntity.ok(dto);
 
     }
 
