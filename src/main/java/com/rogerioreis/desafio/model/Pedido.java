@@ -97,6 +97,7 @@ public class Pedido implements Serializable {
         if (desconto > soma) {
             throw new RegraNegocioException("O valor do desconto não pode ser maior do o total de produtos.");
         }
+        this.setSituacao(EnumSituacaoPedido.FECHADO);
         return desconto;
     }
 

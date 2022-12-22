@@ -34,6 +34,4 @@ public class PedidoFormDto implements Serializable {
     @NotNull(message = "{item.not.null}")
     private List<Item> itens = new ArrayList<>();
 
-    private double subTotalPedido;
-
 }
