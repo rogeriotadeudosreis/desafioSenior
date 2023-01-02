@@ -1,25 +1,30 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.dto.ClienteConsultaDto;
 import com.rogerioreis.desafio.exception.RecursoExistenteException;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
-import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
 import com.rogerioreis.desafio.model.Cliente;
-import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.repository.ClienteRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     public Cliente create(Cliente cliente) {
@@ -45,6 +50,11 @@ public class ClienteService {
         String desc = descricao != null ? descricao : "";
 
         return clienteRepository.findAllByNomeLikeIgnoreCaseOrEmailIgnoreCase(desc, pageable);
+    }
+
+    public List<ClienteConsultaDto> list() {
+        List<Cliente> list = clienteRepository.findAll();
+        return list.stream().map(entity -> this.modelMapper.map(entity, ClienteConsultaDto.class)).collect(Collectors.toList());
     }
 
     public Cliente update(Cliente clienteForm) {

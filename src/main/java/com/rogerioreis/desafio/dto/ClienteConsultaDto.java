@@ -1,6 +1,8 @@
 package com.rogerioreis.desafio.dto;
 
+import com.rogerioreis.desafio.model.Cliente;
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 
@@ -23,5 +25,11 @@ public class ClienteConsultaDto implements Serializable {
         this.nome = dto.getNome();
         this.email = dto.getEmail();
         this.isAtivo = dto.isAtivo();
+    }
+
+    public ClienteConsultaDto(Cliente cliente) {
+        this.nome = cliente.getNome();
+        this.email = cliente.getEmail();
+        this.isAtivo = cliente.isAtivo();
     }
 }
