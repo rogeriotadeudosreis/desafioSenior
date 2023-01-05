@@ -1,7 +1,9 @@
-package com.rogerioreis.desafio.service;
+package com.rogerioreis.desafio.interfaces;
 
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -25,6 +27,8 @@ public interface GenericService<T, ID> {
         List<T> list = getRepository().findAll();
         return list;
     }
+
+    Page<T> read(String descricao, Pageable pageable);
 
     default T update(T anyEntity, ID id) {
         this.readById(id);

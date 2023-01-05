@@ -4,6 +4,7 @@ package com.rogerioreis.desafio.controller;
 import com.rogerioreis.desafio.dto.ProdutoConsultaDto;
 import com.rogerioreis.desafio.dto.ProdutoFormDto;
 import com.rogerioreis.desafio.model.Produto;
+import com.rogerioreis.desafio.service.ProductServiceImpl;
 import com.rogerioreis.desafio.service.ProdutoService;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,9 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoService produtoService;
+
+    @Autowired
+    private ProductServiceImpl productServiceImpl;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -92,7 +96,7 @@ public class ProdutoController {
     @ApiOperation(value = "Exclusão de Produto.", notes = "Exclui logicamente um registro de produto na base de dados.")
     public ResponseEntity<?> delete(@PathVariable Long id) {
 
-        produtoService.delete(id);
+        productServiceImpl.delete(id);
 
         return ResponseEntity.ok().build();
 

@@ -57,7 +57,7 @@ public class ClienteController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
 
-        Page<ClienteConsultaDto> list = clienteService.page(descricao, PageRequest.of(page, size));
+        Page<Cliente> list = clienteService.page(descricao, PageRequest.of(page, size));
 
         HttpStatus status = HttpStatus.OK;
 
