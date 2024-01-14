@@ -1,10 +1,11 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,21 +27,21 @@ public class Item implements Serializable {
     @Column(name = "QUANTIDADE")
     private Integer quantidade;
 
-    @Column(name = "PRECO", nullable = false)
-    private double preco;
+    @Column(name = "PRECO", nullable = false, scale = 2)
+    private BigDecimal preco;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "itens", fetch = FetchType.LAZY)
-    private List<Pedido> pedidos = new ArrayList<>();
+    private List<Order> pedidos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "PRODUTO_FK"))
-    private Produto produto;
+    private Product produto;
 
-    @Column(name = "SUBTOTAL")
-    private double subTotal;
+    @Column(name = "SUBTOTAL", scale = 2)
+    private BigDecimal subTotal;
 
-    public Item(Long id, Integer quantidade, double preco, Produto produto, double subTotal) {
+    public Item(Long id, Integer quantidade, BigDecimal preco, Product produto, BigDecimal subTotal) {
         this.id = id;
         this.quantidade = quantidade;
         this.preco = preco;
@@ -48,12 +49,12 @@ public class Item implements Serializable {
         this.subTotal = subTotal;
     }
 
-    public double getSubTotal() {
-        return quantidade * preco;
+    public BigDecimal getSubTotal() {
+        return preco.multiply(new BigDecimal(quantidade));
     }
 
     @PrePersist
     private void init() {
-        this.subTotal = this.quantidade * this.preco;
+        this.subTotal = getSubTotal();
     }
 }

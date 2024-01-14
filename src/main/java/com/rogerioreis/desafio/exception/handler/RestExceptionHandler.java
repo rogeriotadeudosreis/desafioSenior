@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
-    public ResponseEntity<Object> hanlderRecursoNaoEncontradoException(RecursoNaoEncontradoException ex) {
+    public ResponseEntity<Object> handlerRecursoNaoEncontradoException(RecursoNaoEncontradoException ex) {
         String mensagemUsuario = "Náo encontrado resultados para a busca.";
         String mensageDesenvolvedor = ex.getMessage();
 
@@ -57,19 +57,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(RegraNegocioException.class)
-    public ResponseEntity<Object> hanlderRegraNegocioException(RegraNegocioException ex) {
+    public ResponseEntity<Object> handlerRegraNegocioException(RegraNegocioException ex) {
         String mensagemUsuario = "Alguma regra de negócio foi violada.";
         String mensageDesenvolvedor = ex.getMessage();
 
         return handleExceptionInternal(
                 ex,
                 new Erro(mensagemUsuario, mensageDesenvolvedor),
-                new HttpHeaders(), HttpStatus.NOT_FOUND,
+                new HttpHeaders(), HttpStatus.BAD_REQUEST,
                 null);
     }
 
     @ExceptionHandler(RecursoExistenteException.class)
-    public ResponseEntity<Object> hanlderRecursoJaExisteException(RecursoExistenteException ex) {
+    public ResponseEntity<Object> handlerRecursoJaExisteException(RecursoExistenteException ex) {
 
         String mensagemUsuario = "Já existe esse cadastro.";
         String mensageDesenvolvedor = ex.getMessage();
@@ -81,7 +81,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 null);
     }
 
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
@@ -99,7 +99,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers,
@@ -110,7 +110,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, erros, headers, status, request);
     }
 
-    @Override
+//    @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
                                                                          HttpHeaders headers,
                                                                          HttpStatus status,
