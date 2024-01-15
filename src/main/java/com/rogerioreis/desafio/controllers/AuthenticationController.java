@@ -1,7 +1,9 @@
 package com.rogerioreis.desafio.controllers;
 
+import com.rogerioreis.desafio.infra.security.TokenService;
 import com.rogerioreis.desafio.repositories.UserRepository;
 import com.rogerioreis.desafio.user.AuthenticationDto;
+import com.rogerioreis.desafio.user.LoginResponseDTO;
 import com.rogerioreis.desafio.user.RegisterDto;
 import com.rogerioreis.desafio.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,17 @@ public class AuthenticationController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
