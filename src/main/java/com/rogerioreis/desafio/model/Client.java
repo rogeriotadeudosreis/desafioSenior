@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -27,20 +30,26 @@ public class Client implements Serializable {
     private Long id;
 
     @Column(name = "NOME", length = 200, nullable = false)
+    @NotBlank(message = "{nome.not.blank}")
+    @Length(min = 3, message = "{name.length.min}")
+    @Length(max = 200, message = "{name.length.max}")
     private String nome;
 
     @Column(name = "EMAIL", length = 200, nullable = false)
+    @NotBlank(message = "{email.not.blank}")
+    @Length(max = 200, message = "{email.length.min}")
+    @Email(message = "{email.not.valid}")
     private String email;
 
-    @Column(name = "DATA_INICIO", nullable = false, updatable = false)
-    private ZonedDateTime dataInicio;
+    @Column(name = "INICIO_VIGENCIA", nullable = false, updatable = false)
+    private ZonedDateTime inicioVigencia;
 
-    @Column(name = "DATA_FIM")
-    private ZonedDateTime dataFim;
+    @Column(name = "FIM_VIGENCIA")
+    private ZonedDateTime fimVigencia;
 
-    @Column(name = "DATA_ATUALIZACAO")
+    @Column(name = "ATUALIZACAO")
     @Schema(description= "Data de atualização do cadastro do cliente")
-    private ZonedDateTime dataAtualizacao;
+    private ZonedDateTime atualizacao;
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
@@ -54,17 +63,17 @@ public class Client implements Serializable {
 
     @PrePersist
     private void init() {
-        this.dataInicio = ZonedDateTime.now();
+        this.inicioVigencia = ZonedDateTime.now();
     }
 
     @PreUpdate
     private void update() {
-        this.dataAtualizacao = ZonedDateTime.now();
+        this.atualizacao = ZonedDateTime.now();
     }
 
     @JsonGetter
     public boolean isAtivo() {
-        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
+        return getFimVigencia() == null || getFimVigencia().compareTo(ZonedDateTime.now()) > 0;
     }
 
 }

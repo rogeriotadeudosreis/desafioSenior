@@ -90,7 +90,7 @@ public class DesafioApplication implements CommandLineRunner {
 //        Client c3 = new Client(null, "CLIENTE 03", "cliente03@gmail.com");
 //        clienteRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        ClientRecord clientRecord = new ClientRecord(null, "rogerio", "rogerio@gmail.com", null, null);
+//        ClientRecord clientRecord = new ClientRecord(null, "rogerio", "rogerio@gmail.com", null, null);
 
 
 //        Item item01 = new Item(null, 1, BigDecimal.valueOf(1500), prod1, BigDecimal.valueOf(1500.0));

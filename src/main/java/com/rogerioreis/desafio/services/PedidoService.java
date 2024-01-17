@@ -88,7 +88,7 @@ public class PedidoService {
             throw new RecursoNaoEncontradoException("A lista de itens está vazia.");
         } else {
             itens.stream().forEach(item -> {
-                if (item.getProduto().getDataFim() != null)
+                if (item.getProduto().getFimVigencia() != null)
                     throw new RegraNegocioException("O produto deste item está DESATIVADO no cadastro de produtos.");
 
                 if (item.getPreco().compareTo(BigDecimal.ZERO) == 0 ||

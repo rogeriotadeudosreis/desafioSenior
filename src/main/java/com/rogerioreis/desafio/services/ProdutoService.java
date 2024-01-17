@@ -74,7 +74,7 @@ public class ProdutoService {
         if (produto.getCodigo().trim().isEmpty())
             throw new RequisicaoComErroException("O CÓDIGO do produto é obrigatório.");
 
-        if (produto.getTipoProduto().equals(null))
+        if (produto.getTipo().equals(null))
             throw new RequisicaoComErroException("O TIPO DE PRODUTO é obrigatório.");
 
         if (produto.getPreco().compareTo(BigDecimal.ZERO) < 0.0)

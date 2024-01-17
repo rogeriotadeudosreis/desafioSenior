@@ -87,7 +87,7 @@ public class Order implements Serializable {
         BigDecimal soma = BigDecimal.ZERO;
 
         for (Item item : itens) {
-            if (item.getProduto().getTipoProduto().equals(EnumTipoProduto.PRODUTO)
+            if (item.getProduto().getTipo().equals(EnumTipoProduto.PRODUTO)
                     && situacao.equals(EnumSituacaoPedido.ABERTO)) {
                 soma = soma.add(item.getSubTotal());
             }

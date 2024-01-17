@@ -71,7 +71,7 @@ public class ClienteService {
 
         Client cliente = readById(id);
 
-        cliente.setDataFim(ZonedDateTime.now());
+        cliente.setFimVigencia(ZonedDateTime.now());
 
         this.clienteRepository.save(cliente);
 
