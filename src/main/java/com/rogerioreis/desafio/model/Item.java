@@ -32,7 +32,7 @@ public class Item implements Serializable {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "itens", fetch = FetchType.LAZY)
-    private List<Order> pedidos = new ArrayList<>();
+    private List<Pedido> pedidos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "PRODUTO_FK"))

@@ -1,0 +1,1 @@
+alter table produto rename column tipo_produto to tipo ;

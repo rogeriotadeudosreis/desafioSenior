@@ -4,7 +4,7 @@ import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
-import com.rogerioreis.desafio.model.Order;
+import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.repositories.ClienteRepository;
 import com.rogerioreis.desafio.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,37 +24,37 @@ public class PedidoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Order create(Order pedido) {
+    public Pedido create(Pedido pedido) {
 
         validaPedido(pedido);
 
-        Order pedidoSalvo = this.pedidoRepository.save(pedido);
+        Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
 
         return pedidoSalvo;
 
     }
 
-    public Order readById(Long id) {
+    public Pedido readById(Long id) {
 
-        Order pedido = pedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Pedido não encontrado."));
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Pedido não encontrado."));
 
         return pedido;
 
     }
 
-    public Page<Order> page(String descricao, Pageable pageable) {
+    public Page<Pedido> page(String descricao, Pageable pageable) {
 
         String desc = descricao != null ? descricao : "";
 
         return pedidoRepository.findAllByClienteLikeIgnoreCase(desc, pageable);
     }
 
-    public Order update(Long id, Order pedidoForm) {
+    public Pedido update(Long id, Pedido pedidoForm) {
 
         pedidoForm.setId(id);
         validaPedido(pedidoForm);
 
-        Order pedidoUpdate = pedidoRepository.save(pedidoForm);
+        Pedido pedidoUpdate = pedidoRepository.save(pedidoForm);
 
         return pedidoUpdate;
 
@@ -62,13 +62,13 @@ public class PedidoService {
 
     public void delete(Long id) {
 
-        Order pedido = readById(id);
+        Pedido pedido = readById(id);
 
         this.pedidoRepository.delete(pedido);
 
     }
 
-    public void validaPedido(Order pedido) {
+    public void validaPedido(Pedido pedido) {
 
         Long clienteId = pedido.getCliente().getId();
 

@@ -21,7 +21,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Table(name = "pedido")
-public class Order implements Serializable {
+public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,13 +30,13 @@ public class Order implements Serializable {
     private Long id;
 
     @Column(name = "NUM_PEDIDO", updatable = false)
-    private String numeroPedido;
+    private String numero;
 
-    @Column(name = "DATA_INICIO", nullable = false, updatable = false)
-    private ZonedDateTime dataInicio;
+    @Column(name = "INICIO_VIGENCIA", updatable = false)
+    private ZonedDateTime inicioVigencia;
 
-    @Column(name = "DATA_FIM")
-    private ZonedDateTime dataFim;
+    @Column(name = "FIM_VIGENCIA")
+    private ZonedDateTime fimVigencia;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "CLIENTE_FK"))
@@ -49,26 +49,26 @@ public class Order implements Serializable {
     private List<Item> itens = new ArrayList<>();
 
     @Column(name = "SUBTOTAL_PEDIDO", scale = 2)
-    private BigDecimal subTotalPedido;
+    private BigDecimal subTotal;
 
     @Column(name = "DESCONTO", scale = 2)
     @Digits(integer = 9, fraction = 2)
     private BigDecimal desconto;
 
-    @Column(name = "TOTAL_PEDIDO", scale =2)
-    private BigDecimal totalPedido;
+    @Column(name = "TOTAL", scale =2)
+    private BigDecimal total;
 
     @Column(name = "SITUACAO", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-    public Order(Cliente cliente) {
+    public Pedido(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public Order(Long id, String numeroPedido, Cliente cliente, List<Item> itens, BigDecimal desconto, EnumSituacaoPedido situacao) {
+    public Pedido(Long id, String numeroPedido, Cliente cliente, List<Item> itens, BigDecimal desconto, EnumSituacaoPedido situacao) {
         this.id = id;
-        this.numeroPedido = numeroPedido;
+        this.numero = numeroPedido;
         this.cliente = cliente;
         this.itens = itens;
         this.desconto = desconto;
@@ -102,29 +102,29 @@ public class Order implements Serializable {
         return desconto;
     }
 
-    public String getNumeroPedido() {
+    public String getNumero() {
         String prefixo = "PED Nº: " + getId();
         return prefixo;
     }
 
     @JsonGetter
     public boolean isAtivo() {
-        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
+        return getFimVigencia() == null || getFimVigencia().compareTo(ZonedDateTime.now()) > 0;
     }
 
     @PrePersist
     private void init() {
-        this.dataInicio = ZonedDateTime.now();
-        this.subTotalPedido = calcularSubTotal();
+        this.inicioVigencia = ZonedDateTime.now();
+        this.subTotal = calcularSubTotal();
         this.desconto = calcularDescontoProduto();
-        this.totalPedido = getSubTotalPedido().subtract(this.desconto);
+        this.total = getSubTotal().subtract(this.desconto);
     }
 
     @PreUpdate
     private void update(){
-        this.subTotalPedido = calcularSubTotal();
+        this.subTotal = calcularSubTotal();
         this.desconto = calcularDescontoProduto();
-        this.totalPedido = getSubTotalPedido().subtract(this.desconto);
+        this.total = getSubTotal().subtract(this.desconto);
     }
 
 }
