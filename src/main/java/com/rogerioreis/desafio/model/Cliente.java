@@ -21,7 +21,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Table(name = "CLIENTE")
-public class Client implements Serializable {
+public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,7 +55,7 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "cliente")
     private List<Order> pedidoList = new ArrayList<>();
 
-    public Client(Long id, String nome, String email) {
+    public Cliente(Long id, String nome, String email) {
         this.id = id;
         this.nome = nome;
         this.email = email;

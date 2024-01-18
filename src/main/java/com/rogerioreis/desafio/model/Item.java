@@ -36,12 +36,12 @@ public class Item implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "PRODUTO_FK"))
-    private Product produto;
+    private Produto produto;
 
     @Column(name = "SUBTOTAL", scale = 2)
     private BigDecimal subTotal;
 
-    public Item(Long id, Integer quantidade, BigDecimal preco, Product produto, BigDecimal subTotal) {
+    public Item(Long id, Integer quantidade, BigDecimal preco, Produto produto, BigDecimal subTotal) {
         this.id = id;
         this.quantidade = quantidade;
         this.preco = preco;

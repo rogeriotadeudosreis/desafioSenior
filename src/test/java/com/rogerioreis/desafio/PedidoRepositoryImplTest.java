@@ -3,7 +3,7 @@ package com.rogerioreis.desafio;
 import com.rogerioreis.desafio.repositories.ClienteRepository;
 import com.rogerioreis.desafio.repositories.ItemRepository;
 import com.rogerioreis.desafio.repositories.PedidoRepository;
-import com.rogerioreis.desafio.repositories.ProdutoRepository;
+import com.rogerioreis.desafio.repositories.ProductRepository;
 import com.rogerioreis.desafio.services.PedidoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class PedidoRepositoryImplTest {
     private PedidoService pedidoService;
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProductRepository produtoRepository;
 
     @Autowired
     private ItemRepository itemRepository;

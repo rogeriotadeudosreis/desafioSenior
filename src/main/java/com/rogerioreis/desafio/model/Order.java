@@ -40,7 +40,7 @@ public class Order implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "CLIENTE_FK"))
-    private Client cliente;
+    private Cliente cliente;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "item_pedido",
@@ -62,11 +62,11 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
 
-    public Order(Client cliente) {
+    public Order(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public Order(Long id, String numeroPedido, Client cliente, List<Item> itens, BigDecimal desconto, EnumSituacaoPedido situacao) {
+    public Order(Long id, String numeroPedido, Cliente cliente, List<Item> itens, BigDecimal desconto, EnumSituacaoPedido situacao) {
         this.id = id;
         this.numeroPedido = numeroPedido;
         this.cliente = cliente;

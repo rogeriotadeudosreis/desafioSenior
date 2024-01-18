@@ -1,7 +1,7 @@
 package com.rogerioreis.desafio.controllers;
 
 import com.rogerioreis.desafio.dto.ClientResponse;
-import com.rogerioreis.desafio.model.Client;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.services.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -30,9 +30,9 @@ public class ClientController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @Operation(summary = "Cadastro de Cliente.")
-    public ResponseEntity<ClientResponse> create(@RequestBody @Valid Client client, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ClientResponse> create(@RequestBody @Valid Cliente client, UriComponentsBuilder uriBuilder) {
 
-        Client clientSave = clienteService.create(client);
+        Cliente clientSave = clienteService.create(client);
 
         ClientResponse response = new ClientResponse(clientSave.getNome(), clientSave.getEmail(), clientSave.isAtivo());
 
@@ -50,7 +50,7 @@ public class ClientController {
                                      @RequestParam(defaultValue = "0") Integer page,
                                      @RequestParam(defaultValue = "20") Integer size) {
 
-        Page<Client> listClients = clienteService.page(descricao, PageRequest.of(page, size));
+        Page<Cliente> listClients = clienteService.page(descricao, PageRequest.of(page, size));
 
         return listClients.map(client -> new ClientResponse(client.getNome(), client.getEmail(), client.isAtivo()));
 
@@ -61,7 +61,7 @@ public class ClientController {
     @Operation(summary = "Consulta de Cliente por id.")
     public ResponseEntity<ClientResponse> readById(@PathVariable Long id) {
 
-        Client clientFind = clienteService.readById(id);
+        Cliente clientFind = clienteService.readById(id);
 
         return ResponseEntity.ok(new ClientResponse(clientFind.getNome(), clientFind.getEmail(), clientFind.isAtivo()));
 
@@ -70,9 +70,9 @@ public class ClientController {
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @Operation(summary = "Atualização de Cliente.")
-    public ResponseEntity<ClientResponse> update(@PathVariable Long id, @Valid @RequestBody Client client) {
+    public ResponseEntity<ClientResponse> update(@PathVariable Long id, @Valid @RequestBody Cliente client) {
 
-        Client clientUpdate = client;
+        Cliente clientUpdate = client;
         clientUpdate.setId(id);
 
         clientUpdate = clienteService.update(clientUpdate);

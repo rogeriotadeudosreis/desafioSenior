@@ -4,8 +4,8 @@ import com.rogerioreis.desafio.exception.RecursoExistenteException;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
-import com.rogerioreis.desafio.model.Product;
-import com.rogerioreis.desafio.repositories.ProdutoRepository;
+import com.rogerioreis.desafio.model.Produto;
+import com.rogerioreis.desafio.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +18,9 @@ import java.util.Optional;
 public class ProdutoService {
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProductRepository produtoRepository;
 
-    public Product create(Product produto) {
+    public Produto create(Produto produto) {
 
         produto.setId(null);
 
@@ -30,7 +30,7 @@ public class ProdutoService {
 
     }
 
-    public Product readById(Long id) {
+    public Produto readById(Long id) {
 
         if (id == null) {
             throw new RequisicaoComErroException("Id não informato");
@@ -41,14 +41,14 @@ public class ProdutoService {
 
     }
 
-    public Page<Product> page(String descricao, Pageable pageable) {
+    public Page<Produto> page(String descricao, Pageable pageable) {
 
         String desc = descricao != null ? descricao : "";
 
         return produtoRepository.findAllByNomeLikeIgnoreCaseOrCodigoIgnoreCase(desc, pageable);
     }
 
-    public Product update(Product produto) {
+    public Produto update(Produto produto) {
 
         this.readById(produto.getId());
 
@@ -60,13 +60,13 @@ public class ProdutoService {
 
     public void delete(Long id) {
 
-        Product produto = readById(id);
+        Produto produto = readById(id);
 
         this.produtoRepository.delete(produto);
 
     }
 
-    public void validaProduto(Product produto) {
+    public void validaProduto(Produto produto) {
 
         if (produto.getNome().trim().isEmpty())
             throw new RequisicaoComErroException("O NOME do produto é obrigatório.");
@@ -86,7 +86,7 @@ public class ProdutoService {
                 throw new RecursoExistenteException("Já existe um produto cadastrado com o código [ " + produto.getCodigo() + " ] informado.");
             }
         } else {
-            Optional<Product> prodConsultado = this.produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo());
+            Optional<Produto> prodConsultado = this.produtoRepository.findProdutoByCodigoIgnoreCase(produto.getCodigo());
 
             prodConsultado.ifPresent(produto1 -> {
                 if (!produto1.getId().equals(produto.getId())) {

@@ -3,9 +3,9 @@ package com.rogerioreis.desafio.services;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.model.Item;
-import com.rogerioreis.desafio.model.Product;
+import com.rogerioreis.desafio.model.Produto;
 import com.rogerioreis.desafio.repositories.ItemRepository;
-import com.rogerioreis.desafio.repositories.ProdutoRepository;
+import com.rogerioreis.desafio.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,7 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProductRepository produtoRepository;
 
 
     public Item create(Item item) {
@@ -66,7 +66,7 @@ public class ItemService {
 
     public void validaItemPedido(Item item) {
 
-        Product produtoConsultado = this.produtoRepository
+        Produto produtoConsultado = this.produtoRepository
                 .findById(item.getProduto().getId()).orElseThrow(() ->
                         new RecursoNaoEncontradoException("Produto de id [" + item.getProduto().getId() + "] não encontrado.")
                 );

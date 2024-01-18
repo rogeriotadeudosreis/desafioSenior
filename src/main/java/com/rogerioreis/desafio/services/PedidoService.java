@@ -2,7 +2,7 @@ package com.rogerioreis.desafio.services;
 
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
-import com.rogerioreis.desafio.model.Client;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Order;
 import com.rogerioreis.desafio.repositories.ClienteRepository;
@@ -72,7 +72,7 @@ public class PedidoService {
 
         Long clienteId = pedido.getCliente().getId();
 
-        Client cliente = clienteRepository.findById(clienteId).orElseThrow(() ->
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() ->
                 new RecursoNaoEncontradoException("O cliente com ID [" + clienteId + "] não consta no sistema.")
         );
 

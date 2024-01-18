@@ -4,7 +4,7 @@ import com.rogerioreis.desafio.dto.ClientResponse;
 import com.rogerioreis.desafio.exception.RecursoExistenteException;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RequisicaoComErroException;
-import com.rogerioreis.desafio.model.Client;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.repositories.ClienteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,25 +27,25 @@ public class ClienteService {
     private ModelMapper modelMapper;
 
 
-    public Client create(Client cliente) {
+    public Cliente create(Cliente cliente) {
 
         cliente.setId(null);
 
         this.validaCliente(cliente);
 
-        Client clienteSalvo = this.clienteRepository.save(cliente);
+        Cliente clienteSalvo = this.clienteRepository.save(cliente);
 
         return clienteSalvo;
 
     }
 
-    public Client readById(Long id) {
+    public Cliente readById(Long id) {
 
         return clienteRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Cliente com [" + id + "] não encontrado."));
 
     }
 
-    public Page<Client> page(String descricao, Pageable pageable) {
+    public Page<Cliente> page(String descricao, Pageable pageable) {
 
         String desc = descricao != null ? descricao : "";
 
@@ -53,11 +53,11 @@ public class ClienteService {
     }
 
     public List<ClientResponse> list() {
-        List<Client> list = clienteRepository.findAll();
+        List<Cliente> list = clienteRepository.findAll();
         return list.stream().map(entity -> this.modelMapper.map(entity, ClientResponse.class)).collect(Collectors.toList());
     }
 
-    public Client update(Client clienteForm) {
+    public Cliente update(Cliente clienteForm) {
 
         this.readById(clienteForm.getId());
 
@@ -69,7 +69,7 @@ public class ClienteService {
 
     public void delete(Long id) {
 
-        Client cliente = readById(id);
+        Cliente cliente = readById(id);
 
         cliente.setFimVigencia(ZonedDateTime.now());
 
@@ -78,7 +78,7 @@ public class ClienteService {
     }
 
 //    Validando o cadastro de cliente
-    public void validaCliente(Client cliente) {
+    public void validaCliente(Cliente cliente) {
 
         if (cliente.getNome().trim().isEmpty())
             throw new RequisicaoComErroException("O NOME do cliente é obrigatório.");
@@ -92,7 +92,7 @@ public class ClienteService {
                 throw new RecursoExistenteException("Já existe um cliente cadastrado com o código [ " + cliente.getEmail() + " ] informado.");
             }
         } else {
-            Optional<Client> cliConsultado = this.clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail());
+            Optional<Cliente> cliConsultado = this.clienteRepository.findClienteByEmailIgnoreCase(cliente.getEmail());
 
             cliConsultado.ifPresent(cliente1 -> {
                 if (!cliente1.getId().equals(cliente.getId())) {

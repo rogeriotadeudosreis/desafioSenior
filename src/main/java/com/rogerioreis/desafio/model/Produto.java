@@ -16,7 +16,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity(name = "PRODUTO")
-public class Product implements Serializable {
+public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
