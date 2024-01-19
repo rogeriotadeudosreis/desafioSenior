@@ -35,7 +35,7 @@ public class Item implements Serializable {
     private List<Pedido> pedidos = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "PRODUTO_FK"))
+    @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "fk_produto_id"))
     private Produto produto;
 
     @Column(name = "SUBTOTAL", scale = 2)
