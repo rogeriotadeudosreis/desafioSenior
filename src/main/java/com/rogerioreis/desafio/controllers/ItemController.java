@@ -1,10 +1,12 @@
 package com.rogerioreis.desafio.controllers;
 
 
+import com.rogerioreis.desafio.dto.ItemResponse;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.services.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import jakarta.validation.Valid;
 
 import java.net.URI;
 
@@ -33,16 +33,20 @@ public class ItemController {
     @Transactional
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Cadastro de Itens de Pedido.")
-    public ResponseEntity<Item> create(@RequestBody @Valid Item itemForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ItemResponse> create(@RequestBody @Valid Item itemForm, UriComponentsBuilder uriBuilder) {
 
         Item item = itemForm;
         item.setId(null);
 
         Item itemSave = itemService.create(item);
 
+        ItemResponse response = new ItemResponse(item.getId(), item.getQuantidade(), itemSave.getPreco(),
+                itemSave.getProduto().getId(), itemSave.getProduto().getNome(), item.getProduto().getCodigo(),
+                itemSave.getProduto().getTipo(), itemSave.getProduto().isAtivo(), itemSave.getSubTotal());
+
         URI uri = uriBuilder.path("/itemPedidos/{id}").buildAndExpand(item.getId()).toUri();
 
-        return ResponseEntity.ok(itemSave);
+        return ResponseEntity.created(uri).body(response);
 
     }
 
@@ -67,22 +71,30 @@ public class ItemController {
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @Operation(summary = "Consulta de Itens de Pedido pelo Id.")
-    public ResponseEntity<Item> readById(@PathVariable Long id) {
+    public ResponseEntity<ItemResponse> readById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(this.modelMapper.map(itemService.readById(id), Item.class));
+        Item item = this.itemService.readById(id);
+
+        ItemResponse response = new ItemResponse(item.getId(), item.getQuantidade(), item.getPreco(),
+                item.getProduto().getId(), item.getProduto().getNome(), item.getProduto().getCodigo(),
+                item.getProduto().getTipo(), item.getProduto().isAtivo(), item.getSubTotal());
+
+        return ResponseEntity.ok().body(response);
 
     }
 
     @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     @Operation(summary = "Atualização de Itens de Pedido.")
-    public ResponseEntity<Item> update(@PathVariable Long id, @Valid @RequestBody Item itemFormDto) {
+    public ResponseEntity<ItemResponse> update(@PathVariable Long id, @Valid @RequestBody Item itemFormDto) {
 
-        Item item = this.modelMapper.map(itemFormDto, Item.class);
+        Item item = itemService.update(id, itemFormDto);
 
-        Item dto = this.modelMapper.map(itemService.update(id, item), Item.class);
+        ItemResponse response = new ItemResponse(item.getId(), item.getQuantidade(), item.getPreco(),
+                item.getProduto().getId(), item.getProduto().getNome(), item.getProduto().getCodigo(),
+                item.getProduto().getTipo(), item.getProduto().isAtivo(), item.getSubTotal());
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

@@ -19,7 +19,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/clientes")
-public class ClientController {
+public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
