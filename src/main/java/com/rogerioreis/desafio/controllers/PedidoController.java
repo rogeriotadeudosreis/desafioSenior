@@ -34,14 +34,14 @@ public class PedidoController {
     @Transactional
     @ApiResponse(responseCode = "201", description = "Pedido criado.")
     @Operation(summary = "Cadastro de Pedido.")
-    public ResponseEntity<Pedido> create(@RequestBody @Valid Pedido pedido, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Pedido> create(@RequestBody @Valid Pedido pedidoForm, UriComponentsBuilder uriBuilder) {
 
-        Pedido pedidoSalve = pedido;
+        Pedido pedidoSalve = pedidoForm;
 
         pedidoSalve.setId(null);
 
         Pedido salvo = pedidoService.create(pedidoSalve);
-        System.out.println(salvo);
+
         URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(salvo.getId()).toUri();
 
         return ResponseEntity.created(uri).body(salvo);

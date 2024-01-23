@@ -28,6 +28,11 @@ public class PedidoService {
 
         validaPedido(pedido);
 
+        Long lastId = pedidoRepository.findTopByOrderByIdDesc();
+        Long nextNumeroPedido = lastId + 1;
+
+        pedido.setNumero("PED Nº: " + nextNumeroPedido);
+
         Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
 
         return pedidoSalvo;

@@ -16,4 +16,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             + "or upper(ped.numero) like upper(concat('%',:descricao,'%') ) ")
     Page<Pedido> findAllByClienteLikeIgnoreCase(@Param("descricao") String descricao,
                                                 @Param("pageable") Pageable pageable);
+
+    @Query(value = "SELECT MAX(p.id) FROM Pedido p")
+    Long findTopByOrderByIdDesc(); // Encontre o último ID ordenado descendentemente
+
 }

@@ -90,7 +90,6 @@ public class Pedido implements Serializable {
             }
         }
         BigDecimal desconto = this.desconto.multiply(soma).divide(new BigDecimal("100"));
-//        BigDecimal desconto = this.desconto * soma / 100;
 
         if (desconto.compareTo(soma) == 1) {
             throw new RegraNegocioException("O valor do desconto não pode ser maior do o total de produtos.");
