@@ -29,7 +29,7 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NUMERO", updatable = false)
+    @Column(name = "NUMERO", updatable = false, unique = true)
     private String numero;
 
     @Column(name = "INICIO_VIGENCIA", updatable = false)
@@ -42,10 +42,7 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "FK_CLIENTE_ID"))
     private Cliente cliente;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinTable(name = "item_pedido",
-            joinColumns = @JoinColumn(name = "pedido_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @OneToMany(mappedBy = "pedido")
     private List<Item> itens = new ArrayList<>();
 
     @Column(name = "SUBTOTAL", scale = 2)

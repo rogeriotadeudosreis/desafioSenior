@@ -75,9 +75,11 @@ public class ItemController {
 
         Item item = this.itemService.readById(id);
 
-        ItemResponse response = new ItemResponse(item.getId(), item.getQuantidade(), item.getPreco(),
-                item.getProduto().getId(), item.getProduto().getNome(), item.getProduto().getCodigo(),
-                item.getProduto().getTipo(), item.getProduto().isAtivo(), item.getSubTotal());
+        ItemResponse response = this.modelMapper.map(item,ItemResponse.class);
+
+//        ItemResponse response = new ItemResponse(item.getId(), item.getQuantidade(), item.getPreco(),
+//                item.getProduto().getId(), item.getProduto().getNome(), item.getProduto().getCodigo(),
+//                item.getProduto().getTipo(), item.getProduto().isAtivo(), item.getSubTotal());
 
         return ResponseEntity.ok().body(response);
 

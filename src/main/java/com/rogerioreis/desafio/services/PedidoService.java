@@ -82,8 +82,6 @@ public class PedidoService {
 
         List<Item> itens = pedido.getItens();
 
-
-
         if (itens.size() == 0) {
             throw new RecursoNaoEncontradoException("A lista de itens está vazia.");
         } else {
@@ -96,7 +94,6 @@ public class PedidoService {
                     throw new RegraNegocioException("O PREÇO deste item não pode ser zero(0).");
             });
         }
-
     }
 }
 

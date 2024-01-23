@@ -36,17 +36,15 @@ public class PedidoController {
     @Operation(summary = "Cadastro de Pedido.")
     public ResponseEntity<Pedido> create(@RequestBody @Valid Pedido pedido, UriComponentsBuilder uriBuilder) {
 
-//        Pedido pedido = this.modelMapper.map(pedido, Pedido.class);
-
-        Pedido pedidoSalve = new Pedido();
+        Pedido pedidoSalve = pedido;
 
         pedidoSalve.setId(null);
 
-        pedidoService.create(pedidoSalve);
+        Pedido salvo = pedidoService.create(pedidoSalve);
+        System.out.println(salvo);
+        URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(salvo.getId()).toUri();
 
-        URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(pedido.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(pedidoSalve);
+        return ResponseEntity.created(uri).body(salvo);
 
     }
 

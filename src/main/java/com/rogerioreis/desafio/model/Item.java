@@ -31,8 +31,9 @@ public class Item implements Serializable {
     private BigDecimal preco;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "itens", fetch = FetchType.LAZY)
-    private List<Pedido> pedidos = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "pedido_id", foreignKey = @ForeignKey(name = "fk_pedido_id"))
+    private Pedido pedido;
 
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "fk_produto_id"))
