@@ -25,15 +25,19 @@ public class ItemService {
 
     public Item create(Item item) {
 
-        validaItemPedido(item);
+        Item itemSalvar = item;
 
-        return this.itemRepository.save(item);
+        itemSalvar.setId(null);
+
+        validaItemPedido(itemSalvar);
+
+        return this.itemRepository.save(itemSalvar);
 
     }
 
     public Item readById(Long id) {
 
-        Item item = itemRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Item não encontrado."));
+        Item item = itemRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Item: [" + id +  "] não encontrado."));
 
         return item;
 

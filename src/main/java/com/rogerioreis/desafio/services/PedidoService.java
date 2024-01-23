@@ -24,6 +24,9 @@ public class PedidoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ItemService itemService;
+
     public Pedido create(Pedido pedido) {
 
         validaPedido(pedido);
@@ -34,6 +37,11 @@ public class PedidoService {
         pedido.setNumero("PED Nº: " + nextNumeroPedido);
 
         Pedido pedidoSalvo = this.pedidoRepository.save(pedido);
+
+        pedidoSalvo.getItens().forEach(item -> {
+            item.setPedido(pedidoSalvo);
+            itemService.create(item);
+        });
 
         return pedidoSalvo;
 

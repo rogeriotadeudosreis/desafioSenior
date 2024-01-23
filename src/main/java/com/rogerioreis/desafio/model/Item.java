@@ -32,7 +32,7 @@ public class Item implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "pedido_id", foreignKey = @ForeignKey(name = "fk_pedido_id"))
+    @JoinColumn(name = "pedido_id", unique = true,foreignKey = @ForeignKey(name = "fk_pedido_id"))
     private Pedido pedido;
 
     @ManyToOne

@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.controllers;
 
 
 import com.rogerioreis.desafio.model.Pedido;
+import com.rogerioreis.desafio.services.ItemService;
 import com.rogerioreis.desafio.services.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
