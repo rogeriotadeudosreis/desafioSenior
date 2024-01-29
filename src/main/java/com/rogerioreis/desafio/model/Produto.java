@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.rogerioreis.desafio.enuns.EnumCategoria;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -26,33 +27,42 @@ public class Produto implements Serializable {
     private Long id;
 
     @Column(name = "NOME", length = 200, nullable = false)
-    @Schema(description= "Descrição do produto")
+    @Schema(description = "Descrição do produto")
     private String nome;
 
     @Column(name = "CODIGO", length = 200, nullable = false, unique = true)
-    @Schema(description= "Código único do produto")
+    @Schema(description = "Código único do produto")
     private String codigo;
 
     @Column(name = "PRECO", nullable = false, scale = 2)
-    @Schema(description= "Preço do produto")
+    @Schema(description = "Preço do produto")
     private BigDecimal preco;
 
     @Column(name = "INICIO_VIGENCIA", nullable = false, updatable = false)
-    @Schema(description= "Data de cadastro do produto")
+    @Schema(description = "Data de cadastro do produto")
     private ZonedDateTime inicioVigencia;
 
     @Column(name = "fIM_VIGENCIA")
-    @Schema(description= "Data para desativar o produto")
+    @Schema(description = "Data para desativar o produto")
     private ZonedDateTime fimVigencia;
 
     @Column(name = "ATUALIZACAO")
-    @Schema(description= "Data de atualização do produto")
+    @Schema(description = "Data de atualização do produto")
     private ZonedDateTime atualizacao;
 
     @Column(name = "TIPO", length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
-    @Schema(description= "Identifica o tipo do produto, se produto ou serviço")
+    @Schema(description = "Identifica o tipo do produto, se produto ou serviço")
     private EnumTipoProduto tipo;
+
+    @Column(name = "estoque")
+    @Schema(description = "Informa a quantidade de itens deste produto existe no estoque da empresa.")
+    private Integer estoque;
+
+    @Column(name = "CATEGORIA")
+    @Enumerated(EnumType.STRING)
+    @Schema(description = "Informa a categoria do produto.")
+    private EnumCategoria categoria;
 
     @PrePersist
     private void init() {
