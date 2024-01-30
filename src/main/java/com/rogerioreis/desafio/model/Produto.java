@@ -27,16 +27,24 @@ public class Produto implements Serializable {
     private Long id;
 
     @Column(name = "NOME", length = 200, nullable = false)
-    @Schema(description = "Descrição do produto")
+    @Schema(description = "Nome do produto")
     private String nome;
+
+    @Column(name = "DESCRICAO", length = 200, nullable = false)
+    @Schema(description = "Descrição do produto")
+    private String descricao;
 
     @Column(name = "CODIGO", length = 200, nullable = false, unique = true)
     @Schema(description = "Código único do produto")
     private String codigo;
 
-    @Column(name = "PRECO", nullable = false, scale = 2)
-    @Schema(description = "Preço do produto")
-    private BigDecimal preco;
+    @Column(name = "PRECO_CUSTO", nullable = false, scale = 2)
+    @Schema(description = "Preço de custo do produto")
+    private BigDecimal precoCusto;
+
+    @Column(name = "PRECO_VENDA", nullable = false, scale = 2)
+    @Schema(description = "Preço de venda do produto")
+    private BigDecimal precoVenda;
 
     @Column(name = "INICIO_VIGENCIA", nullable = false, updatable = false)
     @Schema(description = "Data de cadastro do produto")
@@ -76,6 +84,6 @@ public class Produto implements Serializable {
 
     @JsonGetter
     public boolean isAtivo() {
-        return getPreco().compareTo(BigDecimal.ZERO) > 0 && (getFimVigencia() == null || getFimVigencia().compareTo(ZonedDateTime.now()) > 0);
+        return getPrecoCusto().compareTo(BigDecimal.ZERO) > 0 && (getFimVigencia() == null || getFimVigencia().compareTo(ZonedDateTime.now()) > 0);
     }
 }
