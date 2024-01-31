@@ -26,13 +26,13 @@ public class Email implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", length = 100)
     @Schema(description = "Descrição do e-mail.")
     private String email;
 
     @Getter
     @Setter
-    @Column(name = "TIPO")
+    @Column(name = "TIPO", length = 15)
     @Schema(description = "Tipo de e-mail.")
     private EnumTipoEmail tipo;
 

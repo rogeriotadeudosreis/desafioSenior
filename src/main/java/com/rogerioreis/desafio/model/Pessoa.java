@@ -71,7 +71,7 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "CONTATO")
+    @PrimaryKeyJoinColumn(name = "CONTATO")
     @Schema(name = "Contato da pessoa.")
     @OneToOne(mappedBy = "pessoa", cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_CONTATO", referencedColumnName = "ID",

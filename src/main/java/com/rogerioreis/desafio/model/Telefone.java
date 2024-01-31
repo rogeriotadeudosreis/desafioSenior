@@ -27,25 +27,25 @@ public class Telefone implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "TELEFONE")
+    @Column(name = "TELEFONE", length = 12)
     @Schema(description = "Informa o telefone de contato.")
     private String telefone;
 
     @Getter
     @Setter
-    @Column(name = "DDD")
+    @Column(name = "DDD", length = 3)
     @Schema(description = "Informa o DDD")
     private String DDD;
 
     @Getter
     @Setter
-    @Column(name = "DDI")
+    @Column(name = "DDI", length = 3)
     @Schema(description = "Informa o DDI.")
     private String DDI;
 
     @Getter
     @Setter
-    @Column(name = "TIPO_TELEFONE")
+    @Column(name = "TIPO", length = 20)
     @Schema(description = "Informa o tipo de telefone.")
     private EnumTipoTelefone tipoTelefone;
 

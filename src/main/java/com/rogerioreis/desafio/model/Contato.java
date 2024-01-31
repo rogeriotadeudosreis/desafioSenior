@@ -11,9 +11,8 @@ import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity(name = "CONTATO")
 @Schema(name = "Contato", description = "Cadastro de um contato.")
 public class Contato implements Serializable {
@@ -66,6 +65,9 @@ public class Contato implements Serializable {
     @Column(name = "telefone")
     @Schema(name = "Lista de telefone da pessoa.")
     private Set<Telefone> telefones = new HashSet<>();
+
+    public Contato() {
+    }
 
     @PrePersist
     private void prePersist() {
