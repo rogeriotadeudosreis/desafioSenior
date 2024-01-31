@@ -4,17 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum EnumSituacaoPedido {
+public enum EnumTipoEmail {
 
-    ABERTO("Aberto"),
-
-    FECHADO("Fechado");
+    PRINCIPAL("Principal"),
+    SECUNDARIO("Secundario");
 
     @Getter
     private final String descricao;
 
     @Override
     public String toString() {
-        return this.descricao;
+        return descricao;
     }
 }

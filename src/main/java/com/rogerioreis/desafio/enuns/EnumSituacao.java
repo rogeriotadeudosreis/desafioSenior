@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum EnumSituacao {
 
-    ATIVO("ativo"),
-    INATIVO("inativo");
+    ATIVO("Ativo"),
+    INATIVO("Inativo");
 
     private final String descricao;
 

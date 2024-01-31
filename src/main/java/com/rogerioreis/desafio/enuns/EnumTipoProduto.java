@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EnumTipoProduto {
 
-    PRODUTO("PRODUTO"),
+    PRODUTO("Produto"),
 
-    SERVICO("SERVIÇO");
+    SERVICO("Serviço");
 
     @Getter
     private final String descricao;

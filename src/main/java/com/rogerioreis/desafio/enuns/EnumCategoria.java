@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum EnumCategoria {
-    ELETRONICO("notebook, teclado, mouse, dispositivos de áudio"),
-    AUTOMOTIVO("peças, acessórios"),
-    LITERATURA("livros, documentários, biografias");
+    ELETRONICO("Eletronico"),
+    AUTOMOTIVO("Automotivo"),
+    LITERATURA("Literatura");
 
     @Getter
     private final String descricao;
