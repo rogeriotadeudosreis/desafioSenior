@@ -1,8 +1,8 @@
 package com.rogerioreis.desafio.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enuns.EnumCategoria;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;

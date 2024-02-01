@@ -28,12 +28,10 @@ public class Contato implements Serializable {
 
     @Getter
     @Setter
-    @JsonIgnore
-    @JsonIgnoreProperties({"pessoa"})
-    @OneToOne(optional = false)
-    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID", nullable = false,
-            foreignKey = @ForeignKey(name = "FK_PESSOA"))
     @Schema(name = "Pessoa")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "FK_PESSOA"))
     private Pessoa pessoa;
 
     @Getter
@@ -42,29 +40,29 @@ public class Contato implements Serializable {
     @Schema(name = "Data do cadastro do contato da pessoa.")
     private ZonedDateTime dataCadastro;
 
-    @Getter
-    @Setter
-    @Column(name = "FIM_VIGENCIA")
-    @Schema(name = "Data fim da vigência do cadastro do contato da pessoa.")
-    private ZonedDateTime fimVigencia;
-
-    @Getter
-    @JsonIgnore
-    @Builder.Default
-    @CollectionTable
-    @OneToMany(mappedBy = "contato")
-    @Column(name = "email")
-    @Schema(name = "Lista de emails da pessoa.")
-    private Set<Email> emails = new HashSet<>();
-
-    @Getter
-    @JsonIgnore
-    @Builder.Default
-    @CollectionTable
-    @OneToMany(mappedBy = "contato")
-    @Column(name = "telefone")
-    @Schema(name = "Lista de telefone da pessoa.")
-    private Set<Telefone> telefones = new HashSet<>();
+//    @Getter
+//    @Setter
+//    @Column(name = "FIM_VIGENCIA")
+//    @Schema(name = "Data fim da vigência do cadastro do contato da pessoa.")
+//    private ZonedDateTime fimVigencia;
+//
+//    @Getter
+//    @JsonIgnore
+//    @Builder.Default
+//    @CollectionTable
+//    @OneToMany(mappedBy = "contato")
+//    @Column(name = "email")
+//    @Schema(name = "Lista de emails da pessoa.")
+//    private Set<Email> emails = new HashSet<>();
+//
+//    @Getter
+//    @JsonIgnore
+//    @Builder.Default
+//    @CollectionTable
+//    @OneToMany(mappedBy = "contato")
+//    @Column(name = "telefone")
+//    @Schema(name = "Lista de telefone da pessoa.")
+//    private Set<Telefone> telefones = new HashSet<>();
 
     public Contato() {
     }

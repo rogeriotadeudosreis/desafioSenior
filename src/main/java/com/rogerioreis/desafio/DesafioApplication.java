@@ -1,11 +1,10 @@
 package com.rogerioreis.desafio;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DesafioApplication{
+public class DesafioApplication {
 
     public static void main(String[] args) {
 

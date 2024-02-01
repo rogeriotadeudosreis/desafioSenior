@@ -1,7 +1,7 @@
 package com.rogerioreis.desafio;
 
-import com.rogerioreis.desafio.repositories.ClienteRepository;
 import com.rogerioreis.desafio.repositories.ItemRepository;
+import com.rogerioreis.desafio.repositories.ClienteRepository;
 import com.rogerioreis.desafio.repositories.PedidoRepository;
 import com.rogerioreis.desafio.repositories.ProductRepository;
 import com.rogerioreis.desafio.services.PedidoService;

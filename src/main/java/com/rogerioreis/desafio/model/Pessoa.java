@@ -1,7 +1,6 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rogerioreis.desafio.enuns.EnumSituacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -29,19 +28,15 @@ public class Pessoa implements Serializable {
     @Getter
     @Setter
     @JsonIgnore
-    @JsonIgnoreProperties({"pessoa"})
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_PESSOA_FISICA", foreignKey = @ForeignKey(name = "FK_PESSOA_FISICA"))
-    @Schema(description = "Pessoa física")
+    @Schema(description = "Pessoa Física.")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaFisica pessoaFisica;
 
     @Getter
     @Setter
     @JsonIgnore
-    @JsonIgnoreProperties({"pessoa"})
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_PESSOA_JURIDICA", foreignKey = @ForeignKey(name = "FK_PESSOA_JURIDICA"))
-    @Schema(description = "Pessoa jurídica")
+    @Schema(description = "Pessoa Jurídica.")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaJuridica pessoaJuridica;
 
     @Getter
@@ -71,18 +66,16 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
-    @PrimaryKeyJoinColumn(name = "CONTATO")
+    @JsonIgnore
     @Schema(name = "Contato da pessoa.")
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "ID_CONTATO", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "FK_CONTATO"))
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Contato contato;
 
     @PrePersist
     private void prePersist() {
         this.contato = new Contato();
+        this.contato.setPessoa(this);
         this.dataCadastro = ZonedDateTime.now();
-        this.dataAtualizacao = ZonedDateTime.now();
         this.situacao = EnumSituacao.ATIVO;
     }
 

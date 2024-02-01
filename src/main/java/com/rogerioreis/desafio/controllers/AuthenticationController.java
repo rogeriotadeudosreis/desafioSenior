@@ -1,11 +1,11 @@
 package com.rogerioreis.desafio.controllers;
 
 import com.rogerioreis.desafio.infra.security.TokenService;
-import com.rogerioreis.desafio.repositories.UserRepository;
 import com.rogerioreis.desafio.user.AuthenticationDto;
 import com.rogerioreis.desafio.user.LoginResponseDTO;
 import com.rogerioreis.desafio.user.RegisterDto;
 import com.rogerioreis.desafio.user.User;
+import com.rogerioreis.desafio.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

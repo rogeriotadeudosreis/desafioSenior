@@ -1,9 +1,9 @@
 package com.rogerioreis.desafio.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
 import com.rogerioreis.desafio.enuns.EnumTipoProduto;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
 import lombok.*;
 

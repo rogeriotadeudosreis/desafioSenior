@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@RestController
+@Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     @Query(value = "select cli from Cliente cli where upper(cli.nome) like upper(concat('%',:descricao,'%'))"
