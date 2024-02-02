@@ -28,29 +28,29 @@ public class PessoaJuridica implements Serializable {
     @Schema(description = "Informa a razão social da empresa.")
     private String razaoSocial;
 
-//    @Getter
-//    @Setter
-//    @Column(name = "NOME_FANTASIA", length = 200)
-//    @Schema(description = "Informa o nome fantasia da empresa.")
-//    private String nomeFantasia;
-//
-//    @Getter
-//    @Setter
-//    @Column(name = "CNPJ", length = 14, nullable = false)
-//    @Schema(description = "Informa o cnpj da empresa.")
-//    private String cnpj;
-//
-//    @Getter
-//    @Setter
-//    @Column(name = "INSCRICAO_ESTADUAL", length = 30)
-//    @Schema(description = "Informa a inscrição estdual da empresa.")
-//    private String inscricaoEstadual;
-//
-//    @Getter
-//    @Setter
-//    @Column(name = "INSCRICAO_MUNICIPAL", length = 30)
-//    @Schema(description = "Informa da inscrição municipal da empresa.")
-//    private String inscricaoMunicipal;
+    @Getter
+    @Setter
+    @Column(name = "NOME_FANTASIA", length = 200)
+    @Schema(description = "Informa o nome fantasia da empresa.")
+    private String nomeFantasia;
+
+    @Getter
+    @Setter
+    @Column(name = "CNPJ", length = 14, nullable = false)
+    @Schema(description = "Informa o cnpj da empresa.")
+    private String cnpj;
+
+    @Getter
+    @Setter
+    @Column(name = "INSCRICAO_ESTADUAL", length = 30)
+    @Schema(description = "Informa a inscrição estdual da empresa.")
+    private String inscricaoEstadual;
+
+    @Getter
+    @Setter
+    @Column(name = "INSCRICAO_MUNICIPAL", length = 30)
+    @Schema(description = "Informa da inscrição municipal da empresa.")
+    private String inscricaoMunicipal;
 
     @Getter
     @Setter
@@ -65,22 +65,21 @@ public class PessoaJuridica implements Serializable {
     @Schema(description = "Data de cadastro.")
     private ZonedDateTime dataCadastro;
 
-//    @Getter
-//    @Setter
-//    @Column(name = "DATA_ATUALIZACAO")
-//    @Schema(name = "Data de atualização.")
-//    private ZonedDateTime dataAtualizacao;
+    @Getter
+    @Setter
+    @Column(name = "DATA_ATUALIZACAO")
+    @Schema(name = "Data de atualização.")
+    private ZonedDateTime dataAtualizacao;
 
     @PrePersist
     private void prePersist() {
         this.dataCadastro = ZonedDateTime.now();
-//        this.dataAtualizacao = ZonedDateTime.now();
     }
 
-//    @PreUpdate
-//    private void updatePersist() {
-//        this.dataAtualizacao = ZonedDateTime.now();
-//    }
+    @PreUpdate
+    private void updatePersist() {
+        this.dataAtualizacao = ZonedDateTime.now();
+    }
 
 
 }
