@@ -35,8 +35,8 @@ public class PessoaFisicaService {
         Set<Email> emails = pessoaSalvar.getContato().getEmails();
         Set<Telefone> telefones = pessoaSalvar.getContato().getTelefones();
 
-        salvarEmails(pessoaSalvar, emails);
-        salvarTelefones(pessoaSalvar, telefones);
+        createEmail(pessoaSalvar, emails);
+        createTelefone(pessoaSalvar, telefones);
 
         return pessoaSalvar;
     }
@@ -46,7 +46,7 @@ public class PessoaFisicaService {
                 orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
     }
 
-    private void salvarEmails(PessoaFisica pessoaSalvar, Set<Email> emails) {
+    private void createEmail(PessoaFisica pessoaSalvar, Set<Email> emails) {
         if (emails != null && !emails.isEmpty()) {
             for (Email email : emails) {
                 if (StringUtils.isNotBlank(email.getEmail())) {
@@ -62,13 +62,13 @@ public class PessoaFisicaService {
         }
     }
 
-    private void salvarTelefones(PessoaFisica pessoaSalvar, Set<Telefone> telefones) {
+    private void createTelefone(PessoaFisica pessoaSalvar, Set<Telefone> telefones) {
         if (telefones != null && !telefones.isEmpty()) {
             for (Telefone telefone : telefones) {
                 if (StringUtils.isNotBlank(telefone.getTelefone())) {
                     Telefone telefoneSalvar = new Telefone(null, telefone.getTelefone(), telefone.getDdd(),
                             telefone.getDdi(), telefone.getTipoTelefone(), pessoaSalvar.getPessoa().getContato(),
-                            telefone.getDataCadastro(), telefone.getFimVigencia(), telefone.getDataAtualizacao());
+                            null , null, null );
                     telefoneService.create(telefoneSalvar);
                 } else {
                     throw new RegraNegocioException("É necessário informar pelo menos 01(um) telefone válido.");

@@ -71,6 +71,23 @@ public class PessoaJuridica implements Serializable {
     @Schema(name = "Data de atualização.")
     private ZonedDateTime dataAtualizacao;
 
+    @Getter
+    @Setter
+    @Transient
+    private Contato contato;
+
+    public PessoaJuridica(PessoaJuridica juridica) {
+        this.razaoSocial = juridica.getRazaoSocial();
+        this.nomeFantasia = juridica.getNomeFantasia();
+        this.cnpj = juridica.getCnpj();
+        this.inscricaoEstadual = juridica.getInscricaoEstadual();
+        this.inscricaoMunicipal = juridica.getInscricaoMunicipal();
+        this.pessoa = juridica.getPessoa();
+        this.dataCadastro = juridica.getDataCadastro();
+        this.dataAtualizacao = juridica.getDataAtualizacao();
+        this.contato = juridica.getContato();
+    }
+
     @PrePersist
     private void prePersist() {
         this.dataCadastro = ZonedDateTime.now();
