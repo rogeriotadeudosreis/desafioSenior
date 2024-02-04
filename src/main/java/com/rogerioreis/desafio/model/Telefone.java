@@ -52,7 +52,7 @@ public class Telefone implements Serializable {
     @Getter
     @Setter
     @ManyToOne(optional = false)
-    @JoinColumn(name = "ID_CONTATO", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONTATO_TELEFONE"))
+    @JoinColumn(name = "ID_CONTATO", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONTATO"))
     @Schema(description = "contato")
     private Contato contato;
 

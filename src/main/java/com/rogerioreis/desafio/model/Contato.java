@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -45,12 +47,13 @@ public class Contato implements Serializable {
     @Column(name = "FIM_VIGENCIA")
     @Schema(name = "Data fim da vigência do cadastro do contato da pessoa.")
     private ZonedDateTime fimVigencia;
-//
+    //
     @Getter
-    @JsonIgnore
+    @Setter
+//    @JsonIgnore
     @Builder.Default
     @CollectionTable
-    @OneToMany(mappedBy = "contato")
+    @OneToMany(mappedBy = "contato", fetch = FetchType.EAGER)
     @Column(name = "email")
     @Schema(name = "Lista de emails da pessoa.")
     private Set<Email> emails = new HashSet<>();

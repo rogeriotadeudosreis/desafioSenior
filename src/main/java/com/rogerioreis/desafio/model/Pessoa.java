@@ -9,9 +9,9 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"pessoaFisica","pessoaJuridica","contato"})
 @Entity(name = "PESSOA")
 @Schema(name = "Pessoa", description = "Cadastro de pessoa.")
 public class Pessoa implements Serializable {

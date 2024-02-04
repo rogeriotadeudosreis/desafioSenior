@@ -15,12 +15,12 @@ public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Schema(name = "pessoa", description = "Cadastro de pessoa.")
-    public ResponseEntity<Pessoa> create(@RequestBody Pessoa pessoa) {
-
-        Pessoa pessoaSalva = pessoaService.create(pessoa);
-
-        return ResponseEntity.ok(pessoaSalva);
-    }
+//    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @Schema(name = "pessoa", description = "Cadastro de pessoa.")
+//    public ResponseEntity<Pessoa> create(@RequestBody Pessoa pessoa) {
+//
+//        Pessoa pessoaSalva = pessoaService.create(pessoa);
+//
+//        return ResponseEntity.ok(pessoaSalva);
+//    }
 }

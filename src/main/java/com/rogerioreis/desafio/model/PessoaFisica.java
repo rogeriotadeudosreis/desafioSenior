@@ -9,9 +9,9 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"pessoa"})
 @Entity(name = "PESSOA_FISICA")
 @Schema(name = "Pessoa física", description = "Cadastro de uma pessoa física.")
 public class PessoaFisica implements Serializable {
@@ -39,13 +39,13 @@ public class PessoaFisica implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "CPF", length = 11, nullable = false, unique = true)
+    @Column(name = "CPF", length = 11, nullable = false, unique = false)
     @Schema(description = "Informa o cpf da pessoa física.")
     private String cpf;
 
     @Getter
     @Setter
-    @Column(name = "RG", length = 20, unique = true)
+    @Column(name = "RG", length = 20, unique = false)
     @Schema(description = "Informa o RG da pessoa física.")
     private String rg;
 
@@ -90,9 +90,27 @@ public class PessoaFisica implements Serializable {
     @Schema(name = "Data de atualização.")
     private ZonedDateTime dataAtualizacao;
 
+    @Transient
+    @Getter
+    @Setter
+    private Contato contato;
+
+    public PessoaFisica(PessoaFisica pessoaFisica) {
+        this.nome = pessoaFisica.getNome();
+        this.nomeSocial = pessoaFisica.getNomeSocial();
+        this.cpf = pessoaFisica.getCpf();
+        this.rg = pessoaFisica.getRg();
+        this.passaporte = pessoaFisica.getPassaporte();
+        this.sexo = pessoaFisica.getSexo();
+        this.nacionalidade = pessoaFisica.getNacionalidade();
+        this.pessoa = pessoaFisica.getPessoa();
+        this.dataCadastro = pessoaFisica.getDataCadastro();
+        this.dataAtualizacao = pessoaFisica.getDataAtualizacao();
+        this.contato = pessoaFisica.getContato();
+    }
+
     @PrePersist
     private void prePersist() {
-        this.pessoa = new Pessoa();
         this.dataCadastro = ZonedDateTime.now();
     }
 

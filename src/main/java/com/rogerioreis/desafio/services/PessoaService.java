@@ -11,10 +11,10 @@ public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public Pessoa create(Pessoa pessoa) {
-        Pessoa pessoaSalvar = pessoa;
-        pessoaSalvar.setId(null);
-
-        return this.pessoaRepository.save(pessoaSalvar);
-    }
+//    public Pessoa create(Pessoa pessoa) {
+//        Pessoa pessoaSalvar = pessoa;
+//        pessoaSalvar.setId(null);
+//
+//        return this.pessoaRepository.save(pessoaSalvar);
+//    }
 }
