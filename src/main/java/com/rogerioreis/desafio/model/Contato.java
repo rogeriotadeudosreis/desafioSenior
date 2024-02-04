@@ -47,10 +47,9 @@ public class Contato implements Serializable {
     @Column(name = "FIM_VIGENCIA")
     @Schema(name = "Data fim da vigência do cadastro do contato da pessoa.")
     private ZonedDateTime fimVigencia;
-    //
+
     @Getter
     @Setter
-//    @JsonIgnore
     @Builder.Default
     @CollectionTable
     @OneToMany(mappedBy = "contato", fetch = FetchType.EAGER)
@@ -59,7 +58,7 @@ public class Contato implements Serializable {
     private Set<Email> emails = new HashSet<>();
 
     @Getter
-    @JsonIgnore
+    @Setter
     @Builder.Default
     @CollectionTable
     @OneToMany(mappedBy = "contato")

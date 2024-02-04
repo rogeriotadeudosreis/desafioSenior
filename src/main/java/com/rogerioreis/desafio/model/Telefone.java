@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "TELEFONE")
-@Schema(name = "Telefone",description = "Telefone de uma pessoa.")
+@Schema(name = "Telefone", description = "Telefone de uma pessoa.")
 public class Telefone implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,16 +35,17 @@ public class Telefone implements Serializable {
     @Setter
     @Column(name = "DDD", length = 3)
     @Schema(description = "Informa o DDD")
-    private String DDD;
+    private String ddd;
 
     @Getter
     @Setter
     @Column(name = "DDI", length = 3)
     @Schema(description = "Informa o DDI.")
-    private String DDI;
+    private String ddi;
 
     @Getter
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "TIPO", length = 20)
     @Schema(description = "Informa o tipo de telefone.")
     private EnumTipoTelefone tipoTelefone;
@@ -75,9 +76,8 @@ public class Telefone implements Serializable {
     private ZonedDateTime dataAtualizacao;
 
     @PrePersist
-    private void prePersist(){
+    private void prePersist() {
         this.dataCadastro = ZonedDateTime.now();
-        this.dataAtualizacao = ZonedDateTime.now();
     }
 
 

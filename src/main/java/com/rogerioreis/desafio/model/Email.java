@@ -38,23 +38,23 @@ public class Email implements Serializable {
     @Schema(description = "Tipo de e-mail.")
     private EnumTipoEmail tipo;
 
-//    @Getter
-//    @Setter
-//    @Column(name = "DATA_CADASTRO")
-//    @Schema(description = "Data de cadastro.")
-//    private ZonedDateTime dataCadastro;
-//
-//    @Getter
-//    @Setter
-//    @Column(name = "FIM_VIGENCIA")
-//    @Schema(description = "Período de vigência do cadastro.")
-//    private ZonedDateTime fimVigencia;
-//
-//    @Getter
-//    @Setter
-//    @Column(name = "DATA_ATUALIZACAO")
-//    @Schema(description = "Atualização do cadastro.")
-//    private ZonedDateTime dataAtualizacao;
+    @Getter
+    @Setter
+    @Column(name = "DATA_CADASTRO")
+    @Schema(description = "Data de cadastro.")
+    private ZonedDateTime dataCadastro;
+
+    @Getter
+    @Setter
+    @Column(name = "FIM_VIGENCIA")
+    @Schema(description = "Período de vigência do cadastro.")
+    private ZonedDateTime fimVigencia;
+
+    @Getter
+    @Setter
+    @Column(name = "DATA_ATUALIZACAO")
+    @Schema(description = "Atualização do cadastro.")
+    private ZonedDateTime dataAtualizacao;
 
     @Getter
     @Setter
@@ -63,9 +63,8 @@ public class Email implements Serializable {
     @Schema(description = "Contato")
     private Contato contato;
 
-//    @PrePersist
-//    private void prePersist() {
-//        this.dataCadastro = ZonedDateTime.now();
-//        this.dataAtualizacao = ZonedDateTime.now();
-//    }
+    @PrePersist
+    private void prePersist() {
+        this.dataCadastro = ZonedDateTime.now();
+    }
 }
