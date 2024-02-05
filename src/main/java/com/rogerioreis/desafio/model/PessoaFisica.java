@@ -8,6 +8,8 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -93,7 +95,12 @@ public class PessoaFisica implements Serializable {
     @Transient
     @Getter
     @Setter
-    private Contato contato;
+    private Set<Email> emails = new HashSet<>();
+
+    @Transient
+    @Getter
+    @Setter
+    private Set<Telefone> telefones = new HashSet<>();
 
     public PessoaFisica(PessoaFisica pessoaFisica) {
         this.nome = pessoaFisica.getNome();
@@ -106,7 +113,8 @@ public class PessoaFisica implements Serializable {
         this.pessoa = pessoaFisica.getPessoa();
         this.dataCadastro = pessoaFisica.getDataCadastro();
         this.dataAtualizacao = pessoaFisica.getDataAtualizacao();
-        this.contato = pessoaFisica.getContato();
+        this.emails = pessoaFisica.getEmails();
+        this.telefones = pessoaFisica.getTelefones();
     }
 
     @PrePersist
