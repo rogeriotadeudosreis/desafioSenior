@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -73,27 +74,15 @@ public class PessoaJuridica implements Serializable {
     @Schema(name = "Data de atualização.")
     private ZonedDateTime dataAtualizacao;
 
-    @Getter
-    @Setter
-    @Transient
-    private Set<Email> emails = new HashSet<>();
-
-    @Getter
-    @Setter
-    @Transient
-    private Set<Telefone> telefones = new HashSet<>();
-
-    public PessoaJuridica(PessoaJuridica juridica) {
-        this.razaoSocial = juridica.getRazaoSocial();
-        this.nomeFantasia = juridica.getNomeFantasia();
-        this.cnpj = juridica.getCnpj();
-        this.inscricaoEstadual = juridica.getInscricaoEstadual();
-        this.inscricaoMunicipal = juridica.getInscricaoMunicipal();
-        this.pessoa = juridica.getPessoa();
-        this.dataCadastro = juridica.getDataCadastro();
-        this.dataAtualizacao = juridica.getDataAtualizacao();
-        this.emails = juridica.getEmails();
-        this.telefones = juridica.getTelefones();
+    public PessoaJuridica(PessoaJuridicaRequest juridicaRequest) {
+        this.razaoSocial = juridicaRequest.razaoSocial();
+        this.nomeFantasia = juridicaRequest.nomeFantasia();
+        this.cnpj = juridicaRequest.cnpj();
+        this.inscricaoEstadual = juridicaRequest.inscricaoEstadual();
+        this.inscricaoMunicipal = juridicaRequest.inscricaoMunicipal();
+        this.pessoa = juridicaRequest.pessoa();
+        this.dataCadastro = juridicaRequest.dataCadastro();
+        this.dataAtualizacao = juridicaRequest.dataAtualizacao();
     }
 
     @PrePersist

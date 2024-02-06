@@ -1,6 +1,6 @@
 package com.rogerioreis.desafio.model;
 
-import com.rogerioreis.desafio.dto.PessoaFisicaRecord;
+import com.rogerioreis.desafio.dto.PessoaFisicaRequest;
 import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -90,17 +90,17 @@ public class PessoaFisica implements Serializable {
     @Schema(name = "Data de atualização.")
     private ZonedDateTime dataAtualizacao;
 
-    public PessoaFisica(PessoaFisicaRecord pessoaFisicaRecord) {
-        this.nome = pessoaFisicaRecord.nome();
-        this.nomeSocial = pessoaFisicaRecord.nomeSocial();
-        this.cpf = pessoaFisicaRecord.cpf();
-        this.rg = pessoaFisicaRecord.rg();
-        this.passaporte = pessoaFisicaRecord.passaporte();
-        this.sexo = pessoaFisicaRecord.sexo();
-        this.nacionalidade = pessoaFisicaRecord.nacionalidade();
-        this.pessoa = pessoaFisicaRecord.pessoa();
-        this.dataCadastro = pessoaFisicaRecord.dataCadastro();
-        this.dataAtualizacao = pessoaFisicaRecord.dataAtualizacao();
+    public PessoaFisica(PessoaFisicaRequest pessoaFisicaRequest) {
+        this.nome = pessoaFisicaRequest.nome();
+        this.nomeSocial = pessoaFisicaRequest.nomeSocial();
+        this.cpf = pessoaFisicaRequest.cpf();
+        this.rg = pessoaFisicaRequest.rg();
+        this.passaporte = pessoaFisicaRequest.passaporte();
+        this.sexo = pessoaFisicaRequest.sexo();
+        this.nacionalidade = pessoaFisicaRequest.nacionalidade();
+        this.pessoa = pessoaFisicaRequest.pessoa();
+        this.dataCadastro = pessoaFisicaRequest.dataCadastro();
+        this.dataAtualizacao = pessoaFisicaRequest.dataAtualizacao();
     }
 
     @PrePersist

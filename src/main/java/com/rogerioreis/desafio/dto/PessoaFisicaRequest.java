@@ -9,7 +9,7 @@ import com.rogerioreis.desafio.model.Telefone;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-public record PessoaFisicaRecord(
+public record PessoaFisicaRequest(
 
         String nome,
         String nomeSocial,

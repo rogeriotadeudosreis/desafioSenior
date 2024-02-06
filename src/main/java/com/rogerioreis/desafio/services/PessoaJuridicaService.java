@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.services;
 
+import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
 import com.rogerioreis.desafio.model.Contato;
 import com.rogerioreis.desafio.model.Email;
 import com.rogerioreis.desafio.model.PessoaJuridica;
@@ -22,16 +23,16 @@ public class PessoaJuridicaService {
     @Autowired
     private TelefoneService telefoneService;
 
-    public PessoaJuridica create(PessoaJuridica pessoaJuridica) {
-        PessoaJuridica pessoaJuridicaSalvar = new PessoaJuridica(pessoaJuridica);
+    public PessoaJuridica create(PessoaJuridicaRequest pessoaJuridicaRequest) {
+        PessoaJuridica pessoaJuridicaSalvar = new PessoaJuridica(pessoaJuridicaRequest);
         pessoaJuridicaSalvar.setId(null);
 
-        Set<Email> emails = pessoaJuridica.getEmails();
-        Set<Telefone> telefones = pessoaJuridica.getTelefones();
+        Set<Email> emails = pessoaJuridicaRequest.emails();
+        Set<Telefone> telefones = pessoaJuridicaRequest.telefones();
 
         pessoaJuridicaSalvar = this.pessoaRepository.save(pessoaJuridicaSalvar);
 
-        Contato contato = pessoaJuridica.getPessoa().getContato();
+        Contato contato = pessoaJuridicaRequest.pessoa().getContato();
         emailService.createEmailByContato(contato, emails);
         telefoneService.createTelefoneByContato(contato, telefones);
 
