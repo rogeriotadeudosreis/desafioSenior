@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.services;
 
+import com.rogerioreis.desafio.dto.PessoaFisicaRecord;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.model.Contato;
 import com.rogerioreis.desafio.model.Email;
@@ -25,15 +26,16 @@ public class PessoaFisicaService {
     private TelefoneService telefoneService;
 
     @Transactional
-    public PessoaFisica create(PessoaFisica pessoa) {
-        PessoaFisica pessoaSalvar = new PessoaFisica(pessoa);
+    public PessoaFisica create(PessoaFisicaRecord pessoaFisicaRecord) {
+
+        PessoaFisica pessoaSalvar = new PessoaFisica(pessoaFisicaRecord);
         pessoaSalvar.setId(null);
 
         pessoaSalvar = this.pessoaRepository.save(pessoaSalvar);
 
         Contato contato = pessoaSalvar.getPessoa().getContato();
-        Set<Email> emails = pessoaSalvar.getEmails();
-        Set<Telefone> telefones = pessoaSalvar.getTelefones();
+        Set<Email> emails = pessoaFisicaRecord.emails();
+        Set<Telefone> telefones = pessoaFisicaRecord.telefones();
 
         emailService.createEmailByContato(contato, emails);
         telefoneService.createTelefoneByContato(contato, telefones);

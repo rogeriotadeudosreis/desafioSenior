@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.rogerioreis.desafio.dto.PessoaFisicaRecord;
 import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,8 +9,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -79,7 +78,6 @@ public class PessoaFisica implements Serializable {
     @Schema(name = "Pessoa")
     private Pessoa pessoa;
 
-
     @Getter
     @Setter
     @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
@@ -92,29 +90,17 @@ public class PessoaFisica implements Serializable {
     @Schema(name = "Data de atualização.")
     private ZonedDateTime dataAtualizacao;
 
-    @Transient
-    @Getter
-    @Setter
-    private Set<Email> emails = new HashSet<>();
-
-    @Transient
-    @Getter
-    @Setter
-    private Set<Telefone> telefones = new HashSet<>();
-
-    public PessoaFisica(PessoaFisica pessoaFisica) {
-        this.nome = pessoaFisica.getNome();
-        this.nomeSocial = pessoaFisica.getNomeSocial();
-        this.cpf = pessoaFisica.getCpf();
-        this.rg = pessoaFisica.getRg();
-        this.passaporte = pessoaFisica.getPassaporte();
-        this.sexo = pessoaFisica.getSexo();
-        this.nacionalidade = pessoaFisica.getNacionalidade();
-        this.pessoa = pessoaFisica.getPessoa();
-        this.dataCadastro = pessoaFisica.getDataCadastro();
-        this.dataAtualizacao = pessoaFisica.getDataAtualizacao();
-        this.emails = pessoaFisica.getEmails();
-        this.telefones = pessoaFisica.getTelefones();
+    public PessoaFisica(PessoaFisicaRecord pessoaFisicaRecord) {
+        this.nome = pessoaFisicaRecord.nome();
+        this.nomeSocial = pessoaFisicaRecord.nomeSocial();
+        this.cpf = pessoaFisicaRecord.cpf();
+        this.rg = pessoaFisicaRecord.rg();
+        this.passaporte = pessoaFisicaRecord.passaporte();
+        this.sexo = pessoaFisicaRecord.sexo();
+        this.nacionalidade = pessoaFisicaRecord.nacionalidade();
+        this.pessoa = pessoaFisicaRecord.pessoa();
+        this.dataCadastro = pessoaFisicaRecord.dataCadastro();
+        this.dataAtualizacao = pessoaFisicaRecord.dataAtualizacao();
     }
 
     @PrePersist

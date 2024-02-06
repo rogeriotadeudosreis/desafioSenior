@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.controllers;
 
+import com.rogerioreis.desafio.dto.PessoaFisicaRecord;
 import com.rogerioreis.desafio.model.PessoaFisica;
 import com.rogerioreis.desafio.services.PessoaFisicaService;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,9 +19,9 @@ public class PessoaFisicaController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "Pessoa Física", description = "Cadastro de pessoa física.")
-    public ResponseEntity<PessoaFisica> create(@RequestBody @Valid PessoaFisica pessoa) {
+    public ResponseEntity<PessoaFisica> create(@RequestBody @Valid PessoaFisicaRecord pessoaFisicaRecord) {
 
-        PessoaFisica pessoaFisicaSalva = pessoaService.create(pessoa);
+        PessoaFisica pessoaFisicaSalva = pessoaService.create(pessoaFisicaRecord);
 
         return ResponseEntity.ok(pessoaFisicaSalva);
     }
