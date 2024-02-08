@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumSituacao;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +12,7 @@ import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"pessoaFisica","pessoaJuridica","contato"})
+@EqualsAndHashCode(exclude = {"pessoaFisica", "pessoaJuridica", "contato"})
 @Entity(name = "PESSOA")
 @Schema(name = "Pessoa", description = "Cadastro de pessoa.")
 public class Pessoa implements Serializable {
@@ -29,13 +30,13 @@ public class Pessoa implements Serializable {
     @Setter
     @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
     @Schema(description = "Data de cadastro.")
-    private ZonedDateTime dataCadastro;
+    private ZonedDateTime dataInicio;
 
     @Getter
     @Setter
     @Column(name = "FIM_VIGENCIA")
     @Schema(description = "Período de vigência do cadastro.")
-    private ZonedDateTime fimVigencia;
+    private ZonedDateTime dataFim;
 
     @Getter
     @Setter
@@ -75,12 +76,20 @@ public class Pessoa implements Serializable {
     private void prePersist() {
         this.contato = new Contato();
         this.contato.setPessoa(this);
-        this.dataCadastro = ZonedDateTime.now();
+        this.dataInicio = ZonedDateTime.now();
         this.situacao = EnumSituacao.ATIVO;
     }
 
     @PreUpdate
     private void updatePersist() {
         this.dataAtualizacao = ZonedDateTime.now();
+        if (this.dataFim != null) {
+            this.situacao = EnumSituacao.INATIVO;
+        }
+    }
+
+    @JsonGetter
+    public boolean isAtivo() {
+        return this.dataFim != null || this.dataFim.compareTo(ZonedDateTime.now()) > 0;
     }
 }

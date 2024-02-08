@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.dto.PessoaFisicaRequest;
 import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
@@ -90,19 +91,6 @@ public class PessoaFisica implements Serializable {
     @Column(name = "DATA_ATUALIZACAO")
     @Schema(name = "Data de atualização.")
     private ZonedDateTime dataAtualizacao;
-
-    public PessoaFisica(PessoaFisicaRequest pessoaFisicaRequest) {
-        this.nome = pessoaFisicaRequest.nome();
-        this.nomeSocial = pessoaFisicaRequest.nomeSocial();
-        this.cpf = pessoaFisicaRequest.cpf();
-        this.rg = pessoaFisicaRequest.rg();
-        this.passaporte = pessoaFisicaRequest.passaporte();
-        this.sexo = pessoaFisicaRequest.sexo();
-        this.nacionalidade = pessoaFisicaRequest.nacionalidade();
-        this.pessoa = pessoaFisicaRequest.pessoa();
-        this.dataCadastro = pessoaFisicaRequest.dataCadastro();
-        this.dataAtualizacao = pessoaFisicaRequest.dataAtualizacao();
-    }
 
     @PrePersist
     private void prePersist() {
