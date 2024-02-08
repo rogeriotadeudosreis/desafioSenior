@@ -27,20 +27,6 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
-    @JsonIgnore
-    @Schema(description = "Pessoa Física.")
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PessoaFisica pessoaFisica;
-
-    @Getter
-    @Setter
-    @JsonIgnore
-    @Schema(description = "Pessoa Jurídica.")
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PessoaJuridica pessoaJuridica;
-
-    @Getter
-    @Setter
     @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
     @Schema(description = "Data de cadastro.")
     private ZonedDateTime dataCadastro;
@@ -70,6 +56,20 @@ public class Pessoa implements Serializable {
     @Schema(name = "Contato da pessoa.")
     @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Contato contato;
+
+    @Getter
+    @Setter
+    @JsonIgnore
+    @Schema(description = "Pessoa Física.")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PessoaFisica pessoaFisica;
+
+    @Getter
+    @Setter
+    @JsonIgnore
+    @Schema(description = "Pessoa Jurídica.")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PessoaJuridica pessoaJuridica;
 
     @PrePersist
     private void prePersist() {

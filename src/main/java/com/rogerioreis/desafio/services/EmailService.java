@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,17 +26,19 @@ public class EmailService {
         return null;
     }
 
-    protected void createEmailByContato(Contato contato, Set<Email> emails) {
+    protected Set<Email> createEmailByContato(Contato contato, Set<Email> emails) {
         if (contato != null && emails != null && !emails.isEmpty()) {
+            Set<Email> listEmails = new HashSet<>();
             for (Email email : emails) {
                 if (StringUtils.isNotBlank(email.getEmail())) {
                     Email emailSalvar = new Email(null, email.getEmail(), email.getTipo(), null,
                             null, null, contato);
-                    emailRepository.save(emailSalvar);
+                    listEmails.add(emailRepository.save(emailSalvar));
                 } else {
                     throw new RegraNegocioException("É necessário informar pelo menos 01(um) email válido.");
                 }
             }
+            return listEmails;
         } else {
             throw new RegraNegocioException("A lista de emails está nula ou vazia.");
         }

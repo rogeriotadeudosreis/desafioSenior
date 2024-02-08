@@ -30,14 +30,6 @@ public class Contato implements Serializable {
 
     @Getter
     @Setter
-    @Schema(name = "Pessoa")
-    @OneToOne(optional = false)
-    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "FK_PESSOA"))
-    private Pessoa pessoa;
-
-    @Getter
-    @Setter
     @Column(name = "DATA_CADASTRO", nullable = false)
     @Schema(name = "Data do cadastro do contato da pessoa.")
     private ZonedDateTime dataCadastro;
@@ -52,6 +44,7 @@ public class Contato implements Serializable {
     @Setter
     @Builder.Default
     @CollectionTable
+    @JsonIgnore
     @OneToMany(mappedBy = "contato", fetch = FetchType.EAGER)
     @Column(name = "email")
     @Schema(name = "Lista de emails da pessoa.")
@@ -61,10 +54,20 @@ public class Contato implements Serializable {
     @Setter
     @Builder.Default
     @CollectionTable
+    @JsonIgnore
     @OneToMany(mappedBy = "contato")
     @Column(name = "telefone")
     @Schema(name = "Lista de telefone da pessoa.")
     private Set<Telefone> telefones = new HashSet<>();
+
+    @Getter
+    @Setter
+    @JsonIgnore
+    @Schema(name = "Pessoa")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "FK_PESSOA"))
+    private Pessoa pessoa;
 
     public Contato() {
     }

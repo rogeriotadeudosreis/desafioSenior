@@ -1,7 +1,9 @@
 package com.rogerioreis.desafio.services;
 
 import com.rogerioreis.desafio.dto.PessoaFisicaRequest;
+import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.mapper.PessoaFisicaMapper;
 import com.rogerioreis.desafio.model.Contato;
 import com.rogerioreis.desafio.model.Email;
 import com.rogerioreis.desafio.model.PessoaFisica;
@@ -25,10 +27,13 @@ public class PessoaFisicaService {
     @Autowired
     private TelefoneService telefoneService;
 
-    @Transactional
-    public PessoaFisica create(PessoaFisicaRequest pessoaFisicaRequest) {
+    @Autowired
+    private PessoaFisicaMapper mapper;
 
-        PessoaFisica pessoaSalvar = new PessoaFisica(pessoaFisicaRequest);
+    @Transactional
+    public PessoaFisicaResponse create(PessoaFisicaRequest pessoaFisicaRequest) {
+
+        PessoaFisica pessoaSalvar = mapper.toEntity(pessoaFisicaRequest);
         pessoaSalvar.setId(null);
 
         pessoaSalvar = this.pessoaRepository.save(pessoaSalvar);
@@ -37,15 +42,17 @@ public class PessoaFisicaService {
         Set<Email> emails = pessoaFisicaRequest.emails();
         Set<Telefone> telefones = pessoaFisicaRequest.telefones();
 
-        emailService.createEmailByContato(contato, emails);
-        telefoneService.createTelefoneByContato(contato, telefones);
+        Set<Email> emailsSalvos = emailService.createEmailByContato(contato, emails);
+        Set<Telefone> telefonesSalvos = telefoneService.createTelefoneByContato(contato, telefones);
 
-        return pessoaSalvar;
+        PessoaFisicaResponse pessoaFisicaResponse = mapper.toDTO(pessoaSalvar, emailsSalvos, telefonesSalvos);
+
+        return pessoaFisicaResponse;
     }
 
-    public PessoaFisica findById(Long id) {
-        return pessoaRepository.findById(id).
-                orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
+    public PessoaFisicaResponse findById(Long id) {
+        return pessoaRepository.findById(id).map((PessoaFisica pessoaFisica) -> mapper.toDTO(pessoaFisica, null, null))
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
     }
 
 }

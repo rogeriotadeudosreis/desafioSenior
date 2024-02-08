@@ -52,13 +52,6 @@ public class Telefone implements Serializable {
 
     @Getter
     @Setter
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ID_CONTATO", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONTATO"))
-    @Schema(description = "contato")
-    private Contato contato;
-
-    @Getter
-    @Setter
     @Column(name = "DATA_CADASTRO")
     @Schema(description = "Data de cadastro.")
     private ZonedDateTime dataCadastro;
@@ -74,6 +67,13 @@ public class Telefone implements Serializable {
     @Column(name = "DATA_ATUALIZACAO")
     @Schema(description = "Atualização do cadastro.")
     private ZonedDateTime dataAtualizacao;
+
+    @Getter
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ID_CONTATO", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONTATO"))
+    @Schema(description = "contato")
+    private Contato contato;
 
     @PrePersist
     private void prePersist() {

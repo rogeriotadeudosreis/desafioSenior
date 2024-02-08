@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumTipoEmail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;

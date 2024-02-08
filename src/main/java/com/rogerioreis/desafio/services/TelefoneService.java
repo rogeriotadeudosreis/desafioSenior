@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -20,18 +21,20 @@ public class TelefoneService {
         return telefoneRepository.save(telefone);
     }
 
-    protected void createTelefoneByContato(Contato contato, Set<Telefone> telefones) {
+    protected Set<Telefone> createTelefoneByContato(Contato contato, Set<Telefone> telefones) {
         if (contato != null && telefones != null && !telefones.isEmpty()) {
+            Set<Telefone> listTelefones = new HashSet<>();
             for (Telefone telefone : telefones) {
                 if (StringUtils.isNotBlank(telefone.getTelefone())) {
                     Telefone telefoneSalvar = new Telefone(null, telefone.getTelefone(), telefone.getDdd(),
-                            telefone.getDdi(), telefone.getTipoTelefone(), contato,
-                            null, null, null);
-                    telefoneRepository.save(telefoneSalvar);
+                            telefone.getDdi(), telefone.getTipoTelefone(),
+                            null, null, null, contato);
+                    listTelefones.add(telefoneRepository.save(telefoneSalvar));
                 } else {
                     throw new RegraNegocioException("É necessário informar pelo menos 01(um) telefone válido.");
                 }
             }
+            return listTelefones;
         } else {
             throw new RegraNegocioException("A lista de telefones está nula ou vazia.");
         }
