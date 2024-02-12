@@ -1,20 +1,20 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity(name = "CONTATO")
 @Schema(name = "Contato", description = "Cadastro de um contato.")
 public class Contato implements Serializable {
@@ -32,20 +32,19 @@ public class Contato implements Serializable {
     @Setter
     @Column(name = "DATA_CADASTRO", nullable = false)
     @Schema(name = "Data do cadastro do contato da pessoa.")
-    private ZonedDateTime dataCadastro;
+    private ZonedDateTime dataInicio;
 
     @Getter
     @Setter
-    @Column(name = "FIM_VIGENCIA")
+    @Column(name = "DATA_FIM")
     @Schema(name = "Data fim da vigência do cadastro do contato da pessoa.")
-    private ZonedDateTime fimVigencia;
+    private ZonedDateTime dataFim;
 
     @Getter
     @Setter
     @Builder.Default
     @CollectionTable
-    @JsonIgnore
-    @OneToMany(mappedBy = "contato", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "contato")
     @Column(name = "email")
     @Schema(name = "Lista de emails da pessoa.")
     private Set<Email> emails = new HashSet<>();
@@ -54,7 +53,6 @@ public class Contato implements Serializable {
     @Setter
     @Builder.Default
     @CollectionTable
-    @JsonIgnore
     @OneToMany(mappedBy = "contato")
     @Column(name = "telefone")
     @Schema(name = "Lista de telefone da pessoa.")
@@ -74,8 +72,18 @@ public class Contato implements Serializable {
 
     @PrePersist
     private void prePersist() {
-        this.dataCadastro = ZonedDateTime.now();
+        this.dataInicio = ZonedDateTime.now();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contato contato)) return false;
+        return Objects.equals(getId(), contato.getId()) && Objects.equals(getDataInicio(), contato.getDataInicio()) && Objects.equals(getDataFim(), contato.getDataFim()) && Objects.equals(getEmails(), contato.getEmails()) && Objects.equals(getTelefones(), contato.getTelefones());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDataInicio(), getDataFim(), getEmails(), getTelefones());
+    }
 }

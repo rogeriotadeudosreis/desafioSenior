@@ -62,38 +62,7 @@ public class PessoaJuridica implements Serializable {
             foreignKey = @ForeignKey(name = "FK_PESSOA"))
     private Pessoa pessoa;
 
-    @Getter
-    @Setter
-    @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
-    @Schema(description = "Data de cadastro.")
-    private ZonedDateTime dataCadastro;
+    public PessoaJuridica(PessoaJuridicaRequest pessoaJuridicaRequest) {
 
-    @Getter
-    @Setter
-    @Column(name = "DATA_ATUALIZACAO")
-    @Schema(name = "Data de atualização.")
-    private ZonedDateTime dataAtualizacao;
-
-    public PessoaJuridica(PessoaJuridicaRequest juridicaRequest) {
-        this.razaoSocial = juridicaRequest.razaoSocial();
-        this.nomeFantasia = juridicaRequest.nomeFantasia();
-        this.cnpj = juridicaRequest.cnpj();
-        this.inscricaoEstadual = juridicaRequest.inscricaoEstadual();
-        this.inscricaoMunicipal = juridicaRequest.inscricaoMunicipal();
-        this.pessoa = juridicaRequest.pessoa();
-        this.dataCadastro = juridicaRequest.dataCadastro();
-        this.dataAtualizacao = juridicaRequest.dataAtualizacao();
     }
-
-    @PrePersist
-    private void prePersist() {
-        this.dataCadastro = ZonedDateTime.now();
-    }
-
-    @PreUpdate
-    private void updatePersist() {
-        this.dataAtualizacao = ZonedDateTime.now();
-    }
-
-
 }

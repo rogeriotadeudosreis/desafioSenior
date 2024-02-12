@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumTipoEmail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "EMAIL")
@@ -41,15 +44,15 @@ public class Email implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "DATA_CADASTRO")
+    @Column(name = "DATA_INICIO")
     @Schema(description = "Data de cadastro.")
-    private ZonedDateTime dataCadastro;
+    private ZonedDateTime dataInicio;
 
     @Getter
     @Setter
-    @Column(name = "FIM_VIGENCIA")
+    @Column(name = "DATA_FIM")
     @Schema(description = "Período de vigência do cadastro.")
-    private ZonedDateTime fimVigencia;
+    private ZonedDateTime dataFim;
 
     @Getter
     @Setter
@@ -59,6 +62,7 @@ public class Email implements Serializable {
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "ID_CONTATO", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONTATO"))
     @Schema(description = "Contato")
@@ -66,6 +70,18 @@ public class Email implements Serializable {
 
     @PrePersist
     private void prePersist() {
-        this.dataCadastro = ZonedDateTime.now();
+        this.dataInicio = ZonedDateTime.now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Email email1)) return false;
+        return Objects.equals(getId(), email1.getId()) && Objects.equals(getEmail(), email1.getEmail()) && getTipo() == email1.getTipo() && Objects.equals(getDataInicio(), email1.getDataInicio()) && Objects.equals(getDataFim(), email1.getDataFim()) && Objects.equals(getDataAtualizacao(), email1.getDataAtualizacao());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail(), getTipo(), getDataInicio(), getDataFim(), getDataAtualizacao());
     }
 }

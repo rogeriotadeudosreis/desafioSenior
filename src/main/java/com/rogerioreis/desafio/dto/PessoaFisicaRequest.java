@@ -6,7 +6,7 @@ import com.rogerioreis.desafio.model.Email;
 import com.rogerioreis.desafio.model.Pessoa;
 import com.rogerioreis.desafio.model.Telefone;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 public record PessoaFisicaRequest(
@@ -19,9 +19,11 @@ public record PessoaFisicaRequest(
         String passaporte,
         EnumSexo sexo,
         EnumNacionalidade nacionalidade,
+        LocalDate dataNascimento,
         Pessoa pessoa,
         Set<Email> emails,
-        Set<Telefone> telefones,
-        ZonedDateTime dataCadastro,
-        ZonedDateTime dataAtualizacao) {
+        Set<Telefone> telefones
+//        ZonedDateTime dataCadastro,
+//        ZonedDateTime dataAtualizacao
+) {
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -65,6 +66,12 @@ public class PessoaFisicaService {
         pessoa.setDataFim(ZonedDateTime.now());
 
         pessoaRepository.save(pessoa);
-//        pessoaFisicaRepository.delete(pessoaFisica);
+    }
+
+    public PessoaFisica findPessoaFisicaById(Long id) {
+        PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
+
+        return pessoaFisica;
     }
 }

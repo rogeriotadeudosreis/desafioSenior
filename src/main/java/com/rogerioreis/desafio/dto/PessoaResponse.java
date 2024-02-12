@@ -5,6 +5,7 @@ import com.rogerioreis.desafio.enuns.EnumSituacao;
 import java.time.ZonedDateTime;
 
 public record PessoaResponse(
-        ZonedDateTime dataCadastro,
-        EnumSituacao situacao) {
+        ZonedDateTime dataInicio,
+        EnumSituacao situacao,
+        ContatoResponse contatoResponse) {
 }

@@ -1,7 +1,5 @@
 package com.rogerioreis.desafio.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.rogerioreis.desafio.dto.PessoaFisicaRequest;
 import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,8 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.Set;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -74,32 +71,16 @@ public class PessoaFisica implements Serializable {
 
     @Getter
     @Setter
+    @Column(name = "data_NASCIMENTO")
+    @Schema(description = "Data de nascimento da pessoa.")
+    private LocalDate dataNascimento;
+
+    @Getter
+    @Setter
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_PESSOA", nullable = false, referencedColumnName = "ID",
             foreignKey = @ForeignKey(name = "FK_PESSOA"))
     @Schema(name = "Pessoa")
     private Pessoa pessoa;
-
-    @Getter
-    @Setter
-    @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
-    @Schema(description = "Data de cadastro.")
-    private ZonedDateTime dataCadastro;
-
-    @Getter
-    @Setter
-    @Column(name = "DATA_ATUALIZACAO")
-    @Schema(name = "Data de atualização.")
-    private ZonedDateTime dataAtualizacao;
-
-    @PrePersist
-    private void prePersist() {
-        this.dataCadastro = ZonedDateTime.now();
-    }
-
-    @PreUpdate
-    private void updatePersist() {
-        this.dataAtualizacao = ZonedDateTime.now();
-    }
 
 }

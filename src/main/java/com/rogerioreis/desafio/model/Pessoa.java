@@ -1,6 +1,5 @@
 package com.rogerioreis.desafio.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumSituacao;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,13 +27,13 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "DATA_CADASTRO", nullable = false, updatable = false)
+    @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     @Schema(description = "Data de cadastro.")
     private ZonedDateTime dataInicio;
 
     @Getter
     @Setter
-    @Column(name = "FIM_VIGENCIA")
+    @Column(name = "DATA_FIM")
     @Schema(description = "Período de vigência do cadastro.")
     private ZonedDateTime dataFim;
 
@@ -53,7 +52,6 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
-    @JsonIgnore
     @Schema(name = "Contato da pessoa.")
     @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Contato contato;
@@ -88,8 +86,4 @@ public class Pessoa implements Serializable {
         }
     }
 
-    @JsonGetter
-    public boolean isAtivo() {
-        return this.dataFim != null || this.dataFim.compareTo(ZonedDateTime.now()) > 0;
-    }
 }
