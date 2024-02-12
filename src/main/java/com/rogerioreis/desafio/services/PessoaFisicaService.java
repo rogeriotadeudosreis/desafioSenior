@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -53,7 +52,7 @@ public class PessoaFisicaService {
         return pessoaFisicaResponse;
     }
 
-    public PessoaFisicaResponse findById(Long id) {
+    public PessoaFisicaResponse readPessoaFisicaResponseById(Long id) {
         return pessoaFisicaRepository.findById(id).map(mapper::toDTO)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
     }
@@ -68,10 +67,9 @@ public class PessoaFisicaService {
         pessoaRepository.save(pessoa);
     }
 
-    public PessoaFisica findPessoaFisicaById(Long id) {
+    public PessoaFisica readPessoaFisicaEntityById(Long id) {
         PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
-
         return pessoaFisica;
     }
 }

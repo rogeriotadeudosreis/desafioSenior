@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,26 +28,25 @@ public class PessoaFisicaController {
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Schema(name = "Pessoa Física", description = "Consulta uma pessoa física e retorna um DTO.")
-    public ResponseEntity<PessoaFisicaResponse> findById(@PathVariable Long id) {
+    @Schema(name = "Pessoa Física", description = "Consulta uma pessoa física e retorna um response.")
+    public ResponseEntity<PessoaFisicaResponse> readPessoaFisicaResponseById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(pessoaFisicaService.findById(id));
+        return ResponseEntity.ok(pessoaFisicaService.readPessoaFisicaResponseById(id));
     }
 
     @GetMapping(value = "/pessoa-fisica/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física.")
-    public ResponseEntity<PessoaFisica> findPessoaFisicaById(@PathVariable Long id) {
+    @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física entidade.")
+    public ResponseEntity<PessoaFisica> readPessoaFisicaEntityById(@PathVariable Long id) {
         log.debug("debug --> Ocorreu um erro ao buscar a pessoa física com o ID: " + id);
-        log.trace("trace --> Ocorreu um erro ao buscar a pessoa física com o ID: " + id);
-        PessoaFisica pessoaFisica = pessoaFisicaService.findPessoaFisicaById(id);
-        return ResponseEntity.ok().body(pessoaFisica);
+
+        return ResponseEntity.ok().body(pessoaFisicaService.readPessoaFisicaEntityById(id));
     }
 
     @DeleteMapping(value = "/{id}")
     @Schema(name = "Pessoa Física", description = "Deleta uma pessoa de forma logicamente.")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
-
         pessoaFisicaService.deletarById(id);
+
         return ResponseEntity.ok().build();
     }
 }
