@@ -85,6 +85,11 @@ public class Telefone implements Serializable {
         this.dataInicio = ZonedDateTime.now();
     }
 
+    @PreUpdate
+    private void updatePersist() {
+        this.dataAtualizacao = ZonedDateTime.now();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

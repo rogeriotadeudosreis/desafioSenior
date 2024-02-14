@@ -26,7 +26,7 @@ public class TelefoneService {
             Set<Telefone> listTelefones = new HashSet<>();
             for (Telefone telefone : telefones) {
                 if (StringUtils.isNotBlank(telefone.getTelefone())) {
-                    Telefone telefoneSalvar = new Telefone(null, telefone.getTelefone(), telefone.getDdd(),
+                    Telefone telefoneSalvar = new Telefone(telefone.getId(), telefone.getTelefone(), telefone.getDdd(),
                             telefone.getDdi(), telefone.getTipoTelefone(),
                             null, null, null, contato);
                     listTelefones.add(telefoneRepository.save(telefoneSalvar));
@@ -38,5 +38,13 @@ public class TelefoneService {
         } else {
             throw new RegraNegocioException("A lista de telefones está nula ou vazia.");
         }
+    }
+
+    public Set<Telefone> findTelefonesByContato(Long idContato) {
+
+        Set<Telefone> telefones = telefoneRepository.findAllByContatoId(idContato);
+
+        return telefones;
+
     }
 }

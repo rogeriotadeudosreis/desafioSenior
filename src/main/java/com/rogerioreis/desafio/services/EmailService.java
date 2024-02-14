@@ -31,7 +31,7 @@ public class EmailService {
             Set<Email> listEmails = new HashSet<>();
             for (Email email : emails) {
                 if (StringUtils.isNotBlank(email.getEmail())) {
-                    Email emailSalvar = new Email(null, email.getEmail(), email.getTipo(), null,
+                    Email emailSalvar = new Email(email.getId(), email.getEmail(), email.getTipo(), null,
                             null, null, contato);
                     listEmails.add(emailRepository.save(emailSalvar));
                 } else {
@@ -42,5 +42,10 @@ public class EmailService {
         } else {
             throw new RegraNegocioException("A lista de emails está nula ou vazia.");
         }
+    }
+
+    public Set<Email> findEmailsByContato(Long idcontato){
+        Set<Email> emails = emailRepository.findAllByContatoId(idcontato);
+        return emails;
     }
 }

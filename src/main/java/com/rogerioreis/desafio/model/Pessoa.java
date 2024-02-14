@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumSituacao;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +34,7 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "America/Sao_Paulo")
     @Column(name = "DATA_FIM")
     @Schema(description = "Período de vigência do cadastro.")
     private ZonedDateTime dataFim;

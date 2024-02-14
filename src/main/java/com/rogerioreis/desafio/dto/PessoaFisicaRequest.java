@@ -23,7 +23,5 @@ public record PessoaFisicaRequest(
         Pessoa pessoa,
         Set<Email> emails,
         Set<Telefone> telefones
-//        ZonedDateTime dataCadastro,
-//        ZonedDateTime dataAtualizacao
 ) {
 }

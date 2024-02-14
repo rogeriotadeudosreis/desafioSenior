@@ -42,6 +42,15 @@ public class PessoaFisicaController {
         return ResponseEntity.ok().body(pessoaFisicaService.readPessoaFisicaEntityById(id));
     }
 
+    @PutMapping(path = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Schema(name = "Pessoa Física", description = "Atualizar um cadastro de pessoa física.")
+    public ResponseEntity<PessoaFisicaResponse> update(@PathVariable Long id,@RequestBody @Valid PessoaFisicaRequest pessoaFisicaRequest) {
+
+        pessoaFisicaService.update(id, pessoaFisicaRequest);
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping(value = "/{id}")
     @Schema(name = "Pessoa Física", description = "Deleta uma pessoa de forma logicamente.")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
