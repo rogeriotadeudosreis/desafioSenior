@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 public record TelefoneResponse(
+        Long id,
         String telefone,
         String ddd,
         String ddi,

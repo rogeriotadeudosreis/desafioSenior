@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -21,7 +22,7 @@ public class TelefoneService {
         return telefoneRepository.save(telefone);
     }
 
-    protected Set<Telefone> createTelefoneByContato(Contato contato, Set<Telefone> telefones) {
+    protected Set<Telefone> createTelefoneByContato(Contato contato, List<Telefone> telefones) {
         if (contato != null && telefones != null && !telefones.isEmpty()) {
             Set<Telefone> listTelefones = new HashSet<>();
             for (Telefone telefone : telefones) {

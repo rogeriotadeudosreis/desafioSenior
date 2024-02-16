@@ -6,6 +6,7 @@ import com.rogerioreis.desafio.dto.TelefoneResponse;
 import com.rogerioreis.desafio.model.Contato;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,17 +15,17 @@ public class ContatoMapper {
 
     public ContatoResponse toDTO(Contato contato) {
 
-        Set<EmailResponse> emailResponses = contato.getEmails().stream()
-                .map((email) -> new EmailResponse(email.getEmail(), email.getTipo()))
-                .collect(Collectors.toSet());
+        List<EmailResponse> emailResponses = contato.getEmails().stream()
+                .map((email) -> new EmailResponse(email.getId(), email.getEmail(), email.getTipo()))
+                .collect(Collectors.toList());
 
-        Set<TelefoneResponse> telefoneResponses = contato.getTelefones().stream()
-                .map((telefone) -> new TelefoneResponse(telefone.getTelefone(), telefone.getDdd(), telefone.getDdi(),
+        List<TelefoneResponse> telefoneResponses = contato.getTelefones().stream()
+                .map((telefone) -> new TelefoneResponse(telefone.getId(), telefone.getTelefone(), telefone.getDdd(), telefone.getDdi(),
                         telefone.getTipoTelefone()))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         return new ContatoResponse(
-                emailResponses, telefoneResponses
+                contato.getId(), emailResponses, telefoneResponses
         );
     }
 }

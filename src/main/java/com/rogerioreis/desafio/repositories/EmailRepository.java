@@ -4,9 +4,12 @@ import com.rogerioreis.desafio.model.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface EmailRepository extends JpaRepository<Email, Long> {
-    Set<Email> findAllByContatoId(Long idcontato);
+
+    List<Email> findAllByContatoId(Long idContato);
+
 }

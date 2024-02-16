@@ -10,9 +10,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @Entity(name = "CONTATO")
@@ -47,7 +45,7 @@ public class Contato implements Serializable {
     @OneToMany(mappedBy = "contato")
     @Column(name = "email")
     @Schema(name = "Lista de emails da pessoa.")
-    private Set<Email> emails = new HashSet<>();
+    private List<Email> emails = new ArrayList<>();
 
     @Getter
     @Setter
@@ -56,7 +54,7 @@ public class Contato implements Serializable {
     @OneToMany(mappedBy = "contato")
     @Column(name = "telefone")
     @Schema(name = "Lista de telefone da pessoa.")
-    private Set<Telefone> telefones = new HashSet<>();
+    private List<Telefone> telefones = new ArrayList<>();
 
     @Getter
     @Setter

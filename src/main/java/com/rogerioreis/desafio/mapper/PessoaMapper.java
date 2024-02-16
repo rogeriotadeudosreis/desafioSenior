@@ -13,7 +13,7 @@ public class PessoaMapper {
 
     public PessoaResponse ToDTO(Pessoa pessoa) {
         return new PessoaResponse(
-                pessoa.getDataInicio(),
+                pessoa.getId(),
                 pessoa.getSituacao(),
                 contatoMapper.toDTO(pessoa.getContato())
         );

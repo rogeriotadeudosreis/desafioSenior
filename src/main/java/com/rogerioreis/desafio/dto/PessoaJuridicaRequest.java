@@ -5,6 +5,7 @@ import com.rogerioreis.desafio.model.Pessoa;
 import com.rogerioreis.desafio.model.Telefone;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 
 public record PessoaJuridicaRequest(
@@ -16,7 +17,7 @@ public record PessoaJuridicaRequest(
         Pessoa pessoa,
         ZonedDateTime dataCadastro,
         ZonedDateTime dataAtualizacao,
-        Set<Email> emails,
-        Set<Telefone> telefones
+        List<Email> emails,
+        List<Telefone> telefones
 ) {
 }

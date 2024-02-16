@@ -9,6 +9,7 @@ public class TelefonelMapper {
 
     public TelefoneResponse toDTO(Telefone telefone) {
         return new TelefoneResponse(
+                telefone.getId(),
                 telefone.getTelefone(),
                 telefone.getDdd(),
                 telefone.getDdi(),

@@ -7,7 +7,7 @@ import com.rogerioreis.desafio.model.Pessoa;
 import com.rogerioreis.desafio.model.Telefone;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 public record PessoaFisicaRequest(
 
@@ -21,7 +21,7 @@ public record PessoaFisicaRequest(
         EnumNacionalidade nacionalidade,
         LocalDate dataNascimento,
         Pessoa pessoa,
-        Set<Email> emails,
-        Set<Telefone> telefones
+        List<Email> emails,
+        List<Telefone> telefones
 ) {
 }

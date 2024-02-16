@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/email")
@@ -26,12 +27,12 @@ public class EmailController {
         return ResponseEntity.ok(emailSalvo);
     }
 
-    @GetMapping(value = "/contato/{contatoId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/{idContato}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "email", description = "Busca uma lista de emails a partir de um contato.")
-    public ResponseEntity<List<Email>> listByContato(@PathVariable Long contatoId) {
+    public ResponseEntity<List<Email>> listByContato(@PathVariable Long idContato) {
 
-        List<Email> list = emailService.listByContato(contatoId);
+        List<Email> emailList = emailService.findAllByContatoId(idContato);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(emailList);
     }
 }

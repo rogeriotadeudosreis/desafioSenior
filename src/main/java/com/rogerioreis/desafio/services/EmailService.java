@@ -26,7 +26,7 @@ public class EmailService {
         return null;
     }
 
-    protected Set<Email> createEmailByContato(Contato contato, Set<Email> emails) {
+    protected Set<Email> createEmailByContato(Contato contato, List<Email> emails) {
         if (contato != null && emails != null && !emails.isEmpty()) {
             Set<Email> listEmails = new HashSet<>();
             for (Email email : emails) {
@@ -44,8 +44,10 @@ public class EmailService {
         }
     }
 
-    public Set<Email> findEmailsByContato(Long idcontato){
-        Set<Email> emails = emailRepository.findAllByContatoId(idcontato);
-        return emails;
+    public List<Email> findAllByContatoId(Long idContato) {
+        List<Email> emailList = emailRepository.findAllByContatoId(idContato);
+        return emailList;
     }
+
+    ;
 }

@@ -9,6 +9,7 @@ public class EmailMapper {
 
     public EmailResponse ToDTO(Email email) {
         return new EmailResponse(
+                email.getId(),
                 email.getEmail(),
                 email.getTipo());
 
