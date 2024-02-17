@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -77,6 +78,7 @@ public class PessoaFisica implements Serializable {
 
     @Getter
     @Setter
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_PESSOA", nullable = false, referencedColumnName = "ID",
             foreignKey = @ForeignKey(name = "FK_PESSOA"))

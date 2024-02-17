@@ -1,7 +1,6 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.enuns.EnumSituacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -60,14 +59,12 @@ public class Pessoa implements Serializable {
 
     @Getter
     @Setter
-    @JsonIgnore
     @Schema(description = "Pessoa Física.")
     @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaFisica pessoaFisica;
 
     @Getter
     @Setter
-    @JsonIgnore
     @Schema(description = "Pessoa Jurídica.")
     @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaJuridica pessoaJuridica;

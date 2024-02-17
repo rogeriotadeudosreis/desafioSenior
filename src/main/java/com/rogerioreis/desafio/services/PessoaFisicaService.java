@@ -5,18 +5,16 @@ import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.mapper.PessoaFisicaMapper;
+import com.rogerioreis.desafio.mapper.PessoaMapper;
 import com.rogerioreis.desafio.model.*;
 import com.rogerioreis.desafio.repositories.PessoaFisicaRepository;
-import com.rogerioreis.desafio.repositories.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PessoaFisicaService {
@@ -31,15 +29,15 @@ public class PessoaFisicaService {
     private TelefoneService telefoneService;
 
     @Autowired
-    private PessoaFisicaMapper mapper;
+    private PessoaFisicaMapper pessoaFisicaMapper;
 
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private PessoaMapper pessoaMapper;
 
     @Transactional
     public PessoaFisicaResponse create(PessoaFisicaRequest pessoaFisicaRequest) {
 
-        PessoaFisica pessoaFisicaSalvar = mapper.toEntity(pessoaFisicaRequest);
+        PessoaFisica pessoaFisicaSalvar = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
         pessoaFisicaSalvar.setId(null);
 
         pessoaFisicaSalvar = this.pessoaFisicaRepository.save(pessoaFisicaSalvar);
@@ -51,24 +49,20 @@ public class PessoaFisicaService {
         emailService.createEmailByContato(contato, listEmailsSalvar);
         telefoneService.createTelefoneByContato(contato, listTelefonesSalvar);
 
-        PessoaFisicaResponse pessoaFisicaResponse = mapper.toDTO(pessoaFisicaSalvar);
+        PessoaFisicaResponse pessoaFisicaResponse = pessoaFisicaMapper.toDTO(pessoaFisicaSalvar);
 
         return pessoaFisicaResponse;
     }
 
     public PessoaFisicaResponse readPessoaFisicaResponseById(Long id) {
-        return pessoaFisicaRepository.findById(id).map(mapper::toDTO)
+        return pessoaFisicaRepository.findById(id).map(pessoaFisicaMapper::toDTO)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
     }
 
     public void deletarById(Long id) {
-        PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(id)
+        pessoaFisicaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
-
-        Pessoa pessoa = pessoaFisica.getPessoa();
-        pessoa.setDataFim(ZonedDateTime.now());
-
-        pessoaRepository.save(pessoa);
+        pessoaFisicaRepository.deleteById(id);
     }
 
     public PessoaFisica readPessoaFisicaEntityById(Long id) {
@@ -83,7 +77,7 @@ public class PessoaFisicaService {
             throw new RegraNegocioException("É necessário informar o id e dados da pessoa física para atualizar.");
         }
 
-        PessoaFisica pessoaFisica = mapper.toEntity(pessoaFisicaRequest);
+        PessoaFisica pessoaFisica = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
         pessoaFisica.setId(id);
 
         PessoaFisica findPessoaFisica = pessoaFisicaRepository.findById(id)
@@ -95,13 +89,21 @@ public class PessoaFisicaService {
         List<Email> emailsRequest = pessoaFisicaRequest.emails();
         List<Telefone> telefonesRequest = pessoaFisicaRequest.telefones();
 
-        emailService.createEmailByContato(contato,emailsRequest);
-        telefoneService.createTelefoneByContato(contato,telefonesRequest);
+        emailService.createEmailByContato(contato, emailsRequest);
+        telefoneService.createTelefoneByContato(contato, telefonesRequest);
 
         pessoa.setDataAtualizacao(ZonedDateTime.now());
         pessoaFisica.setPessoa(pessoa);
         pessoaFisicaRepository.save(pessoaFisica);
         System.out.println("final do insert");
+
+    }
+
+    public List<PessoaFisicaResponse> readPessoaFisicaResponseList() {
+
+        List<PessoaFisica> pessoaFisicaList = pessoaFisicaRepository.findAll();
+
+        return pessoaFisicaMapper.toListDTO(pessoaFisicaList);
 
     }
 }

@@ -11,6 +11,6 @@ public record PessoaFisicaResponse(
         String nomeSocial,
         EnumSexo sexo,
         EnumNacionalidade nacionalidade,
-        LocalDate dataNascimento,
-        PessoaResponse pessoaResponse) {
+        LocalDate dataNascimento
+) {
 }

@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -57,6 +58,7 @@ public class PessoaJuridica implements Serializable {
 
     @Getter
     @Setter
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID", updatable = false,
             foreignKey = @ForeignKey(name = "FK_PESSOA"))
