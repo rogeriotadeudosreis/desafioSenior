@@ -1,15 +1,11 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -60,11 +56,8 @@ public class PessoaJuridica implements Serializable {
     @Setter
     @JsonIgnore
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID", updatable = false,
-            foreignKey = @ForeignKey(name = "FK_PESSOA"))
-    private Pessoa pessoa;
+    @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID", updatable = false,
+            foreignKey = @ForeignKey(name = "FK_CLIENTE"))
+    private Cliente cliente;
 
-    public PessoaJuridica(PessoaJuridicaRequest pessoaJuridicaRequest) {
-
-    }
-}
+   }

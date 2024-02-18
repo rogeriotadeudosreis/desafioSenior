@@ -32,14 +32,14 @@ public class Pedido implements Serializable {
     @Column(name = "NUMERO", updatable = false, unique = true)
     private String numero;
 
-    @Column(name = "INICIO_VIGENCIA", updatable = false)
-    private ZonedDateTime inicioVigencia;
+    @Column(name = "DATA_INICIO", updatable = false)
+    private ZonedDateTime dataInicio;
 
-    @Column(name = "FIM_VIGENCIA")
-    private ZonedDateTime fimVigencia;
+    @Column(name = "DATA_FIM")
+    private ZonedDateTime dataFim;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "FK_CLIENTE_ID"))
+    @JoinColumn(name = "ID_CLIENTE", nullable = false, foreignKey = @ForeignKey(name = "FK_CLIENTE_ID"))
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido")
@@ -105,12 +105,12 @@ public class Pedido implements Serializable {
 
     @JsonGetter
     public boolean isAtivo() {
-        return getFimVigencia() == null || getFimVigencia().compareTo(ZonedDateTime.now()) > 0;
+        return getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0;
     }
 
     @PrePersist
     private void init() {
-        this.inicioVigencia = ZonedDateTime.now();
+        this.dataInicio = ZonedDateTime.now();
         this.subTotal = calcularSubTotal();
         this.desconto = calcularDescontoProduto();
         this.total = getSubTotal().subtract(this.desconto);

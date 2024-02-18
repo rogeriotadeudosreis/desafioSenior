@@ -2,8 +2,10 @@ package com.rogerioreis.desafio.services;
 
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
+import com.rogerioreis.desafio.repositories.ClienteRepository;
 import com.rogerioreis.desafio.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -87,9 +89,9 @@ public class PedidoService {
                 new RecursoNaoEncontradoException("O cliente com ID [" + clienteId + "] não consta no sistema.")
         );
 
-        if (!cliente.isAtivo()) {
-            throw new RegraNegocioException("O cliente [" + cliente.getId() + "] deste pedido está desativado.");
-        }
+//        if (!cliente.isAtivo()) {
+//            throw new RegraNegocioException("O cliente [" + cliente.getId() + "] deste pedido está desativado.");
+//        }
 
         List<Item> itens = pedido.getItens();
 
@@ -97,7 +99,7 @@ public class PedidoService {
             throw new RecursoNaoEncontradoException("A lista de itens está vazia.");
         } else {
             itens.stream().forEach(item -> {
-                if (item.getProduto().getFimVigencia() != null)
+                if (item.getProduto().getDataFim() != null)
                     throw new RegraNegocioException("O produto deste item está DESATIVADO no cadastro de produtos.");
 
                 if (item.getPreco().compareTo(BigDecimal.ZERO) == 0 ||

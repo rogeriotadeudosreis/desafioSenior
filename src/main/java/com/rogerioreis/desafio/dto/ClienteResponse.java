@@ -2,9 +2,11 @@ package com.rogerioreis.desafio.dto;
 
 import com.rogerioreis.desafio.enuns.EnumSituacao;
 
-public record PessoaResponse(
+public record ClienteResponse(
         Long id,
         EnumSituacao situacao,
         ContatoResponse contatoResponse,
-        PessoaFisicaResponse pessoaFisicaResponse) {
+        PessoaFisicaResponse pessoaFisicaResponse,
+        PessoaJuridicaResponse pessoaJuridicaResponse
+        ) {
 }

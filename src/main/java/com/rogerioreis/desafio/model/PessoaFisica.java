@@ -79,10 +79,10 @@ public class PessoaFisica implements Serializable {
     @Getter
     @Setter
     @JsonIgnore
+    @Schema(name = "Cliente")
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "ID_PESSOA", nullable = false, referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "FK_PESSOA"))
-    @Schema(name = "Pessoa")
-    private Pessoa pessoa;
+    @JoinColumn(name = "ID_CLIENTE", nullable = false, referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "FK_CLIENTE"))
+    private Cliente cliente;
 
 }

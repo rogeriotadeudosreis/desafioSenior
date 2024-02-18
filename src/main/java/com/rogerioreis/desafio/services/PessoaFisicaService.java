@@ -5,7 +5,6 @@ import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.mapper.PessoaFisicaMapper;
-import com.rogerioreis.desafio.mapper.PessoaMapper;
 import com.rogerioreis.desafio.model.*;
 import com.rogerioreis.desafio.repositories.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PessoaFisicaService {
@@ -31,18 +29,19 @@ public class PessoaFisicaService {
     @Autowired
     private PessoaFisicaMapper pessoaFisicaMapper;
 
-    @Autowired
-    private PessoaMapper pessoaMapper;
-
     @Transactional
     public PessoaFisicaResponse create(PessoaFisicaRequest pessoaFisicaRequest) {
 
         PessoaFisica pessoaFisicaSalvar = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
+
+        Cliente cliente = new Cliente();
+        cliente.setTipoCliente("PF");
+        pessoaFisicaSalvar.setCliente(cliente);
         pessoaFisicaSalvar.setId(null);
 
         pessoaFisicaSalvar = this.pessoaFisicaRepository.save(pessoaFisicaSalvar);
 
-        Contato contato = pessoaFisicaSalvar.getPessoa().getContato();
+        Contato contato = pessoaFisicaSalvar.getCliente().getContato();
         List<Email> listEmailsSalvar = pessoaFisicaRequest.emails();
         List<Telefone> listTelefonesSalvar = pessoaFisicaRequest.telefones();
 
@@ -83,8 +82,8 @@ public class PessoaFisicaService {
         PessoaFisica findPessoaFisica = pessoaFisicaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
 
-        Pessoa pessoa = findPessoaFisica.getPessoa();
-        Contato contato = findPessoaFisica.getPessoa().getContato();
+        Cliente cliente = findPessoaFisica.getCliente();
+        Contato contato = findPessoaFisica.getCliente().getContato();
 
         List<Email> emailsRequest = pessoaFisicaRequest.emails();
         List<Telefone> telefonesRequest = pessoaFisicaRequest.telefones();
@@ -92,8 +91,8 @@ public class PessoaFisicaService {
         emailService.createEmailByContato(contato, emailsRequest);
         telefoneService.createTelefoneByContato(contato, telefonesRequest);
 
-        pessoa.setDataAtualizacao(ZonedDateTime.now());
-        pessoaFisica.setPessoa(pessoa);
+        cliente.setDataAtualizacao(ZonedDateTime.now());
+        pessoaFisica.setCliente(cliente);
         pessoaFisicaRepository.save(pessoaFisica);
         System.out.println("final do insert");
 

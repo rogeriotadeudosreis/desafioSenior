@@ -2,8 +2,8 @@ package com.rogerioreis.desafio.dto;
 
 import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Email;
-import com.rogerioreis.desafio.model.Pessoa;
 import com.rogerioreis.desafio.model.Telefone;
 
 import java.time.LocalDate;
@@ -20,7 +20,7 @@ public record PessoaFisicaRequest(
         EnumSexo sexo,
         EnumNacionalidade nacionalidade,
         LocalDate dataNascimento,
-        Pessoa pessoa,
+        Cliente cliente,
         List<Email> emails,
         List<Telefone> telefones
 ) {

@@ -34,7 +34,7 @@ public class PessoaFisicaMapper {
                 pessoaFisicaRequest.sexo(),
                 pessoaFisicaRequest.nacionalidade(),
                 pessoaFisicaRequest.dataNascimento(),
-                pessoaFisicaRequest.pessoa());
+                pessoaFisicaRequest.cliente());
     }
 
     public List<PessoaFisicaResponse> toListDTO(List<PessoaFisica> pessoaFisicaList) {

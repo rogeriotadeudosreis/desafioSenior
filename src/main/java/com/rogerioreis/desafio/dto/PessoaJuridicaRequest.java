@@ -1,20 +1,20 @@
 package com.rogerioreis.desafio.dto;
 
+import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Email;
-import com.rogerioreis.desafio.model.Pessoa;
 import com.rogerioreis.desafio.model.Telefone;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
 
 public record PessoaJuridicaRequest(
+        Long id,
         String razaoSocial,
         String nomeFantasia,
         String cnpj,
         String inscricaoEstadual,
         String inscricaoMunicipal,
-        Pessoa pessoa,
+        Cliente cliente,
         ZonedDateTime dataCadastro,
         ZonedDateTime dataAtualizacao,
         List<Email> emails,

@@ -12,9 +12,9 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"pessoaFisica", "pessoaJuridica", "contato"})
-@Entity(name = "PESSOA")
-@Schema(name = "Pessoa", description = "Cadastro de pessoa.")
-public class Pessoa implements Serializable {
+@Entity(name = "CLIENTE")
+@Schema(name = "Cliente", description = "Cadastro de cliente.")
+public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class Pessoa implements Serializable {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador da pessoa na base de dados.")
+    @Schema(description = "Identificador da cliente na base de dados.")
     private Long id;
 
     @Getter
@@ -48,31 +48,38 @@ public class Pessoa implements Serializable {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "SITUACAO")
-    @Schema(name = "Situacao do cadastro da pessoa.", allowableValues = "{ATIVO, INATIVO}")
+    @Schema(name = "Situacao do cadastro da cliente.", allowableValues = "{ATIVO, INATIVO}")
     private EnumSituacao situacao;
 
     @Getter
     @Setter
-    @Schema(name = "Contato da pessoa.")
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(name = "Contato do cliente.")
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Contato contato;
 
     @Getter
     @Setter
+//    @Enumerated(EnumType.STRING)
+    @Column(name = "TIPO_CLIENTE")
+    @Schema(name = "informa o tipo de cliente.", allowableValues = "{PF, PJ}")
+    private String tipoCliente;
+
+    @Getter
+    @Setter
     @Schema(description = "Pessoa Física.")
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaFisica pessoaFisica;
 
     @Getter
     @Setter
     @Schema(description = "Pessoa Jurídica.")
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaJuridica pessoaJuridica;
 
     @PrePersist
     private void prePersist() {
         this.contato = new Contato();
-        this.contato.setPessoa(this);
+        this.contato.setCliente(this);
         this.dataInicio = ZonedDateTime.now();
         this.situacao = EnumSituacao.ATIVO;
     }

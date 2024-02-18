@@ -46,17 +46,17 @@ public class Produto implements Serializable {
     @Schema(description = "Preço de venda do produto")
     private BigDecimal precoVenda;
 
-    @Column(name = "INICIO_VIGENCIA", nullable = false, updatable = false)
+    @Column(name = "DATA_INICIO", nullable = false, updatable = false)
     @Schema(description = "Data de cadastro do produto")
-    private ZonedDateTime inicioVigencia;
+    private ZonedDateTime dataInicio;
 
-    @Column(name = "fIM_VIGENCIA")
+    @Column(name = "DATA_FIM")
     @Schema(description = "Data para desativar o produto")
-    private ZonedDateTime fimVigencia;
+    private ZonedDateTime dataFim;
 
-    @Column(name = "ATUALIZACAO")
+    @Column(name = "DATA_ATUALIZACAO")
     @Schema(description = "Data de atualização do produto")
-    private ZonedDateTime atualizacao;
+    private ZonedDateTime dataAtualizacao;
 
     @Column(name = "TIPO", length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -74,16 +74,16 @@ public class Produto implements Serializable {
 
     @PrePersist
     private void init() {
-        this.inicioVigencia = ZonedDateTime.now();
+        this.dataInicio = ZonedDateTime.now();
     }
 
     @PreUpdate
     private void update() {
-        this.atualizacao = ZonedDateTime.now();
+        this.dataAtualizacao = ZonedDateTime.now();
     }
 
     @JsonGetter
     public boolean isAtivo() {
-        return getPrecoCusto().compareTo(BigDecimal.ZERO) > 0 && (getFimVigencia() == null || getFimVigencia().compareTo(ZonedDateTime.now()) > 0);
+        return getPrecoCusto().compareTo(BigDecimal.ZERO) > 0 && (getDataFim() == null || getDataFim().compareTo(ZonedDateTime.now()) > 0);
     }
 }

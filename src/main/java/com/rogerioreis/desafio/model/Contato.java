@@ -59,11 +59,11 @@ public class Contato implements Serializable {
     @Getter
     @Setter
     @JsonIgnore
-    @Schema(name = "Pessoa")
+    @Schema(name = "Cliente")
     @OneToOne(optional = false)
-    @JoinColumn(name = "ID_PESSOA", referencedColumnName = "ID",
-            foreignKey = @ForeignKey(name = "FK_PESSOA"))
-    private Pessoa pessoa;
+    @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID",
+            foreignKey = @ForeignKey(name = "FK_CLIENTE"))
+    private Cliente cliente;
 
     public Contato() {
     }
