@@ -40,4 +40,10 @@ public class ClienteController {
     public ResponseEntity<List<ClienteResponse>> readResponseClienteAll(){
         return ResponseEntity.ok(clienteService.readResponseClienteAll());
     }
+
+    @GetMapping(value = "/entity",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Schema(name = "cliente", description = "Consulta uma lista de entidade clientes.")
+    public ResponseEntity<List<Cliente>> readClienteAll(){
+        return ResponseEntity.ok(clienteService.readClienteAll());
+    }
 }
