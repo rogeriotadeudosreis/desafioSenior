@@ -21,8 +21,14 @@ public class PessoaJuridicaMapper {
     }
 
     public PessoaJuridicaResponse toDTO(PessoaJuridica pessoaJuridica) {
-        return new PessoaJuridicaResponse(pessoaJuridica.getId(), pessoaJuridica.getRazaoSocial(), pessoaJuridica.getNomeFantasia(),
-                pessoaJuridica.getCnpj());
+        if (pessoaJuridica != null) {
+            return new PessoaJuridicaResponse(
+                    pessoaJuridica.getId(),
+                    pessoaJuridica.getRazaoSocial(),
+                    pessoaJuridica.getNomeFantasia(),
+                    pessoaJuridica.getCnpj());
+        }
+        return null;
     }
 
 //    public List<PessoaJuridicaResponse> toListDTO(List<PessoaJuridica> pessoaFisicaList) {

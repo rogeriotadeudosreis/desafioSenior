@@ -29,20 +29,31 @@ public class ClienteService {
         clienteRepository.save(clienteUpdate);
     }
 
-    public ClienteResponse readById(Long id) {
+    public ClienteResponse readResponseClienteById(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa não encontro para o id: " + id));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente com id [" + id + "] não encontrada"));
 
         return clienteMapper.toDTO(cliente);
     }
 
-    public List<ClienteResponse> readAll() {
+    public List<ClienteResponse> readResponseClienteAll() {
         List<Cliente> clienteList = clienteRepository.findAll();
+        if (clienteList == null || clienteList.isEmpty()) {
+            throw new RecursoNaoEncontradoException("A lista de clientes está nula ou vazia.");
+        }
         return clienteMapper.toListDTO(clienteList);
     }
 
-    public Cliente readPessoaById(Long id) {
+    public List<Cliente> readClienteAll() {
+        List<Cliente> clienteList = clienteRepository.findAll();
+        if (clienteList == null || clienteList.isEmpty()) {
+            throw new RecursoNaoEncontradoException("A lista de clientes está nula ou vazia.");
+        }
+        return clienteList;
+    }
+
+    public Cliente readClienteById(Long id) {
         return clienteRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa não encontro para o id: " + id));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente com id [" + id + "] não encontrada"));
     }
 }

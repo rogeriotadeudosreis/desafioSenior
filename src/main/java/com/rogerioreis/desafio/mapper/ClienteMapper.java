@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.mapper;
 
 import com.rogerioreis.desafio.dto.ClienteResponse;
+import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,9 @@ public class ClienteMapper {
     }
 
     public List<ClienteResponse> toListDTO(List<Cliente> clienteList) {
+        if (clienteList == null || clienteList.isEmpty()) {
+            throw new RecursoNaoEncontradoException("A lista de clientes está nula ou vazia.");
+        }
         List<ClienteResponse> clienteResponseList = clienteList.stream()
                 .map((cliente ->
                         new ClienteResponse(

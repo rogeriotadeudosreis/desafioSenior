@@ -12,15 +12,18 @@ import java.util.stream.Collectors;
 public class PessoaFisicaMapper {
 
     public PessoaFisicaResponse toDTO(PessoaFisica pessoaFisica) {
-        return new PessoaFisicaResponse(
-                pessoaFisica.getId(),
-                pessoaFisica.getNome(),
-                pessoaFisica.getNomeSocial(),
-                pessoaFisica.getSexo(),
-                pessoaFisica.getNacionalidade(),
-                pessoaFisica.getDataNascimento()
-        );
+        if (pessoaFisica != null) {
 
+            return new PessoaFisicaResponse(
+                    pessoaFisica.getId(),
+                    pessoaFisica.getNome(),
+                    pessoaFisica.getNomeSocial(),
+                    pessoaFisica.getSexo(),
+                    pessoaFisica.getNacionalidade(),
+                    pessoaFisica.getDataNascimento()
+            );
+        }
+        return null;
     }
 
     public PessoaFisica toEntity(PessoaFisicaRequest pessoaFisicaRequest) {

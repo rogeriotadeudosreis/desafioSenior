@@ -34,7 +34,7 @@ public class PessoaFisicaService {
 
         PessoaFisica pessoaFisicaSalvar = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
 
-        Cliente cliente = new Cliente();
+        Cliente cliente = pessoaFisicaSalvar.getCliente();
         cliente.setTipoCliente("PF");
         pessoaFisicaSalvar.setCliente(cliente);
         pessoaFisicaSalvar.setId(null);
@@ -55,12 +55,12 @@ public class PessoaFisicaService {
 
     public PessoaFisicaResponse readPessoaFisicaResponseById(Long id) {
         return pessoaFisicaRepository.findById(id).map(pessoaFisicaMapper::toDTO)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
     }
 
     public void deletarById(Long id) {
         pessoaFisicaRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física não encontrada."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
         pessoaFisicaRepository.deleteById(id);
     }
 

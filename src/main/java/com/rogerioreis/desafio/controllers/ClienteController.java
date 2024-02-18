@@ -25,19 +25,19 @@ public class ClienteController {
 
     @GetMapping(value = "/response/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "cliente", description = "Consulta um registro de cliente.")
-    public ResponseEntity<ClienteResponse> readById(@PathVariable Long id) {
-        return ResponseEntity.ok(clienteService.readById(id));
+    public ResponseEntity<ClienteResponse> readResponseClienteById(@PathVariable Long id) {
+        return ResponseEntity.ok(clienteService.readResponseClienteById(id));
     }
 
     @GetMapping(value = "/entity/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "cliente", description = "Consulta um registro de cliente.")
-    public ResponseEntity<Cliente> readPessoaById(@PathVariable Long id) {
-        return ResponseEntity.ok(clienteService.readPessoaById(id));
+    public ResponseEntity<Cliente> readClienteById(@PathVariable Long id) {
+        return ResponseEntity.ok(clienteService.readClienteById(id));
     }
 
     @GetMapping(value = "/response",produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "cliente", description = "Consulta uma lista de clientes.")
-    public ResponseEntity<List<ClienteResponse>> readAll(){
-        return ResponseEntity.ok(clienteService.readAll());
+    public ResponseEntity<List<ClienteResponse>> readResponseClienteAll(){
+        return ResponseEntity.ok(clienteService.readResponseClienteAll());
     }
 }

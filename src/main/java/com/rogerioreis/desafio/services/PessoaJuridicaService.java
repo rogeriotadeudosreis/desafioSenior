@@ -34,7 +34,7 @@ public class PessoaJuridicaService {
 
         pessoaJuridicaSalvar = this.pessoaRepository.save(pessoaJuridicaSalvar);
 
-        Contato contato = pessoaJuridicaRequest.cliente().getContato();
+        Contato contato = pessoaJuridicaSalvar.getCliente().getContato();
         List<Email> emails = pessoaJuridicaRequest.emails();
         List<Telefone> telefones = pessoaJuridicaRequest.telefones();
 
