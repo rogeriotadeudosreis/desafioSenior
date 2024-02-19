@@ -12,6 +12,7 @@ public class EnderecoMapper {
 
     public EnderecoResponse toDTO(Endereco endereco) {
         return new EnderecoResponse(
+                endereco.getId(),
                 endereco.getEstado(),
                 endereco.getCidade(),
                 endereco.getCep(),

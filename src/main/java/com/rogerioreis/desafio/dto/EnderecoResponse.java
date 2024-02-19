@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.dto;
 
 public record EnderecoResponse(
+        Long id,
         String estado,
         String cidade,
         String cep,

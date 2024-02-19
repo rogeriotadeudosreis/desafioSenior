@@ -1,20 +1,25 @@
 package com.rogerioreis.desafio.services;
 
+import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
 import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
+import com.rogerioreis.desafio.dto.PessoaJuridicaResponse;
 import com.rogerioreis.desafio.enuns.EnumTipoCliente;
+import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
+import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.mapper.PessoaJuridicaMapper;
 import com.rogerioreis.desafio.model.*;
 import com.rogerioreis.desafio.repositories.PessoaJuridicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
 public class PessoaJuridicaService {
 
     @Autowired
-    private PessoaJuridicaRepository pessoaRepository;
+    private PessoaJuridicaRepository juridicaRepository;
 
     @Autowired
     private EmailService emailService;
@@ -28,7 +33,7 @@ public class PessoaJuridicaService {
     @Autowired
     private PessoaJuridicaMapper pessoaJuridicaMapper;
 
-    public PessoaJuridica create(PessoaJuridicaRequest pessoaJuridicaRequest) {
+    public PessoaJuridicaResponse create(PessoaJuridicaRequest pessoaJuridicaRequest) {
         PessoaJuridica pessoaJuridicaSalvar = pessoaJuridicaMapper.toEntity(pessoaJuridicaRequest);
 
         Cliente clienteSalvar = pessoaJuridicaSalvar.getCliente();
@@ -36,7 +41,7 @@ public class PessoaJuridicaService {
         pessoaJuridicaSalvar.setCliente(clienteSalvar);
         pessoaJuridicaSalvar.setId(null);
 
-        pessoaJuridicaSalvar = this.pessoaRepository.save(pessoaJuridicaSalvar);
+        pessoaJuridicaSalvar = this.juridicaRepository.save(pessoaJuridicaSalvar);
 
         Cliente clienteRetorno = pessoaJuridicaSalvar.getCliente();
         Contato contato = pessoaJuridicaSalvar.getCliente().getContato();
@@ -46,9 +51,56 @@ public class PessoaJuridicaService {
 
         emailService.createEmailByContato(contato, emails);
         telefoneService.createTelefoneByContato(contato, telefones);
-        enderecoService.createEnderecoByCliente(clienteRetorno,enderecos);
+        enderecoService.createEnderecoByCliente(clienteRetorno, enderecos);
 
-        return pessoaJuridicaSalvar;
+        PessoaJuridicaResponse pessoaJuridicaResponse = pessoaJuridicaMapper.toDTO(pessoaJuridicaSalvar);
+
+        return pessoaJuridicaResponse;
     }
+
+    public void update(Long id, PessoaJuridicaRequest pessoaJuridicaRequest) {
+
+        if (id == null || pessoaJuridicaRequest == null) {
+            throw new RegraNegocioException("É necessário informa o ID e dados de pessoa jurídica para atualizar.");
+        }
+
+        PessoaJuridica pessoaJuridicaFind = juridicaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa jurídica não encontrada"));
+
+        PessoaJuridica pessoaJuridicaAtualizar = pessoaJuridicaMapper.toEntity(pessoaJuridicaRequest);
+        pessoaJuridicaAtualizar.setId(pessoaJuridicaFind.getId());
+
+        Cliente clienteFind = pessoaJuridicaFind.getCliente();
+        Contato contatoFind = clienteFind.getContato();
+
+        List<Email> emailsRequest = pessoaJuridicaRequest.emails();
+        List<Telefone> telefonesRequest = pessoaJuridicaRequest.telefones();
+        List<Endereco> enderecosRequest = pessoaJuridicaRequest.enderecos();
+
+        emailService.createEmailByContato(contatoFind, emailsRequest);
+        telefoneService.createTelefoneByContato(contatoFind, telefonesRequest);
+        enderecoService.createEnderecoByCliente(clienteFind, enderecosRequest);
+
+        clienteFind.setDataAtualizacao(ZonedDateTime.now());
+        pessoaJuridicaAtualizar.setCliente(clienteFind);
+        juridicaRepository.save(pessoaJuridicaAtualizar);
+    }
+
+    public PessoaJuridicaResponse readPessoaJuridicaResponseById(Long id) {
+        return juridicaRepository.findById(id)
+                .map(pessoaJuridicaMapper::toDTO)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa jurídica com o [" + id + "] não encontrado"));
+    }
+
+    public PessoaJuridica readPessoaJuridicaById(Long id) {
+        return juridicaRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Registro de " +
+                "pessoa jurídica para o id [" + id + "] não encontrado'"));
+    }
+
+    public void deleteById(Long id){
+        this.readPessoaJuridicaById(id);
+        juridicaRepository.deleteById(id);
+    }
+
 
 }

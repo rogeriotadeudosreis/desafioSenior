@@ -60,15 +60,38 @@ public class PessoaFisicaService {
         return pessoaFisicaResponse;
     }
 
+    public void update(Long id, PessoaFisicaRequest pessoaFisicaRequest) {
+
+        if (id == null || pessoaFisicaRequest == null) {
+            throw new RegraNegocioException("É necessário informar o id e dados da pessoa física para atualizar.");
+        }
+
+        PessoaFisica pessoaFisicaFind = pessoaFisicaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
+
+        PessoaFisica pessoaFisicaAtualizar = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
+        pessoaFisicaAtualizar.setId(pessoaFisicaFind.getId());
+
+        Cliente clientFind = pessoaFisicaFind.getCliente();
+        Contato contato = clientFind.getContato();
+
+        List<Email> emailsRequest = pessoaFisicaRequest.emails();
+        List<Telefone> telefonesRequest = pessoaFisicaRequest.telefones();
+        List<Endereco> enderecosRequest = pessoaFisicaRequest.enderecos();
+
+        emailService.createEmailByContato(contato, emailsRequest);
+        telefoneService.createTelefoneByContato(contato, telefonesRequest);
+        enderecoService.createEnderecoByCliente(clientFind,enderecosRequest);
+
+        clientFind.setDataAtualizacao(ZonedDateTime.now());
+        pessoaFisicaAtualizar.setCliente(clientFind);
+        pessoaFisicaRepository.save(pessoaFisicaAtualizar);
+
+    }
+
     public PessoaFisicaResponse readPessoaFisicaResponseById(Long id) {
         return pessoaFisicaRepository.findById(id).map(pessoaFisicaMapper::toDTO)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
-    }
-
-    public void deletarById(Long id) {
-        pessoaFisicaRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
-        pessoaFisicaRepository.deleteById(id);
     }
 
     public PessoaFisica readPessoaFisicaEntityById(Long id) {
@@ -77,32 +100,9 @@ public class PessoaFisicaService {
         return pessoaFisica;
     }
 
-    public void update(Long id, PessoaFisicaRequest pessoaFisicaRequest) {
-
-        if (id == null || pessoaFisicaRequest == null) {
-            throw new RegraNegocioException("É necessário informar o id e dados da pessoa física para atualizar.");
-        }
-
-        PessoaFisica pessoaFisica = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
-        pessoaFisica.setId(id);
-
-        PessoaFisica findPessoaFisica = pessoaFisicaRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
-
-        Cliente cliente = findPessoaFisica.getCliente();
-        Contato contato = findPessoaFisica.getCliente().getContato();
-
-        List<Email> emailsRequest = pessoaFisicaRequest.emails();
-        List<Telefone> telefonesRequest = pessoaFisicaRequest.telefones();
-
-        emailService.createEmailByContato(contato, emailsRequest);
-        telefoneService.createTelefoneByContato(contato, telefonesRequest);
-
-        cliente.setDataAtualizacao(ZonedDateTime.now());
-        pessoaFisica.setCliente(cliente);
-        pessoaFisicaRepository.save(pessoaFisica);
-        System.out.println("final do insert");
-
+    public void deletarById(Long id) {
+       this.readPessoaFisicaEntityById(id);
+        pessoaFisicaRepository.deleteById(id);
     }
 
     public List<PessoaFisicaResponse> readPessoaFisicaResponseList() {

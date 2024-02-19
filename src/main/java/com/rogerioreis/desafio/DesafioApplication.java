@@ -11,11 +11,11 @@ public class DesafioApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(DesafioApplication.class, args);
-        log.info("mensagem info");
-        log.error("mensagem error");
-        log.warn("mensagem warn");
-        log.debug("mensagem debug");
-        log.trace("mensagem trace");
+//        log.info("mensagem info");
+//        log.error("mensagem error");
+//        log.warn("mensagem warn");
+//        log.debug("mensagem debug");
+//        log.trace("mensagem trace");
 
     }
 
