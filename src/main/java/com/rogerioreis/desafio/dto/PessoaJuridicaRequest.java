@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.dto;
 
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Email;
+import com.rogerioreis.desafio.model.Endereco;
 import com.rogerioreis.desafio.model.Telefone;
 
 import java.time.ZonedDateTime;
@@ -18,6 +19,7 @@ public record PessoaJuridicaRequest(
         ZonedDateTime dataCadastro,
         ZonedDateTime dataAtualizacao,
         List<Email> emails,
-        List<Telefone> telefones
+        List<Telefone> telefones,
+        List<Endereco> enderecos
 ) {
 }

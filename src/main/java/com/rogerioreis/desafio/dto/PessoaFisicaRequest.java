@@ -4,6 +4,7 @@ import com.rogerioreis.desafio.enuns.EnumNacionalidade;
 import com.rogerioreis.desafio.enuns.EnumSexo;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Email;
+import com.rogerioreis.desafio.model.Endereco;
 import com.rogerioreis.desafio.model.Telefone;
 
 import java.time.LocalDate;
@@ -22,6 +23,8 @@ public record PessoaFisicaRequest(
         LocalDate dataNascimento,
         Cliente cliente,
         List<Email> emails,
-        List<Telefone> telefones
+        List<Telefone> telefones,
+        List<Endereco> enderecos
+
 ) {
 }

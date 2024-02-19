@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.services;
 
 import com.rogerioreis.desafio.dto.PessoaFisicaRequest;
 import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
+import com.rogerioreis.desafio.enuns.EnumTipoCliente;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.mapper.PessoaFisicaMapper;
@@ -27,6 +28,9 @@ public class PessoaFisicaService {
     private TelefoneService telefoneService;
 
     @Autowired
+    private EnderecoService enderecoService;
+
+    @Autowired
     private PessoaFisicaMapper pessoaFisicaMapper;
 
     @Transactional
@@ -34,19 +38,22 @@ public class PessoaFisicaService {
 
         PessoaFisica pessoaFisicaSalvar = pessoaFisicaMapper.toEntity(pessoaFisicaRequest);
 
-        Cliente cliente = pessoaFisicaSalvar.getCliente();
-        cliente.setTipoCliente("PF");
-        pessoaFisicaSalvar.setCliente(cliente);
+        Cliente clienteSalvar = pessoaFisicaSalvar.getCliente();
+        clienteSalvar.setTipoCliente(EnumTipoCliente.PF);
+        pessoaFisicaSalvar.setCliente(clienteSalvar);
         pessoaFisicaSalvar.setId(null);
 
         pessoaFisicaSalvar = this.pessoaFisicaRepository.save(pessoaFisicaSalvar);
 
+        Cliente clienteRetorno = pessoaFisicaSalvar.getCliente();
         Contato contato = pessoaFisicaSalvar.getCliente().getContato();
         List<Email> listEmailsSalvar = pessoaFisicaRequest.emails();
         List<Telefone> listTelefonesSalvar = pessoaFisicaRequest.telefones();
+        List<Endereco> listEnderecosalvar = pessoaFisicaRequest.enderecos();
 
         emailService.createEmailByContato(contato, listEmailsSalvar);
         telefoneService.createTelefoneByContato(contato, listTelefonesSalvar);
+        enderecoService.createEnderecoByCliente(clienteRetorno,listEnderecosalvar);
 
         PessoaFisicaResponse pessoaFisicaResponse = pessoaFisicaMapper.toDTO(pessoaFisicaSalvar);
 

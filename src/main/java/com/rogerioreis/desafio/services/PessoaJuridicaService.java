@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.services;
 
 import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
+import com.rogerioreis.desafio.enuns.EnumTipoCliente;
 import com.rogerioreis.desafio.mapper.PessoaJuridicaMapper;
 import com.rogerioreis.desafio.model.*;
 import com.rogerioreis.desafio.repositories.PessoaJuridicaRepository;
@@ -28,7 +29,7 @@ public class PessoaJuridicaService {
         PessoaJuridica pessoaJuridicaSalvar = pessoaJuridicaMapper.toEntity(pessoaJuridicaRequest);
 
         Cliente cliente = new Cliente();
-        cliente.setTipoCliente("PJ");
+        cliente.setTipoCliente(EnumTipoCliente.PJ);
         pessoaJuridicaSalvar.setCliente(cliente);
         pessoaJuridicaSalvar.setId(null);
 

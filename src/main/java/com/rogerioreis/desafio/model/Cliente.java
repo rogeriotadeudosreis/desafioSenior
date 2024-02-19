@@ -2,12 +2,14 @@ package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rogerioreis.desafio.enuns.EnumSituacao;
+import com.rogerioreis.desafio.enuns.EnumTipoCliente;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,16 +55,16 @@ public class Cliente implements Serializable {
 
     @Getter
     @Setter
-    @Schema(name = "Contato do cliente.")
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Contato contato;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TIPO_CLIENTE")
+    @Schema(name = "informa o tipo de cliente.", allowableValues = "{PF, PJ}")
+    private EnumTipoCliente tipoCliente;
 
     @Getter
     @Setter
-//    @Enumerated(EnumType.STRING)
-    @Column(name = "TIPO_CLIENTE")
-    @Schema(name = "informa o tipo de cliente.", allowableValues = "{PF, PJ}")
-    private String tipoCliente;
+    @Schema(name = "Contato do cliente.")
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Contato contato;
 
     @Getter
     @Setter
@@ -75,6 +77,12 @@ public class Cliente implements Serializable {
     @Schema(description = "Pessoa Jurídica.")
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaJuridica pessoaJuridica;
+
+    @Getter
+    @Setter
+    @Schema(description = "lista de endereços do cliente.")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos;
 
     @PrePersist
     private void prePersist() {
