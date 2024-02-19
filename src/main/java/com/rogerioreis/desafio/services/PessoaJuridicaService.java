@@ -23,24 +23,30 @@ public class PessoaJuridicaService {
     private TelefoneService telefoneService;
 
     @Autowired
+    private EnderecoService enderecoService;
+
+    @Autowired
     private PessoaJuridicaMapper pessoaJuridicaMapper;
 
     public PessoaJuridica create(PessoaJuridicaRequest pessoaJuridicaRequest) {
         PessoaJuridica pessoaJuridicaSalvar = pessoaJuridicaMapper.toEntity(pessoaJuridicaRequest);
 
-        Cliente cliente = new Cliente();
-        cliente.setTipoCliente(EnumTipoCliente.PJ);
-        pessoaJuridicaSalvar.setCliente(cliente);
+        Cliente clienteSalvar = pessoaJuridicaSalvar.getCliente();
+        clienteSalvar.setTipoCliente(EnumTipoCliente.PJ);
+        pessoaJuridicaSalvar.setCliente(clienteSalvar);
         pessoaJuridicaSalvar.setId(null);
 
         pessoaJuridicaSalvar = this.pessoaRepository.save(pessoaJuridicaSalvar);
 
+        Cliente clienteRetorno = pessoaJuridicaSalvar.getCliente();
         Contato contato = pessoaJuridicaSalvar.getCliente().getContato();
         List<Email> emails = pessoaJuridicaRequest.emails();
         List<Telefone> telefones = pessoaJuridicaRequest.telefones();
+        List<Endereco> enderecos = pessoaJuridicaRequest.enderecos();
 
         emailService.createEmailByContato(contato, emails);
         telefoneService.createTelefoneByContato(contato, telefones);
+        enderecoService.createEnderecoByCliente(clienteRetorno,enderecos);
 
         return pessoaJuridicaSalvar;
     }

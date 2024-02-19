@@ -1,8 +1,10 @@
 package com.rogerioreis.desafio.mapper;
 
 import com.rogerioreis.desafio.dto.ClienteResponse;
+import com.rogerioreis.desafio.dto.EnderecoResponse;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.model.Cliente;
+import com.rogerioreis.desafio.model.Endereco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,28 +23,29 @@ public class ClienteMapper {
     @Autowired
     private ContatoMapper contatoMapper;
 
+    @Autowired
+    private EnderecoMapper enderecoMapper;
+
     public ClienteResponse toDTO(Cliente cliente) {
+
         return new ClienteResponse(
                 cliente.getId(),
                 cliente.getSituacao(),
                 contatoMapper.toDTO(cliente.getContato()),
                 pessoaFisicaMapper.toDTO(cliente.getPessoaFisica()),
-                pessoaJuridicaMapper.toDTO(cliente.getPessoaJuridica())
+                pessoaJuridicaMapper.toDTO(cliente.getPessoaJuridica()),
+                enderecoMapper.toListDTO(cliente.getEnderecos())
         );
     }
 
     public List<ClienteResponse> toListDTO(List<Cliente> clienteList) {
+
         if (clienteList == null || clienteList.isEmpty()) {
             throw new RecursoNaoEncontradoException("A lista de clientes está nula ou vazia.");
         }
+
         List<ClienteResponse> clienteResponseList = clienteList.stream()
-                .map((cliente ->
-                        new ClienteResponse(
-                                cliente.getId(), cliente.getSituacao(),
-                                contatoMapper.toDTO(cliente.getContato()),
-                                pessoaFisicaMapper.toDTO(cliente.getPessoaFisica()),
-                                pessoaJuridicaMapper.toDTO(cliente.getPessoaJuridica())
-                        )
+                .map((cliente -> this.toDTO(cliente)
                 )).collect(Collectors.toList());
         return clienteResponseList;
     }
