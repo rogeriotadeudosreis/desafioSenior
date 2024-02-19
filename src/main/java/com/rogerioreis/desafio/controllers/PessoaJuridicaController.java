@@ -2,6 +2,7 @@ package com.rogerioreis.desafio.controllers;
 
 import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
 import com.rogerioreis.desafio.dto.PessoaJuridicaResponse;
+import com.rogerioreis.desafio.model.PessoaJuridica;
 import com.rogerioreis.desafio.services.PessoaJuridicaService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,19 @@ public class PessoaJuridicaController {
         return ResponseEntity.ok(pessoaJuridicaService.create(pessoaJuridicaRequest));
     }
 
-    @PutMapping(value = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(description = "Atualizar um registro de cliente pessoa jurídica.")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PessoaJuridicaRequest pessoaJuridicaRequest) {
         pessoaJuridicaService.update(id, pessoaJuridicaRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = " /{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Schema(description = "Consulta um registro de pessoa jurídica informa seu identificador.")
+    public ResponseEntity<PessoaJuridica> readPessoaJuridica(@PathVariable Long id) {
+
+        PessoaJuridica pessoaJuridica = pessoaJuridicaService.readPessoaJuridicaById(id);
+
+        return ResponseEntity.ok(pessoaJuridica);
     }
 }

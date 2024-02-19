@@ -60,6 +60,7 @@ public class PessoaFisicaService {
         return pessoaFisicaResponse;
     }
 
+    @Transactional
     public void update(Long id, PessoaFisicaRequest pessoaFisicaRequest) {
 
         if (id == null || pessoaFisicaRequest == null) {
@@ -89,22 +90,26 @@ public class PessoaFisicaService {
 
     }
 
+    @Transactional
     public PessoaFisicaResponse readPessoaFisicaResponseById(Long id) {
         return pessoaFisicaRepository.findById(id).map(pessoaFisicaMapper::toDTO)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
     }
 
+    @Transactional
     public PessoaFisica readPessoaFisicaEntityById(Long id) {
         PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Pessoa física com id [" + id + "] não encontrada."));
         return pessoaFisica;
     }
 
+    @Transactional
     public void deletarById(Long id) {
        this.readPessoaFisicaEntityById(id);
         pessoaFisicaRepository.deleteById(id);
     }
 
+    @Transactional
     public List<PessoaFisicaResponse> readPessoaFisicaResponseList() {
 
         List<PessoaFisica> pessoaFisicaList = pessoaFisicaRepository.findAll();

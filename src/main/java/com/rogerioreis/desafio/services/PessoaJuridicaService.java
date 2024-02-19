@@ -11,6 +11,7 @@ import com.rogerioreis.desafio.model.*;
 import com.rogerioreis.desafio.repositories.PessoaJuridicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -33,6 +34,7 @@ public class PessoaJuridicaService {
     @Autowired
     private PessoaJuridicaMapper pessoaJuridicaMapper;
 
+    @Transactional
     public PessoaJuridicaResponse create(PessoaJuridicaRequest pessoaJuridicaRequest) {
         PessoaJuridica pessoaJuridicaSalvar = pessoaJuridicaMapper.toEntity(pessoaJuridicaRequest);
 
@@ -58,6 +60,7 @@ public class PessoaJuridicaService {
         return pessoaJuridicaResponse;
     }
 
+    @Transactional
     public void update(Long id, PessoaJuridicaRequest pessoaJuridicaRequest) {
 
         if (id == null || pessoaJuridicaRequest == null) {
@@ -86,17 +89,20 @@ public class PessoaJuridicaService {
         juridicaRepository.save(pessoaJuridicaAtualizar);
     }
 
+    @Transactional
     public PessoaJuridicaResponse readPessoaJuridicaResponseById(Long id) {
         return juridicaRepository.findById(id)
                 .map(pessoaJuridicaMapper::toDTO)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa jurídica com o [" + id + "] não encontrado"));
     }
 
+    @Transactional
     public PessoaJuridica readPessoaJuridicaById(Long id) {
         return juridicaRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Registro de " +
                 "pessoa jurídica para o id [" + id + "] não encontrado'"));
     }
 
+    @Transactional
     public void deleteById(Long id){
         this.readPessoaJuridicaById(id);
         juridicaRepository.deleteById(id);
