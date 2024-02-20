@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.internal.build.AllowNonPortable;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Entity
@@ -33,8 +33,8 @@ public class Endereco implements Serializable {
     private String estado;
 
     @Schema(description = "Informa a cidade")
-    @Column(name = "CIDADE")
-    private String cidade;
+    @Column(name = "LOCALIDADE")
+    private String localidade;
 
     @Schema(description = "Informa o CEP")
     @Column(name = "CEP")
@@ -58,13 +58,41 @@ public class Endereco implements Serializable {
 
     @Schema(description = "Informa o tipo de endereço (Residencial,comercial, cobranca, outro)")
     @Enumerated(EnumType.STRING)
-    @Column(name = "TIPO_ENDERECO" )
+    @Column(name = "TIPO_ENDERECO")
     private EnumTipoEndereco tipoEndereco;
+
+    @Getter
+    @Setter
+    @Column(name = "DATA_INICIO")
+    @Schema(description = "Data de cadastro.")
+    private ZonedDateTime dataInicio;
+
+    @Getter
+    @Setter
+    @Column(name = "DATA_FIM")
+    @Schema(description = "Período de vigência do cadastro.")
+    private ZonedDateTime dataFim;
+
+    @Getter
+    @Setter
+    @Column(name = "DATA_ATUALIZACAO")
+    @Schema(description = "Atualização do cadastro.")
+    private ZonedDateTime dataAtualizacao;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "ID_CLIENTE", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CLIENTE"))
-    private Cliente cliente;
+    @JoinColumn(name = "ID_CONTATO", nullable = false, referencedColumnName = "ID", foreignKey = @ForeignKey(name = "FK_CONTATO"))
+    private Contato contato;
+
+    @PrePersist
+    public void prePersist() {
+        this.dataInicio = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.dataAtualizacao = ZonedDateTime.now();
+    }
 
     @Override
     public boolean equals(Object o) {

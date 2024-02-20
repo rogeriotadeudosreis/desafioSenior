@@ -74,7 +74,7 @@ public class Email implements Serializable {
     }
 
     @PreUpdate
-    private void updatePersist(){
+    private void preUpdate(){
         this.dataAtualizacao = ZonedDateTime.now();
     }
 

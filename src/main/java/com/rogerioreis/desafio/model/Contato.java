@@ -58,6 +58,12 @@ public class Contato implements Serializable {
 
     @Getter
     @Setter
+    @Schema(description = "lista de endereços do contato.")
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos;
+
+    @Getter
+    @Setter
     @JsonIgnore
     @Schema(name = "Cliente")
     @OneToOne(optional = false)

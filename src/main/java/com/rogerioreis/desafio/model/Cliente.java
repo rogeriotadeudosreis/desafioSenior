@@ -78,12 +78,6 @@ public class Cliente implements Serializable {
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaJuridica pessoaJuridica;
 
-    @Getter
-    @Setter
-    @Schema(description = "lista de endereços do cliente.")
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<Endereco> enderecos;
-
     @PrePersist
     private void prePersist() {
         this.contato = new Contato();

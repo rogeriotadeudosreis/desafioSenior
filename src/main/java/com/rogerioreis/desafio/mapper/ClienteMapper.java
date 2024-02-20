@@ -33,8 +33,7 @@ public class ClienteMapper {
                 cliente.getSituacao(),
                 contatoMapper.toDTO(cliente.getContato()),
                 pessoaFisicaMapper.toDTO(cliente.getPessoaFisica()),
-                pessoaJuridicaMapper.toDTO(cliente.getPessoaJuridica()),
-                enderecoMapper.toListDTO(cliente.getEnderecos())
+                pessoaJuridicaMapper.toDTO(cliente.getPessoaJuridica())
         );
     }
 

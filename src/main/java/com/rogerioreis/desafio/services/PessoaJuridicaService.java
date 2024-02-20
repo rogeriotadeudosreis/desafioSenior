@@ -1,6 +1,5 @@
 package com.rogerioreis.desafio.services;
 
-import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
 import com.rogerioreis.desafio.dto.PessoaJuridicaRequest;
 import com.rogerioreis.desafio.dto.PessoaJuridicaResponse;
 import com.rogerioreis.desafio.enuns.EnumTipoCliente;
@@ -46,14 +45,14 @@ public class PessoaJuridicaService {
         pessoaJuridicaSalvar = this.juridicaRepository.save(pessoaJuridicaSalvar);
 
         Cliente clienteRetorno = pessoaJuridicaSalvar.getCliente();
-        Contato contato = pessoaJuridicaSalvar.getCliente().getContato();
+        Contato contato = clienteRetorno.getContato();
         List<Email> emails = pessoaJuridicaRequest.emails();
         List<Telefone> telefones = pessoaJuridicaRequest.telefones();
         List<Endereco> enderecos = pessoaJuridicaRequest.enderecos();
 
         emailService.createEmailByContato(contato, emails);
         telefoneService.createTelefoneByContato(contato, telefones);
-        enderecoService.createEnderecoByCliente(clienteRetorno, enderecos);
+        enderecoService.createEnderecoByContato(contato, enderecos);
 
         PessoaJuridicaResponse pessoaJuridicaResponse = pessoaJuridicaMapper.toDTO(pessoaJuridicaSalvar);
 
@@ -82,7 +81,7 @@ public class PessoaJuridicaService {
 
         emailService.createEmailByContato(contatoFind, emailsRequest);
         telefoneService.createTelefoneByContato(contatoFind, telefonesRequest);
-        enderecoService.createEnderecoByCliente(clienteFind, enderecosRequest);
+        enderecoService.createEnderecoByContato(contatoFind, enderecosRequest);
 
         clienteFind.setDataAtualizacao(ZonedDateTime.now());
         pessoaJuridicaAtualizar.setCliente(clienteFind);

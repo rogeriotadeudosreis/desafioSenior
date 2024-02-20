@@ -45,15 +45,14 @@ public class PessoaFisicaService {
 
         pessoaFisicaSalvar = this.pessoaFisicaRepository.save(pessoaFisicaSalvar);
 
-        Cliente clienteRetorno = pessoaFisicaSalvar.getCliente();
-        Contato contato = pessoaFisicaSalvar.getCliente().getContato();
+        Contato contatoFind = pessoaFisicaSalvar.getCliente().getContato();
         List<Email> listEmailsSalvar = pessoaFisicaRequest.emails();
         List<Telefone> listTelefonesSalvar = pessoaFisicaRequest.telefones();
         List<Endereco> listEnderecosalvar = pessoaFisicaRequest.enderecos();
 
-        emailService.createEmailByContato(contato, listEmailsSalvar);
-        telefoneService.createTelefoneByContato(contato, listTelefonesSalvar);
-        enderecoService.createEnderecoByCliente(clienteRetorno,listEnderecosalvar);
+        emailService.createEmailByContato(contatoFind, listEmailsSalvar);
+        telefoneService.createTelefoneByContato(contatoFind, listTelefonesSalvar);
+        enderecoService.createEnderecoByContato(contatoFind,listEnderecosalvar);
 
         PessoaFisicaResponse pessoaFisicaResponse = pessoaFisicaMapper.toDTO(pessoaFisicaSalvar);
 
@@ -74,15 +73,15 @@ public class PessoaFisicaService {
         pessoaFisicaAtualizar.setId(pessoaFisicaFind.getId());
 
         Cliente clientFind = pessoaFisicaFind.getCliente();
-        Contato contato = clientFind.getContato();
+        Contato contatoFind = clientFind.getContato();
 
         List<Email> emailsRequest = pessoaFisicaRequest.emails();
         List<Telefone> telefonesRequest = pessoaFisicaRequest.telefones();
         List<Endereco> enderecosRequest = pessoaFisicaRequest.enderecos();
 
-        emailService.createEmailByContato(contato, emailsRequest);
-        telefoneService.createTelefoneByContato(contato, telefonesRequest);
-        enderecoService.createEnderecoByCliente(clientFind,enderecosRequest);
+        emailService.createEmailByContato(contatoFind, emailsRequest);
+        telefoneService.createTelefoneByContato(contatoFind, telefonesRequest);
+        enderecoService.createEnderecoByContato(contatoFind,enderecosRequest);
 
         clientFind.setDataAtualizacao(ZonedDateTime.now());
         pessoaFisicaAtualizar.setCliente(clientFind);

@@ -14,7 +14,7 @@ public class EnderecoMapper {
         return new EnderecoResponse(
                 endereco.getId(),
                 endereco.getEstado(),
-                endereco.getCidade(),
+                endereco.getLocalidade(),
                 endereco.getCep(),
                 endereco.getBairro(),
                 endereco.getLogradouro(),
