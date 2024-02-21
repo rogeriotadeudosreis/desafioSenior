@@ -1,5 +1,7 @@
 package com.rogerioreis.desafio.controllers;
 
+import com.rogerioreis.desafio.dto.TelefoneRequest;
+import com.rogerioreis.desafio.dto.TelefoneResponse;
 import com.rogerioreis.desafio.model.Telefone;
 import com.rogerioreis.desafio.services.TelefoneService;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,10 +22,8 @@ public class TelefoneController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "telefone", description = "Cadastro de telefone.")
-    public ResponseEntity<Telefone> create(@RequestBody Telefone telefone) {
+    public ResponseEntity<TelefoneResponse> create(@RequestBody TelefoneRequest telefoneRequest) {
 
-        Telefone telefoneSalvo = telefoneService.create(telefone);
-
-        return ResponseEntity.ok(telefoneSalvo);
+        return ResponseEntity.ok(telefoneService.create(telefoneRequest));
     }
 }

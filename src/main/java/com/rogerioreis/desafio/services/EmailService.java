@@ -27,8 +27,7 @@ public class EmailService {
     public EmailResponse create(EmailRequest emailRequest) {
         Email email = emailMapper.toEntity(emailRequest);
         email.setId(null);
-        emailRepository.save(email);
-        EmailResponse emailResponse = emailMapper.toDTO(email);
+        EmailResponse emailResponse = emailMapper.toDTO(emailRepository.save(email));
         return emailResponse;
     }
 
@@ -39,9 +38,8 @@ public class EmailService {
         List<Email> emails = emailRepository.findAllByContatoId(contatoId);
         if (!emails.isEmpty()) {
             return emailMapper.toListDTO(emails);
-        } else {
-            throw new RecursoNaoEncontradoException("não foi possível encontrar emails para este id de contato");
         }
+        return null;
     }
 
     public List<Email> findAllEmailsByContatoId(Long contatoId) {
@@ -51,9 +49,8 @@ public class EmailService {
         List<Email> emailList = emailRepository.findAllByContatoId(contatoId);
         if (!emailList.isEmpty()) {
             return emailList;
-        } else {
-            throw new RecursoNaoEncontradoException("não foi possível encontrar emails para este id de contato");
         }
+        return null;
 
     }
 
@@ -97,11 +94,9 @@ public class EmailService {
         if (emailRequest == null) {
             throw new RegraNegocioException("É necessário informar um email para prosseguir com o delete.'");
         }
-        Long id = emailRequest.id();
-        this.findEmailById(id);
-        emailRepository.deleteById(id);
+        Email email = this.findEmailById(emailRequest.id());
+        emailRepository.delete(email);
     }
-
 
     public List<EmailResponse> createEmails(List<EmailRequest> emails) {
         if (emails != null && !emails.isEmpty()) {
@@ -113,7 +108,7 @@ public class EmailService {
                             null, null, contato);
                     emailResponseList.add(emailMapper.toDTO(emailRepository.save(emailSalvar)));
                 } else {
-                    throw new RegraNegocioException("É necessário informar pelo menos 01(um) email válido.");
+                    throw new RegraNegocioException("É necessário informar o email para salvar.");
                 }
             }
             return emailResponseList;

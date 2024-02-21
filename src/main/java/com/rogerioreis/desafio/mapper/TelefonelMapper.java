@@ -1,5 +1,6 @@
 package com.rogerioreis.desafio.mapper;
 
+import com.rogerioreis.desafio.dto.TelefoneRequest;
 import com.rogerioreis.desafio.dto.TelefoneResponse;
 import com.rogerioreis.desafio.model.Telefone;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,21 @@ public class TelefonelMapper {
                 .map((telefone -> toDTO(telefone)))
                 .collect(Collectors.toList());
         return telefoneResponses;
+    }
+
+    public Telefone toEntity(TelefoneRequest telefoneRequest) {
+        if (telefoneRequest != null) {
+            return new Telefone(
+                    telefoneRequest.id(),
+                    telefoneRequest.telefone(),
+                    telefoneRequest.ddd(),
+                    telefoneRequest.ddi(),
+                    telefoneRequest.tipoTelefone(),
+                    null, null, null,
+                    telefoneRequest.contato()
+            );
+        }
+        return null;
     }
 
 
