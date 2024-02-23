@@ -92,7 +92,7 @@ public class TelefoneService {
         return telefoneResponse;
     }
 
-    public void deleteById(TelefoneRequest telefoneRequest) {
+    public void deleteTelefone(TelefoneRequest telefoneRequest) {
         if (telefoneRequest == null) {
             throw new RegraNegocioException("É preciso informar um telefone para exclusão.");
         }
@@ -107,7 +107,8 @@ public class TelefoneService {
                 Contato contato = telefoneRequest.contato();
                 if (StringUtils.isNotBlank(telefoneRequest.telefone()) && StringUtils.isNotBlank(telefoneRequest.ddi())
                         && StringUtils.isNotBlank(telefoneRequest.ddd())) {
-                    Telefone telefone = new Telefone(telefoneRequest.id(), telefoneRequest.telefone(), telefoneRequest.ddd(), telefoneRequest.ddi(), telefoneRequest.tipoTelefone(),
+                    Telefone telefone = new Telefone(telefoneRequest.id(), telefoneRequest.telefone(), telefoneRequest.ddd(),
+                            telefoneRequest.ddi(), telefoneRequest.tipoTelefone(),
                             null, null, null, contato);
                     telefoneResponses.add(telefonelMapper.toDTO(telefoneRepository.save(telefone)));
                 } else {

@@ -38,7 +38,7 @@ public class EnderecoMapper {
         return null;
     }
 
-    public EnderecoResponse toEntity(EnderecoRequest enderecoRequest) {
+    public Endereco toEntity(EnderecoRequest enderecoRequest) {
         if (enderecoRequest != null) {
             Endereco endereco = new Endereco(
                     enderecoRequest.id(),
@@ -52,7 +52,7 @@ public class EnderecoMapper {
                     enderecoRequest.tipoEndereco(),
                     null, null, null,
                     enderecoRequest.contato());
-            EnderecoResponse response = this.toDTO(endereco);
+            return endereco;
         }
         return null;
     }

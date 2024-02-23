@@ -2,7 +2,6 @@ package com.rogerioreis.desafio.controllers;
 
 import com.rogerioreis.desafio.dto.EmailRequest;
 import com.rogerioreis.desafio.dto.EmailResponse;
-import com.rogerioreis.desafio.model.Contato;
 import com.rogerioreis.desafio.model.Email;
 import com.rogerioreis.desafio.services.EmailService;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,7 +27,7 @@ public class EmailController {
     }
 
     @PostMapping(value = "/inserir-lista",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Schema(description = "Cria emails através de um contato informado e uma lista de emails com no mínimo 01 item na lista.")
+    @Schema(description = "Cria emails através de uma lista de emails com no mínimo 01 item na lista.")
     public ResponseEntity<List<EmailResponse>> createEmails(@RequestBody List<EmailRequest> emails) {
 
         return ResponseEntity.ok(emailService.createEmails(emails));
