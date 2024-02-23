@@ -92,7 +92,7 @@ public class EnderecoService {
         return enderecoMapper.toDTO(endereco);
     }
 
-    public void deleteById(EnderecoRequest enderecoRequest) {
+    public void deleteByEndereco(EnderecoRequest enderecoRequest) {
         if (enderecoRequest == null) {
             throw new RegraNegocioException("É preciso informar um endereço para excluir.");
         }
