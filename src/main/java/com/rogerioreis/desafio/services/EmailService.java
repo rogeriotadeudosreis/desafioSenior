@@ -116,4 +116,17 @@ public class EmailService {
             throw new RegraNegocioException("A lista de emails está nula ou vazia.");
         }
     }
+
+    public EmailResponse findByEmail(String email) {
+        if (email != null) {
+            Email emailResponse = emailRepository.findByEmail(email)
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de email não encontrado para o " +
+                            "email [" + email + "]."));
+
+            return emailMapper.toDTO(emailResponse);
+        } else {
+            throw new RegraNegocioException("'E preciso informar um email para a consulta desse registro.");
+        }
+
+    }
 }

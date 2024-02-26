@@ -26,7 +26,7 @@ public class EmailController {
         return ResponseEntity.ok(emailService.create(email));
     }
 
-    @PostMapping(value = "/inserir-lista",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/inserir-lista", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(description = "Cria emails através de uma lista de emails com no mínimo 01 item na lista.")
     public ResponseEntity<List<EmailResponse>> createEmails(@RequestBody List<EmailRequest> emails) {
 
@@ -35,7 +35,7 @@ public class EmailController {
 
     @GetMapping(value = "/{idContato}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "email", description = "Busca uma lista de emails a partir de um contato.")
-    public ResponseEntity<List<Email>> listByContato(@PathVariable Long idContato) {
+    public ResponseEntity<List<Email>> listByContato(@PathVariable("idContato") Long idContato) {
 
         List<Email> emailList = emailService.findAllEmailsByContatoId(idContato);
 
@@ -53,7 +53,7 @@ public class EmailController {
 
     @GetMapping(value = "/response/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(description = "Consulta um email pelo seu identificador e retorna um response desse email.")
-    public ResponseEntity<EmailResponse> readEmailResponseById(@PathVariable Long id) {
+    public ResponseEntity<EmailResponse> readEmailResponseById(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok(emailService.findEmailResponseById(id));
 
@@ -64,6 +64,12 @@ public class EmailController {
     public ResponseEntity<?> deleteById(@RequestBody EmailRequest emailRequest) {
         emailService.deleteById(emailRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/email", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Schema(name = "Email", description = "Consultar e retorna um email por um email informado.")
+    public ResponseEntity<EmailResponse> findByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(emailService.findByEmail(email));
     }
 
 }

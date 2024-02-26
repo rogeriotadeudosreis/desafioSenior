@@ -7,6 +7,7 @@ import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.rogerioreis.desafio.mapper.PessoaFisicaMapper;
 import com.rogerioreis.desafio.model.*;
+import com.rogerioreis.desafio.projections.PessoaFisicaProjection;
 import com.rogerioreis.desafio.repositories.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class PessoaFisicaService {
 
         emailService.createEmailByContato(contatoFind, listEmailsSalvar);
         telefoneService.createTelefoneByContato(contatoFind, listTelefonesSalvar);
-        enderecoService.createEnderecoByContato(contatoFind,listEnderecosalvar);
+        enderecoService.createEnderecoByContato(contatoFind, listEnderecosalvar);
 
         PessoaFisicaResponse pessoaFisicaResponse = pessoaFisicaMapper.toDTO(pessoaFisicaSalvar);
 
@@ -81,7 +82,7 @@ public class PessoaFisicaService {
 
         emailService.createEmailByContato(contatoFind, emailsRequest);
         telefoneService.createTelefoneByContato(contatoFind, telefonesRequest);
-        enderecoService.createEnderecoByContato(contatoFind,enderecosRequest);
+        enderecoService.createEnderecoByContato(contatoFind, enderecosRequest);
 
         clientFind.setDataAtualizacao(ZonedDateTime.now());
         pessoaFisicaAtualizar.setCliente(clientFind);
@@ -104,7 +105,7 @@ public class PessoaFisicaService {
 
     @Transactional
     public void deletarById(Long id) {
-       this.readPessoaFisicaEntityById(id);
+        this.readPessoaFisicaEntityById(id);
         pessoaFisicaRepository.deleteById(id);
     }
 
@@ -115,5 +116,38 @@ public class PessoaFisicaService {
 
         return pessoaFisicaMapper.toListDTO(pessoaFisicaList);
 
+    }
+
+    public PessoaFisicaResponse findByCpf(String cpf) {
+        if (cpf != null) {
+            PessoaFisica pessoaFisica = pessoaFisicaRepository.findByCpf(cpf)
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa física não encontrado para p " +
+                            "cpf [" + cpf + "] informado."));
+            return pessoaFisicaMapper.toDTO(pessoaFisica);
+        } else {
+            throw new RegraNegocioException("É necessário informar um CPF para esta consulta de pessoa física.");
+        }
+    }
+
+    public PessoaFisicaResponse findByNome(String nome) {
+        if (nome != null) {
+            PessoaFisica pessoaFisica = pessoaFisicaRepository.findByNome(nome)
+                    .orElseThrow((() -> new RecursoNaoEncontradoException("Registro de pessoa física não encontrado" +
+                            " para o nome [" + nome + "] informado.")));
+            return pessoaFisicaMapper.toDTO(pessoaFisica);
+        } else {
+            throw new RegraNegocioException("É necessário informar o nome para esta consulta de pessoa física.");
+        }
+    }
+
+    public PessoaFisicaProjection findByEmail(String email) {
+        if (email != null) {
+            PessoaFisicaProjection pessoaFisica = pessoaFisicaRepository.findPessoaFisicaByEmail(email)
+                    .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa física não encontrado" +
+                            "para o email [" + email + "] informado."));
+            return pessoaFisica;
+        } else {
+            throw new RegraNegocioException("É necessário informar um email para a consulta desta pessoa física.");
+        }
     }
 }

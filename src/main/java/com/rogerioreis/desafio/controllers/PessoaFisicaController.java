@@ -3,6 +3,7 @@ package com.rogerioreis.desafio.controllers;
 import com.rogerioreis.desafio.dto.PessoaFisicaRequest;
 import com.rogerioreis.desafio.dto.PessoaFisicaResponse;
 import com.rogerioreis.desafio.model.PessoaFisica;
+import com.rogerioreis.desafio.projections.PessoaFisicaProjection;
 import com.rogerioreis.desafio.services.PessoaFisicaService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -29,9 +30,9 @@ public class PessoaFisicaController {
         return ResponseEntity.ok(pessoaFisicaService.create(pessoaFisicaRequest));
     }
 
-    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/id/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "Pessoa Física", description = "Consulta uma pessoa física e retorna um response.")
-    public ResponseEntity<PessoaFisicaResponse> readPessoaFisicaResponseById(@PathVariable Long id) {
+    public ResponseEntity<PessoaFisicaResponse> readPessoaFisicaResponseById(@PathVariable("id") Long id) {
         log.debug("debug --> Ocorreu um erro ao buscar a pessoa física response com o ID: " + id);
 
         return ResponseEntity.ok(pessoaFisicaService.readPessoaFisicaResponseById(id));
@@ -48,15 +49,15 @@ public class PessoaFisicaController {
 
     @GetMapping(value = "/pessoa-fisica/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física entidade.")
-    public ResponseEntity<PessoaFisica> readPessoaFisicaEntityById(@PathVariable Long id) {
+    public ResponseEntity<PessoaFisica> readPessoaFisicaEntityById(@PathVariable("id") Long id) {
         log.debug("debug --> Ocorreu um erro ao buscar a pessoa física com o ID: " + id);
 
         return ResponseEntity.ok().body(pessoaFisicaService.readPessoaFisicaEntityById(id));
     }
 
-    @PutMapping(value = "/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "Pessoa Física", description = "Atualizar um cadastro de pessoa física.")
-    public ResponseEntity<PessoaFisicaResponse> update(@PathVariable Long id,@RequestBody @Valid PessoaFisicaRequest pessoaFisicaRequest) {
+    public ResponseEntity<PessoaFisicaResponse> update(@PathVariable("id") Long id, @RequestBody @Valid PessoaFisicaRequest pessoaFisicaRequest) {
 
         pessoaFisicaService.update(id, pessoaFisicaRequest);
 
@@ -65,10 +66,27 @@ public class PessoaFisicaController {
 
     @DeleteMapping(value = "/{id}")
     @Schema(name = "Pessoa Física", description = "Deleta uma pessoa física.")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
         pessoaFisicaService.deletarById(id);
         log.debug("debug --> Ocorreu um erro ao buscar a pessoa física com o ID: " + id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/cpf/{cpf}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Schema(name = "Pessoa Física", description = "Consultar e retorna uma pessoa física pelo seu CPF.")
+    public ResponseEntity<PessoaFisicaResponse> readByCpf(@PathVariable("cpf") String cpf) {
+        return ResponseEntity.ok(pessoaFisicaService.findByCpf(cpf));
+    }
+
+    @GetMapping(value = "/name")
+    @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física pelo nome.")
+    public ResponseEntity<PessoaFisicaResponse> readByName(@RequestParam("name") String nome) {
+        return ResponseEntity.ok(pessoaFisicaService.findByNome(nome));
+    }
+
+    @GetMapping(value = "/email", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<PessoaFisicaProjection> readByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(pessoaFisicaService.findByEmail(email));
     }
 }
