@@ -1,7 +1,7 @@
 package com.rogerioreis.desafio.model;
 
-import com.rogerioreis.desafio.enuns.EnumSituacaoPedido;
-import com.rogerioreis.desafio.enuns.EnumTipoProduto;
+import com.rogerioreis.desafio.enun.EnumSituacaoPedido;
+import com.rogerioreis.desafio.enun.EnumTipoProduto;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;

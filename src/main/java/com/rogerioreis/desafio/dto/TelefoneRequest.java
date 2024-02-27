@@ -1,6 +1,6 @@
 package com.rogerioreis.desafio.dto;
 
-import com.rogerioreis.desafio.enuns.EnumTipoTelefone;
+import com.rogerioreis.desafio.enun.EnumTipoTelefone;
 import com.rogerioreis.desafio.model.Contato;
 
 public record TelefoneRequest(

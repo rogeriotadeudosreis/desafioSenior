@@ -1,15 +1,14 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rogerioreis.desafio.enuns.EnumSituacao;
-import com.rogerioreis.desafio.enuns.EnumTipoCliente;
+import com.rogerioreis.desafio.enun.EnumSituacao;
+import com.rogerioreis.desafio.enun.EnumTipoCliente;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

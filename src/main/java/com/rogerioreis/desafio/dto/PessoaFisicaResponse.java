@@ -1,7 +1,7 @@
 package com.rogerioreis.desafio.dto;
 
-import com.rogerioreis.desafio.enuns.EnumNacionalidade;
-import com.rogerioreis.desafio.enuns.EnumSexo;
+import com.rogerioreis.desafio.enun.EnumNacionalidade;
+import com.rogerioreis.desafio.enun.EnumSexo;
 
 import java.time.LocalDate;
 

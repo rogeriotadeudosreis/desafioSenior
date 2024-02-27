@@ -1,6 +1,6 @@
 package com.rogerioreis.desafio.dto;
 
-import com.rogerioreis.desafio.enuns.EnumTipoProduto;
+import com.rogerioreis.desafio.enun.EnumTipoProduto;
 
 import java.math.BigDecimal;
 

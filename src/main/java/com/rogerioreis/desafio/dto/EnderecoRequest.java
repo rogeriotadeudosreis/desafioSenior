@@ -1,6 +1,6 @@
 package com.rogerioreis.desafio.dto;
 
-import com.rogerioreis.desafio.enuns.EnumTipoEndereco;
+import com.rogerioreis.desafio.enun.EnumTipoEndereco;
 import com.rogerioreis.desafio.model.Contato;
 
 public record EnderecoRequest(

@@ -1,6 +1,6 @@
 package com.rogerioreis.desafio.infra.security;
 
-import com.rogerioreis.desafio.repositories.UserRepository;
+import com.rogerioreis.desafio.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

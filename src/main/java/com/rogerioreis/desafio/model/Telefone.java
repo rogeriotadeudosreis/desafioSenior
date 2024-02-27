@@ -1,7 +1,7 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rogerioreis.desafio.enuns.EnumTipoTelefone;
+import com.rogerioreis.desafio.enun.EnumTipoTelefone;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

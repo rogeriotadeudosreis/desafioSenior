@@ -1,6 +1,6 @@
 package com.rogerioreis.desafio.dto;
 
-import com.rogerioreis.desafio.enuns.EnumSituacao;
+import com.rogerioreis.desafio.enun.EnumSituacao;
 
 public record ClienteResponse(
         Long id,

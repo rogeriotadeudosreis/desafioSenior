@@ -1,8 +1,8 @@
 package com.rogerioreis.desafio.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rogerioreis.desafio.enuns.EnumNacionalidade;
-import com.rogerioreis.desafio.enuns.EnumSexo;
+import com.rogerioreis.desafio.enun.EnumNacionalidade;
+import com.rogerioreis.desafio.enun.EnumSexo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,9 +1,9 @@
 package com.rogerioreis.desafio;
 
-import com.rogerioreis.desafio.repositories.ItemRepository;
-import com.rogerioreis.desafio.repositories.PedidoRepository;
-import com.rogerioreis.desafio.repositories.ProductRepository;
-import com.rogerioreis.desafio.services.PedidoService;
+import com.rogerioreis.desafio.repository.ItemRepository;
+import com.rogerioreis.desafio.repository.PedidoRepository;
+import com.rogerioreis.desafio.repository.ProductRepository;
+import com.rogerioreis.desafio.service.PedidoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
