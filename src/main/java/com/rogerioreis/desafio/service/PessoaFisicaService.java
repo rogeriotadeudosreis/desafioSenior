@@ -114,8 +114,10 @@ public class PessoaFisicaService {
 
         List<PessoaFisica> pessoaFisicaList = pessoaFisicaRepository.findAll();
 
-        return pessoaFisicaMapper.toListDTO(pessoaFisicaList);
-
+        if (!pessoaFisicaList.isEmpty()) {
+            return pessoaFisicaMapper.toListDTO(pessoaFisicaList);
+        }
+        throw new RecursoNaoEncontradoException("Nenhum registro de pessoa física encontrado para esta pesquisa.");
     }
 
     public PessoaFisicaProjection findByCpf(String cpf) {
