@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface PessoaFisicaProjection {
 
@@ -33,12 +34,12 @@ public interface PessoaFisicaProjection {
     @Value(value = "#{target.cliente != null ? target.cliente.dataFim == null : true }")
     boolean isAtivo();
 
-    @Value(value = "#{target.cliente.contato != null ? target.cliente.contato.emails[0] : null }")
-    EmailProjetcion getEmail();
+    @Value(value = "#{target.cliente.contato != null ? target.cliente.contato.emails : '' }")
+    List<EmailProjetcion> getEmail();
 
-    @Value(value = "#{target.cliente.contato != null ? target.cliente.contato.telefones[0] : null }")
-    TelefoneProjection getTelefone();
+    @Value(value = "#{target.cliente.contato != null ? target.cliente.contato.telefones: '' }")
+    List<TelefoneProjection> getTelefone();
 
-    @Value(value = "#{target.cliente.contato != null ? target.cliente.contato.enderecos[0] : null }")
-    EnderecoProjetction getEndereco();
+    @Value(value = "#{target.cliente.contato != null ? target.cliente.contato.enderecos : '' }")
+    List<EnderecoProjection> getEndereco();
 }

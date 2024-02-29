@@ -118,34 +118,35 @@ public class PessoaFisicaService {
 
     }
 
-    public PessoaFisicaResponse findByCpf(String cpf) {
-        if (cpf != null) {
-            PessoaFisica pessoaFisica = pessoaFisicaRepository.findByCpf(cpf)
+    public PessoaFisicaProjection findByCpf(String cpf) {
+        if (cpf != null && !cpf.isEmpty()) {
+            PessoaFisicaProjection pessoaFisicaProjection = pessoaFisicaRepository.findByCpf(cpf)
                     .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa física não encontrado para p " +
-                            "cpf [" + cpf + "] informado."));
-            return pessoaFisicaMapper.toDTO(pessoaFisica);
+                            " cpf [" + cpf + "] informado."));
+            return pessoaFisicaProjection;
         } else {
             throw new RegraNegocioException("É necessário informar um CPF para esta consulta de pessoa física.");
         }
     }
 
-    public PessoaFisicaResponse findByNome(String nome) {
-        if (nome != null) {
-            PessoaFisica pessoaFisica = pessoaFisicaRepository.findByNome(nome)
-                    .orElseThrow((() -> new RecursoNaoEncontradoException("Registro de pessoa física não encontrado" +
-                            " para o nome [" + nome + "] informado.")));
-
-            return pessoaFisicaMapper.toDTO(pessoaFisica);
+    public List<PessoaFisicaProjection> findByNome(String nome) {
+        if (nome != null && !nome.isEmpty()) {
+            List<PessoaFisicaProjection> pessoaFisicaProjections = pessoaFisicaRepository.findAllByName(nome.toUpperCase());
+            if (!pessoaFisicaProjections.isEmpty()) {
+                return pessoaFisicaProjections;
+            } else {
+                throw new RecursoNaoEncontradoException("Nenhum registro encontrado para este nome informado.");
+            }
         } else {
             throw new RegraNegocioException("É necessário informar o nome para esta consulta de pessoa física.");
         }
     }
 
-    public PessoaFisicaProjection findByEmail(String email) {
-        if (email != null) {
-            PessoaFisicaProjection pessoaFisica = pessoaFisicaRepository.findPessoaFisicaByEmail(email)
+    public PessoaFisicaProjection findByEmailOrCpf(String emailCpf) {
+        if (emailCpf != null && !emailCpf.isEmpty()) {
+            PessoaFisicaProjection pessoaFisica = pessoaFisicaRepository.findPessoaFisicaByEmailOrCpf(emailCpf)
                     .orElseThrow(() -> new RecursoNaoEncontradoException("Registro de pessoa física não encontrado" +
-                            "para o email [" + email + "] informado."));
+                            " para o email [" + emailCpf + "] informado."));
             return pessoaFisica;
         } else {
             throw new RegraNegocioException("É necessário informar um email para a consulta desta pessoa física.");

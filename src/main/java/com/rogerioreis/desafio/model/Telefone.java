@@ -51,7 +51,7 @@ public class Telefone implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "TIPO", length = 20)
     @Schema(description = "Informa o tipo de telefone.")
-    private EnumTipoTelefone tipoTelefone;
+    private EnumTipoTelefone tipo;
 
     @Getter
     @Setter
@@ -93,11 +93,11 @@ public class Telefone implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Telefone telefone1)) return false;
-        return Objects.equals(getId(), telefone1.getId()) && Objects.equals(getTelefone(), telefone1.getTelefone()) && Objects.equals(getDdd(), telefone1.getDdd()) && Objects.equals(getDdi(), telefone1.getDdi()) && getTipoTelefone() == telefone1.getTipoTelefone() && Objects.equals(getDataInicio(), telefone1.getDataInicio()) && Objects.equals(getDataFim(), telefone1.getDataFim()) && Objects.equals(getDataAtualizacao(), telefone1.getDataAtualizacao());
+        return Objects.equals(getId(), telefone1.getId()) && Objects.equals(getTelefone(), telefone1.getTelefone()) && Objects.equals(getDdd(), telefone1.getDdd()) && Objects.equals(getDdi(), telefone1.getDdi()) && getTipo() == telefone1.getTipo() && Objects.equals(getDataInicio(), telefone1.getDataInicio()) && Objects.equals(getDataFim(), telefone1.getDataFim()) && Objects.equals(getDataAtualizacao(), telefone1.getDataAtualizacao());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTelefone(), getDdd(), getDdi(), getTipoTelefone(), getDataInicio(), getDataFim(), getDataAtualizacao());
+        return Objects.hash(getId(), getTelefone(), getDdd(), getDdi(), getTipo(), getDataInicio(), getDataFim(), getDataAtualizacao());
     }
 }

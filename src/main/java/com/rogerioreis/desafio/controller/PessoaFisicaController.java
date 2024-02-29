@@ -75,18 +75,19 @@ public class PessoaFisicaController {
 
     @GetMapping(value = "/cpf/{cpf}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Schema(name = "Pessoa Física", description = "Consultar e retorna uma pessoa física pelo seu CPF.")
-    public ResponseEntity<PessoaFisicaResponse> readByCpf(@PathVariable("cpf") String cpf) {
+    public ResponseEntity<PessoaFisicaProjection> readByCpf(@PathVariable("cpf") String cpf) {
         return ResponseEntity.ok(pessoaFisicaService.findByCpf(cpf));
     }
 
     @GetMapping(value = "/name")
     @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física pelo nome.")
-    public ResponseEntity<PessoaFisicaResponse> readByName(@RequestParam("name") String nome) {
+    public ResponseEntity<List<PessoaFisicaProjection>> readByName(@RequestParam("name") @Valid String nome ) {
         return ResponseEntity.ok(pessoaFisicaService.findByNome(nome));
     }
 
-    @GetMapping(value = "/email", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PessoaFisicaProjection> readByEmail(@RequestParam("email") String email) {
-        return ResponseEntity.ok(pessoaFisicaService.findByEmail(email));
+    @GetMapping(value = "/email-cpf", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física pelo email ou cpf.")
+    public ResponseEntity<PessoaFisicaProjection> readByEmail(@RequestParam("emailCpf") String emailCpf) {
+        return ResponseEntity.ok(pessoaFisicaService.findByEmailOrCpf(emailCpf));
     }
 }

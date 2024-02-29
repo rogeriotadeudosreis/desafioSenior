@@ -17,7 +17,7 @@ public class TelefonelMapper {
                 telefone.getTelefone(),
                 telefone.getDdd(),
                 telefone.getDdi(),
-                telefone.getTipoTelefone());
+                telefone.getTipo());
     }
 
     public List<TelefoneResponse> toListDTO(List<Telefone> telefones) {

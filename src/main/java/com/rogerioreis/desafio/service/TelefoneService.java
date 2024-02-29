@@ -60,7 +60,7 @@ public class TelefoneService {
             for (Telefone telefone : telefones) {
                 if (StringUtils.isNotBlank(telefone.getTelefone())) {
                     Telefone telefoneSalvar = new Telefone(telefone.getId(), telefone.getTelefone(), telefone.getDdd(),
-                            telefone.getDdi(), telefone.getTipoTelefone(),
+                            telefone.getDdi(), telefone.getTipo(),
                             null, null, null, contato);
                     listTelefonesResponses.add(telefonelMapper.toDTO(telefoneRepository.save(telefoneSalvar)));
                 } else {

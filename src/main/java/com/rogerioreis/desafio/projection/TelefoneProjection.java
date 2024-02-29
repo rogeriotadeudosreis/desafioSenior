@@ -7,4 +7,6 @@ public interface TelefoneProjection {
     String getDdd();
 
     String getTelefone();
+
+    String getTipo();
 }

@@ -1,8 +1,6 @@
 package com.rogerioreis.desafio.projection;
 
-import com.rogerioreis.desafio.enun.EnumTipoEndereco;
-
-public interface EnderecoProjetction {
+public interface EnderecoProjection {
 
     String getCep();
 
