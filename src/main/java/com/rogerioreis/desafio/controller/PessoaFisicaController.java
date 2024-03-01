@@ -81,7 +81,7 @@ public class PessoaFisicaController {
 
     @GetMapping(value = "/name")
     @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física pelo nome.")
-    public ResponseEntity<List<PessoaFisicaProjection>> readByName(@RequestParam("name") @Valid String nome ) {
+    public ResponseEntity<List<PessoaFisicaProjection>> readByName(@RequestParam("name") @Valid String nome) {
         return ResponseEntity.ok(pessoaFisicaService.findByNome(nome));
     }
 
@@ -89,5 +89,17 @@ public class PessoaFisicaController {
     @Schema(name = "Pessoa Física", description = "Consulta e retorna uma pessoa física pelo email ou cpf.")
     public ResponseEntity<PessoaFisicaProjection> readByEmail(@RequestParam("emailCpf") String emailCpf) {
         return ResponseEntity.ok(pessoaFisicaService.findByEmailOrCpf(emailCpf));
+    }
+
+    @PutMapping(value = "/desativar/{id}")
+    public ResponseEntity<?> desativarAtivarPessoaFisicaById(@PathVariable Long id) {
+        pessoaFisicaService.desativar(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/ativar/{id}")
+    public ResponseEntity<?> ativarAtivarPessoaFisicaById(@PathVariable Long id) {
+        pessoaFisicaService.ativar(id);
+        return ResponseEntity.ok().build();
     }
 }

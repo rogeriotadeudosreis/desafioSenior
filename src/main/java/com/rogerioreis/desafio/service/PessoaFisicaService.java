@@ -34,6 +34,9 @@ public class PessoaFisicaService {
     @Autowired
     private PessoaFisicaMapper pessoaFisicaMapper;
 
+    @Autowired
+    private ClienteService clienteService;
+
     @Transactional
     public PessoaFisicaResponse create(PessoaFisicaRequest pessoaFisicaRequest) {
 
@@ -152,6 +155,22 @@ public class PessoaFisicaService {
             return pessoaFisica;
         } else {
             throw new RegraNegocioException("É necessário informar um email para a consulta desta pessoa física.");
+        }
+    }
+
+    public void desativar(Long id) {
+        if (id != null) {
+            Cliente clienteFind = this.readPessoaFisicaEntityById(id).getCliente();
+            clienteFind.setDataFim(ZonedDateTime.now());
+            clienteService.update(clienteFind);
+        }
+    }
+
+    public void ativar(Long id) {
+        if (id != null) {
+            Cliente clienteFind = this.readPessoaFisicaEntityById(id).getCliente();
+            clienteFind.setDataFim(null);
+            clienteService.update(clienteFind);
         }
     }
 }
