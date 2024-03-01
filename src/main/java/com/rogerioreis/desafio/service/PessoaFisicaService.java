@@ -123,6 +123,7 @@ public class PessoaFisicaService {
         throw new RecursoNaoEncontradoException("Nenhum registro de pessoa física encontrado para esta pesquisa.");
     }
 
+    @Transactional
     public PessoaFisicaProjection findByCpf(String cpf) {
         if (cpf != null && !cpf.isEmpty()) {
             PessoaFisicaProjection pessoaFisicaProjection = pessoaFisicaRepository.findByCpf(cpf)
@@ -134,6 +135,7 @@ public class PessoaFisicaService {
         }
     }
 
+    @Transactional
     public List<PessoaFisicaProjection> findByNome(String nome) {
         if (nome != null && !nome.isEmpty()) {
             List<PessoaFisicaProjection> pessoaFisicaProjections = pessoaFisicaRepository.findAllByName(nome.toUpperCase());
@@ -147,6 +149,7 @@ public class PessoaFisicaService {
         }
     }
 
+    @Transactional
     public PessoaFisicaProjection findByEmailOrCpf(String emailCpf) {
         if (emailCpf != null && !emailCpf.isEmpty()) {
             PessoaFisicaProjection pessoaFisica = pessoaFisicaRepository.findPessoaFisicaByEmailOrCpf(emailCpf)
@@ -158,6 +161,7 @@ public class PessoaFisicaService {
         }
     }
 
+    @Transactional
     public void desativar(Long id) {
         if (id != null) {
             Cliente clienteFind = this.readPessoaFisicaEntityById(id).getCliente();
@@ -168,6 +172,7 @@ public class PessoaFisicaService {
         }
     }
 
+    @Transactional
     public void ativar(Long id) {
         if (id != null) {
             Cliente clienteFind = this.readPessoaFisicaEntityById(id).getCliente();
