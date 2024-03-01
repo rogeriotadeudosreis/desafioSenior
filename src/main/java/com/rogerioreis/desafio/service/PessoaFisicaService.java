@@ -163,6 +163,8 @@ public class PessoaFisicaService {
             Cliente clienteFind = this.readPessoaFisicaEntityById(id).getCliente();
             clienteFind.setDataFim(ZonedDateTime.now());
             clienteService.update(clienteFind);
+        } else {
+            throw new RegraNegocioException("É necessário informar o identificador da pessoa física.");
         }
     }
 
@@ -171,6 +173,8 @@ public class PessoaFisicaService {
             Cliente clienteFind = this.readPessoaFisicaEntityById(id).getCliente();
             clienteFind.setDataFim(null);
             clienteService.update(clienteFind);
+        } else {
+            throw new RegraNegocioException("É necessário informar o identificador da pessoa física.");
         }
     }
 }
