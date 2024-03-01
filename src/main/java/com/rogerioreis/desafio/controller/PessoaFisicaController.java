@@ -92,13 +92,15 @@ public class PessoaFisicaController {
     }
 
     @PutMapping(value = "/desativar/{id}")
-    public ResponseEntity<?> desativarAtivarPessoaFisicaById(@PathVariable Long id) {
+    @Schema(name = "Pessoa Física", description = "Desativa uma pessoa física pelo seu identificador")
+    public ResponseEntity<?> desativarPessoaFisicaById(@PathVariable Long id) {
         pessoaFisicaService.desativar(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = "/ativar/{id}")
-    public ResponseEntity<?> ativarAtivarPessoaFisicaById(@PathVariable Long id) {
+    @Schema(name = "Pessoa Física", description = "Ativa uma pessoa física pelo seu identificador")
+    public ResponseEntity<?> ativarPessoaFisicaById(@PathVariable Long id) {
         pessoaFisicaService.ativar(id);
         return ResponseEntity.ok().build();
     }
