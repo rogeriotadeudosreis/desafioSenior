@@ -1,7 +1,9 @@
 package com.rogerioreis.desafio.service;
 
+import com.rogerioreis.desafio.dto.PedidoRequest;
 import com.rogerioreis.desafio.exception.RecursoNaoEncontradoException;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
+import com.rogerioreis.desafio.mapper.PedidoMapper;
 import com.rogerioreis.desafio.model.Cliente;
 import com.rogerioreis.desafio.model.Item;
 import com.rogerioreis.desafio.model.Pedido;
@@ -27,7 +29,12 @@ public class PedidoService {
     @Autowired
     private ItemService itemService;
 
-    public Pedido create(Pedido pedido) {
+    @Autowired
+    private PedidoMapper pedidoMapper;
+
+    public Pedido create(PedidoRequest pedidoRequest) {
+
+        Pedido pedido = pedidoMapper.toEntity(pedidoRequest);
 
         validaPedido(pedido);
 

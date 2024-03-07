@@ -1,13 +1,13 @@
 package com.rogerioreis.desafio.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.rogerioreis.desafio.enun.EnumSituacaoPedido;
 import com.rogerioreis.desafio.enun.EnumTipoProduto;
 import com.rogerioreis.desafio.exception.RegraNegocioException;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 import lombok.*;
 
-import jakarta.validation.constraints.Digits;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -29,48 +29,36 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NUMERO", updatable = false, unique = true)
+    @Column(name = "NUMERO", unique = true)
     private String numero;
 
-    @Column(name = "DATA_INICIO", updatable = false)
+    @Column(name = "DATA_INICIO")
     private ZonedDateTime dataInicio;
 
     @Column(name = "DATA_FIM")
     private ZonedDateTime dataFim;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CLIENTE", nullable = false, foreignKey = @ForeignKey(name = "FK_CLIENTE_ID"))
+    @JoinColumn(name = "ID_CLIENTE", foreignKey = @ForeignKey(name = "FK_CLIENTE_ID"))
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido")
     private List<Item> itens = new ArrayList<>();
 
-    @Column(name = "SUBTOTAL", scale = 2)
+    @Column(name = "SUBTOTAL", precision = 9, scale = 2)
+    @Digits(integer = 9, fraction = 2)
     private BigDecimal subTotal;
 
-    @Column(name = "DESCONTO", scale = 2)
+    @Column(name = "DESCONTO", precision = 9, scale = 2)
     @Digits(integer = 9, fraction = 2)
     private BigDecimal desconto;
 
-    @Column(name = "TOTAL", scale =2)
+    @Column(name = "TOTAL", scale = 2)
     private BigDecimal total;
 
     @Column(name = "SITUACAO", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private EnumSituacaoPedido situacao = EnumSituacaoPedido.ABERTO;
-
-    public Pedido(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Pedido(Long id, String numeroPedido, Cliente cliente, List<Item> itens, BigDecimal desconto, EnumSituacaoPedido situacao) {
-        this.id = id;
-        this.numero = numeroPedido;
-        this.cliente = cliente;
-        this.itens = itens;
-        this.desconto = desconto;
-        this.situacao = situacao;
-    }
 
     private BigDecimal calcularSubTotal() {
         BigDecimal soma = BigDecimal.ZERO;
@@ -109,15 +97,16 @@ public class Pedido implements Serializable {
     }
 
     @PrePersist
-    private void init() {
+    private void prePersist() {
         this.dataInicio = ZonedDateTime.now();
         this.subTotal = calcularSubTotal();
         this.desconto = calcularDescontoProduto();
         this.total = getSubTotal().subtract(this.desconto);
+        this.situacao = EnumSituacaoPedido.ABERTO;
     }
 
     @PreUpdate
-    private void update(){
+    private void preUpdate() {
         this.subTotal = calcularSubTotal();
         this.desconto = calcularDescontoProduto();
         this.total = getSubTotal().subtract(this.desconto);

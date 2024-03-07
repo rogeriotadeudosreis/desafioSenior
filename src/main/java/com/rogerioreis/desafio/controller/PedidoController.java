@@ -1,6 +1,7 @@
 package com.rogerioreis.desafio.controller;
 
 
+import com.rogerioreis.desafio.dto.PedidoRequest;
 import com.rogerioreis.desafio.model.Pedido;
 import com.rogerioreis.desafio.service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,13 +35,9 @@ public class PedidoController {
     @Transactional
     @ApiResponse(responseCode = "201", description = "Pedido criado.")
     @Operation(summary = "Cadastro de Pedido.")
-    public ResponseEntity<Pedido> create(@RequestBody @Valid Pedido pedidoForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Pedido> create(@RequestBody @Valid PedidoRequest pedidoRequest, UriComponentsBuilder uriBuilder) {
 
-        Pedido pedidoSalve = pedidoForm;
-
-        pedidoSalve.setId(null);
-
-        Pedido salvo = pedidoService.create(pedidoSalve);
+        Pedido salvo = pedidoService.create(pedidoRequest);
 
         URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(salvo.getId()).toUri();
 

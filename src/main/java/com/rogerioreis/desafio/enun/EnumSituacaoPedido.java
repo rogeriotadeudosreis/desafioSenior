@@ -8,7 +8,9 @@ public enum EnumSituacaoPedido {
 
     ABERTO("Aberto"),
 
-    FECHADO("Fechado");
+    FECHADO("Fechado"),
+
+    PAGO("Pago");
 
     @Getter
     private final String descricao;

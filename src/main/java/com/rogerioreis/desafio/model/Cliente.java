@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -76,6 +77,11 @@ public class Cliente implements Serializable {
     @Schema(description = "Pessoa Jurídica.")
     @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private PessoaJuridica pessoaJuridica;
+
+    @Getter
+    @Schema(name = "Pedido", description = "Armazena uma lista de pedidos de cada cliente.")
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos;
 
     @PrePersist
     private void prePersist() {
